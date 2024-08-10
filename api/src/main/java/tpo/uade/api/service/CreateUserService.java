@@ -18,7 +18,6 @@ public class CreateUserService {
 
     //TODO -> documentation
     public void createUser (User user) {
-        //se asume que el usuario fue validado en busqueda de campos vacios o nulos
         userRepository.save(userMapper.mapToDatabaseEntity(user));
     }
 }
