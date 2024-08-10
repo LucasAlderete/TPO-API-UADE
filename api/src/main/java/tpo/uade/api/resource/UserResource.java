@@ -1,6 +1,9 @@
 package tpo.uade.api.resource;
 
 import io.swagger.annotations.Api;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 import tpo.uade.api.model.frontend.User;
 import tpo.uade.api.service.CreateUserService;
@@ -30,12 +33,14 @@ public class UserResource {
     }
 
     @POST
-    public Response createUser (User user) {
+    public Response createUser (@NotNull User user) {
         try {
             //TODO -> add validator
             createUserService.createUser(user);
             return Response.ok().build();
-        } catch (Exception e) { //TODO -> add logger for the catches AND add other validations catches
+        } catch (ConstraintViolationException e) { //TODO -> add logger for the catches
+            return Response.status(Status.BAD_REQUEST).build();
+        } catch (Exception e) { //TODO -> add logger for the catches
             return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -43,11 +48,12 @@ public class UserResource {
     @GET
     public Response getUserData (String username) {
         try {
-            //TODO -> add validator and catch it
             return Response.ok(getUserDataService.getUserData(username)).build();
         } catch (NoSuchElementException e) { //TODO -> add logger for the catches
             return Response.status(Status.NOT_FOUND).build();
-        } catch (Exception e) {
+        } catch (ConstraintViolationException e) { //TODO -> add logger for the catches
+            return Response.status(Status.BAD_REQUEST).build();
+        } catch (Exception e) { //TODO -> add logger for the catches
             return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }
     }
