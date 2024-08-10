@@ -33,28 +33,14 @@ public class UserResource {
     }
 
     @POST
-    public Response createUser (@NotNull User user) {
-        try {
-            //TODO -> add validator
-            createUserService.createUser(user);
-            return Response.ok().build();
-        } catch (ConstraintViolationException e) { //TODO -> add logger for the catches
-            return Response.status(Status.BAD_REQUEST).build();
-        } catch (Exception e) { //TODO -> add logger for the catches
-            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-        }
+    public Response createUser (@NotNull(message = "user object must not be null") User user) { //TODO -> take validation messages to resources.ValidationMessages.properties
+        //TODO -> add validator
+        createUserService.createUser(user);
+        return Response.ok().build();
     }
 
     @GET
     public Response getUserData (String username) {
-        try {
-            return Response.ok(getUserDataService.getUserData(username)).build();
-        } catch (NoSuchElementException e) { //TODO -> add logger for the catches
-            return Response.status(Status.NOT_FOUND).build();
-        } catch (ConstraintViolationException e) { //TODO -> add logger for the catches
-            return Response.status(Status.BAD_REQUEST).build();
-        } catch (Exception e) { //TODO -> add logger for the catches
-            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-        }
+        return Response.ok(getUserDataService.getUserData(username)).build();
     }
 }

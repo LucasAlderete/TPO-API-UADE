@@ -23,7 +23,7 @@ public class GetUserDataService {
     public User getUserData (String username) throws NoSuchElementException {
         UserDB userDB = userRepository
                 .findByUsername(username)
-                .orElseThrow();
+                .orElseThrow(() -> new NoSuchElementException("user doesn't exist"));
 
         return userMapper.mapFromDatabaseEntity(userDB);
     }
