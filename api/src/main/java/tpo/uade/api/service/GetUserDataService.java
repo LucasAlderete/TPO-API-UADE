@@ -20,9 +20,9 @@ public class GetUserDataService {
     }
 
     //TODO -> documentation
-    public User getUserData (Long id) throws NoSuchElementException {
+    public User getUserData (String username) throws NoSuchElementException {
         UserDB userDB = userRepository
-                .findById(id)
+                .findByUsername(username)
                 .orElseThrow();
 
         return userMapper.mapFromDatabaseEntity(userDB);

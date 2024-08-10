@@ -31,16 +31,20 @@ public class UserResource {
 
     @POST
     public Response createUser (User user) {
-        //TODO -> add validator
-        createUserService.createUser();
-        return Response.ok().build();
+        try {
+            //TODO -> add validator
+            createUserService.createUser(user);
+            return Response.ok().build();
+        } catch (Exception e) { //TODO -> add logger for the catches AND add other validations catches
+            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @GET
-    public Response getUserData (Long id) {
+    public Response getUserData (String username) {
         try {
             //TODO -> add validator and catch it
-            return Response.ok(getUserDataService.getUserData(12L)).build();
+            return Response.ok(getUserDataService.getUserData(username)).build();
         } catch (NoSuchElementException e) { //TODO -> add logger for the catches
             return Response.status(Status.NOT_FOUND).build();
         } catch (Exception e) {
