@@ -1,14 +1,20 @@
 package tpo.uade.api.mapper;
 
 import org.mapstruct.Mapper;
-import tpo.uade.api.model.database.UserDB;
-import tpo.uade.api.model.frontend.User;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.ReportingPolicy;
+import tpo.uade.api.model.User;
+import tpo.uade.api.dto.UserDTO;
 
-@Mapper
+@Mapper(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL,
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        unmappedSourcePolicy = ReportingPolicy.IGNORE,
+        componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserMapper {
 
-    User mapFromDatabaseEntity (UserDB userDB);
+    UserDTO mapFromDatabaseEntity (User user);
 
-    UserDB mapToDatabaseEntity (User user);
+    User mapToDatabaseEntity (UserDTO userDTO);
 
 }

@@ -1,10 +1,11 @@
 package tpo.uade.api.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import tpo.uade.api.model.database.UserDB;
+import tpo.uade.api.model.User;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<UserDB, Long> {
-    Optional<UserDB> findByUsername(String username);
+//@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByUsername(String username);
 }
