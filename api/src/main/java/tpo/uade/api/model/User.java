@@ -1,35 +1,35 @@
 package tpo.uade.api.model;
 
-//import jakarta.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-//@Entity
-//@Table(name = "USER")
-//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Entity
+@Table(name = "USER")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User implements Serializable {
 
-    //@Id
-    //@Column(name = "id")
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    //@Column(name = "username", nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    //@Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    //@Column(name = "password", nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    //@Column(name = "birthday", nullable = false)
+    @Column(name = "birthday", nullable = false)
     private LocalDate birthday;
 
-    //@Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    //@Column(name = "surname", nullable = false)
+    @Column(name = "surname", nullable = false)
     private String surname;
 
     public User(Long userId, String username, String email, String password, LocalDate birthday, String name, String surname) {

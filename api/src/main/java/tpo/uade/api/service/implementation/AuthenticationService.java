@@ -7,10 +7,10 @@ import tpo.uade.api.service.IAuthenticationService;
 @Service
 public class AuthenticationService implements IAuthenticationService {
 
-    //private final UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    public AuthenticationService() {//UserRepository userRepository) {
-        //this.userRepository = userRepository;
+    public AuthenticationService (UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public String authenticateUser () { //TODO -> determine credentials

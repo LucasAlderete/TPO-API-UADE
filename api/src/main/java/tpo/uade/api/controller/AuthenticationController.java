@@ -2,13 +2,13 @@ package tpo.uade.api.controller;
 
 import io.swagger.annotations.Api;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tpo.uade.api.service.implementation.AuthenticationService;
 
 @Api(value = "Authentication Operations")
@@ -23,8 +23,8 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> authenticate () { //TODO -> dev it
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> authenticate (@Valid @RequestBody @NotBlank String credentials) { //TODO -> dev it - probably gonna need a credential object
         return ResponseEntity.ok().build();
     }
 }

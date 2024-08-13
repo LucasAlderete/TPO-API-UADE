@@ -2,14 +2,14 @@ package tpo.uade.api.controller;
 
 import io.swagger.annotations.Api;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import tpo.uade.api.dto.UserDTO;
 import tpo.uade.api.service.ICreateUserService;
@@ -31,15 +31,14 @@ public class UserController {
         this.getUserDataService = getUserDataService;
     }
 
-    //"userDTO object must not be null"
-    @PostMapping
-    public ResponseEntity<Void> createUser (@NotNull(message = "{}") UserDTO userDTO) { //TODO -> take validation messages to resources.ValidationMessages.properties
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> createUser (@Valid @RequestBody  @NotNull(message = "{user-controller.create-user-service.user-not-null}") UserDTO userDTO) {
         createUserService.createUser(userDTO);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
-    public ResponseEntity<UserDTO> getUserData (String username) {
+    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> getUserData (@Valid @NotBlank(message = "{user-controller.get-user-data-service.username-not-blank}") String username) {
         return ResponseEntity.ok(getUserDataService.getUserData(username));
     }
 }
