@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import tpo.uade.api.dto.UserDTO;
@@ -21,6 +22,7 @@ import tpo.uade.api.service.implementation.GetUserDataService;
 @RestController
 @RequestMapping("/user")
 @Component
+@Validated
 public class UserController {
 
     private final ICreateUserService createUserService;

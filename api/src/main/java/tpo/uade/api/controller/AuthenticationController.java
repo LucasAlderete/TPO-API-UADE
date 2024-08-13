@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import tpo.uade.api.service.implementation.AuthenticationService;
 
@@ -15,6 +16,7 @@ import tpo.uade.api.service.implementation.AuthenticationService;
 @RestController
 @RequestMapping("/auth")
 @Component
+@Validated
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
