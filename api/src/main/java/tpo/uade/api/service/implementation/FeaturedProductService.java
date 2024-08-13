@@ -1,10 +1,12 @@
-package tpo.uade.api.service;
+package tpo.uade.api.service.implementation;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import tpo.uade.api.model.FeaturedProductModel;
+import tpo.uade.api.service.IFeaturedProductService;
+import tpo.uade.api.service.MockProductHelper;
 
 @Service
 public class FeaturedProductService implements IFeaturedProductService {

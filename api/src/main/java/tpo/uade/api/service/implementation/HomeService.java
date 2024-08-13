@@ -1,9 +1,13 @@
-package tpo.uade.api.service;
+package tpo.uade.api.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tpo.uade.api.dto.HomeDto;
+import tpo.uade.api.service.IFeaturedProductService;
+import tpo.uade.api.service.IHomeService;
+import tpo.uade.api.service.IProductService;
+import tpo.uade.api.service.IRecentlyViewedService;
 
 @Service
 public class HomeService implements IHomeService {
