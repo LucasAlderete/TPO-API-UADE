@@ -31,5 +31,4 @@ public class HomeController {
     public ResponseEntity<HomeDto> home() {
         return ResponseEntity.ok(homeService.get());
     }
-    
 }
