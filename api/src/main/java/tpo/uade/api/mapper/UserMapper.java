@@ -4,8 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
-import tpo.uade.api.model.User;
-import tpo.uade.api.dto.UserDTO;
+import tpo.uade.api.dto.UserDto;
+import tpo.uade.api.model.UserModel;
 
 @Mapper(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL,
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
@@ -13,8 +13,8 @@ import tpo.uade.api.dto.UserDTO;
         componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserMapper {
 
-    UserDTO mapFromDatabaseEntity (User user);
+    UserDto mapFromDatabaseEntity (UserModel userModel);
 
-    User mapToDatabaseEntity (UserDTO userDTO);
+    UserModel mapToDatabaseEntity (UserDto userDTO);
 
 }

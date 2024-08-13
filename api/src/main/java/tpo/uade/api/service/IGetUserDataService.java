@@ -1,7 +1,7 @@
 package tpo.uade.api.service;
 
-import tpo.uade.api.dto.UserDTO;
+import tpo.uade.api.dto.UserDto;
 
 public interface IGetUserDataService {
-    UserDTO getUserData (String username);
+    UserDto getUserData (String username);
 }

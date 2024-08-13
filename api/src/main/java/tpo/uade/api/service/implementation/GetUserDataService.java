@@ -1,9 +1,9 @@
 package tpo.uade.api.service.implementation;
 
 import org.springframework.stereotype.Service;
+import tpo.uade.api.dto.UserDto;
 import tpo.uade.api.mapper.UserMapper;
-import tpo.uade.api.dto.UserDTO;
-import tpo.uade.api.model.User;
+import tpo.uade.api.model.UserModel;
 import tpo.uade.api.repository.UserRepository;
 import tpo.uade.api.service.IGetUserDataService;
 
@@ -21,11 +21,11 @@ public class GetUserDataService implements IGetUserDataService {
     }
 
     //TODO -> documentation
-    public UserDTO getUserData (String username) throws NoSuchElementException {
-        User userDB = userRepository
+    public UserDto getUserData (String username) throws NoSuchElementException {
+        UserModel userModelDB = userRepository
                 .findByUsername(username)
                 .orElseThrow(() -> new NoSuchElementException("user doesn't exist"));
 
-        return userMapper.mapFromDatabaseEntity(userDB);
+        return userMapper.mapFromDatabaseEntity(userModelDB);
     }
 }

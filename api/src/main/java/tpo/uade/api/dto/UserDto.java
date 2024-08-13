@@ -1,39 +1,32 @@
-package tpo.uade.api.model;
+package tpo.uade.api.dto;
 
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "USER")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class User implements Serializable {
+public class UserDto implements Serializable {
 
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
-
-    @Column(name = "username", nullable = false, unique = true)
+    @NotBlank(message = "username must not be null nor empty") //TODO -> determine error messages in util.ValidationMessages
     private String username;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @NotBlank(message = "email must not be null nor empty")
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @NotBlank(message = "password must not be null nor empty")
     private String password;
 
-    @Column(name = "birthday", nullable = false)
+    @NotNull(message = "birthday must not be null nor empty")
     private LocalDate birthday;
 
-    @Column(name = "name", nullable = false)
+    @NotBlank(message = "name must not be null nor empty")
     private String name;
 
-    @Column(name = "surname", nullable = false)
+    @NotBlank(message = "surname must not be null nor empty")
     private String surname;
 
-    public User(Long userId, String username, String email, String password, LocalDate birthday, String name, String surname) {
-        this.userId = userId;
+    public UserDto(String username, String email, String password, LocalDate birthday, String name, String surname) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -42,16 +35,8 @@ public class User implements Serializable {
         this.surname = surname;
     }
 
-    public User() {
+    public UserDto() {
         //No-args Constructor
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public String getUsername() {
@@ -104,9 +89,8 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
+        return "UserDto{" +
+                "username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", birthday=" + birthday +
@@ -115,3 +99,7 @@ public class User implements Serializable {
                 '}';
     }
 }
+
+
+
+
