@@ -5,17 +5,17 @@ import tpo.uade.api.dto.UserDto;
 import tpo.uade.api.mapper.UserMapper;
 import tpo.uade.api.model.UserModel;
 import tpo.uade.api.repository.UserRepository;
-import tpo.uade.api.service.IGetUserDataService;
+import tpo.uade.api.service.IUserService;
 
 import java.util.NoSuchElementException;
 
 @Service
-public class GetUserDataService implements IGetUserDataService {
+public class UserService implements IUserService {
 
     private final UserMapper userMapper;
     private final UserRepository userRepository;
 
-    public GetUserDataService (UserMapper userMapper, UserRepository userRepository) {
+    public UserService(UserMapper userMapper, UserRepository userRepository) {
         this.userMapper = userMapper;
         this.userRepository = userRepository;
     }
@@ -27,5 +27,10 @@ public class GetUserDataService implements IGetUserDataService {
                 .orElseThrow(() -> new NoSuchElementException("user doesn't exist"));
 
         return userMapper.mapFromDatabaseEntity(userModelDB);
+    }
+
+    //TODO -> documentation
+    public void createUser (UserDto userDTO) {
+        userRepository.save(userMapper.mapToDatabaseEntity(userDTO));
     }
 }

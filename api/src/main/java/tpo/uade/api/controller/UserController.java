@@ -13,10 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import tpo.uade.api.dto.UserDto;
-import tpo.uade.api.service.ICreateUserService;
-import tpo.uade.api.service.IGetUserDataService;
-import tpo.uade.api.service.implementation.CreateUserService;
-import tpo.uade.api.service.implementation.GetUserDataService;
+import tpo.uade.api.service.IUserService;
 
 @Api(value = "User Operations")
 @RestController
@@ -25,22 +22,20 @@ import tpo.uade.api.service.implementation.GetUserDataService;
 @Validated
 public class UserController {
 
-    private final ICreateUserService createUserService;
-    private final IGetUserDataService getUserDataService;
+    private final IUserService userService;
 
-    public UserController(CreateUserService createUserService, GetUserDataService getUserDataService) {
-        this.createUserService = createUserService;
-        this.getUserDataService = getUserDataService;
+    public UserController(IUserService userService) {
+        this.userService = userService;
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createUser (@Valid @RequestBody  @NotNull(message = "{user-controller.create-user-service.user-not-null}") UserDto userDTO) {
-        createUserService.createUser(userDTO);
+        userService.createUser(userDTO);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> getUserData (@Valid @NotBlank(message = "{user-controller.get-user-data-service.username-not-blank}") String username) {
-        return ResponseEntity.ok(getUserDataService.getUserData(username));
+        return ResponseEntity.ok(userService.getUserData(username));
     }
 }
