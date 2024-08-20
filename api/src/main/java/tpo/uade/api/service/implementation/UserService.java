@@ -21,7 +21,11 @@ public class UserService implements IUserService {
         this.userRepository = userRepository;
     }
 
-    //TODO -> documentation
+    /**
+     * Gets a user detail
+     * @param username
+     * @return UserDto
+     */
     public UserDto getUserData (String username) throws NoSuchElementException {
         UserModel userModelDB = userRepository
                 .findByUsername(username)
@@ -30,7 +34,11 @@ public class UserService implements IUserService {
         return userMapper.mapFromDatabaseEntity(userModelDB);
     }
 
-    //TODO -> documentation
+    /**
+     * Creates a new user in the database
+     * @param userDTO
+     * @return void
+     */
     public void createUser (UserDto userDTO) {
         userRepository.save(userMapper.mapToDatabaseEntity(userDTO));
     }

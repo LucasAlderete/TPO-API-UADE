@@ -3,6 +3,7 @@ package tpo.uade.api.util;
 import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,15 +22,24 @@ public class GlobalExceptionHandler {
     private final HttpStatus noSuchElementExceptionCode = HttpStatus.BAD_REQUEST;
     private final String noSuchElementExceptionMessage = "Database Query Failed: API returned " + noSuchElementExceptionCode + " due to ---> \n";
 
+    private final HttpStatus dataIntegrityViolationExceptionCode = HttpStatus.BAD_REQUEST;
+    private final String dataIntegrityViolationExceptionMessage = "Database Query Failed: API returned " + dataIntegrityViolationExceptionCode + " due to ---> \n";
+
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<String> handleConstraintViolationException (ConstraintViolationException e) {
         logger.info(constraintViolationExceptionMessage + e.getMessage());
-        return new ResponseEntity<String>(e.getMessage(), constraintViolationExceptionCode);
+        return new ResponseEntity<>(e.getMessage(), constraintViolationExceptionCode);
     }
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<String> handleNoSuchElementException (NoSuchElementException e) {
         logger.info(noSuchElementExceptionMessage + e.getMessage());
-        return new ResponseEntity<String>(e.getMessage(), noSuchElementExceptionCode);
+        return new ResponseEntity<>(e.getMessage(), noSuchElementExceptionCode);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<String> handleDataIntegrityViolationException (DataIntegrityViolationException e) {
+        logger.info(dataIntegrityViolationExceptionMessage + e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), dataIntegrityViolationExceptionCode);
     }
 }
