@@ -17,16 +17,16 @@ public class ItemModel {
     private Long id;
 
     @ManyToOne
-    @Column(name = "cart_id", nullable = false)
+    @JoinColumn(name = "cart_id", nullable = false)
     private CartModel cart;
 
     @ManyToOne
-    @Column(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id", nullable = false)
     private ProductModel product;
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
     @Column(name = "price", nullable = false)
-    private Integer price;
+    private Double price;
 }

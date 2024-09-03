@@ -18,13 +18,13 @@ public class CartModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @Column(name = "user_id", nullable = false)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", nullable = false)
     private UserModel user;
 
-    @OneToMany
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     private List<ItemModel> items;
 
     @Column(name = "total")
-    private Double total;
+    private Double total = 0.0;
 }
