@@ -1,6 +1,7 @@
 package tpo.uade.api.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import tpo.uade.api.model.FeaturedProductModel;
 import tpo.uade.api.model.ProductModel;
@@ -9,7 +10,7 @@ import tpo.uade.api.model.RecentlyViewedModel;
 public class MockProductHelper {
     
     public static ProductModel get() {
-        return new ProductModel(1, "Product Name", 100D);
+        return new ProductModel(1L,"Product Name", 100D, "algo", 3,"mochila");
     }
     
     public static List<ProductModel> getList() {
