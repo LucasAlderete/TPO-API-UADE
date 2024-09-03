@@ -17,21 +17,21 @@ public class CartController {
 
     private final ICartService cartService;
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<CartDto> getCart(@PathVariable Long userId) {
+    @GetMapping
+    public ResponseEntity<CartDto> getCart(@RequestParam Long userId) {
         CartDto cartDetails = cartService.getCart(userId);
         return ResponseEntity.ok(cartDetails);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Void> addProductToCart(@RequestParam Long userId, @RequestParam Long productId, @RequestParam int quantity) {
-        cartService.addProductToCart(userId, productId, quantity);
+    public ResponseEntity<Void> addProduct(@RequestParam Long userId, @RequestParam Long productId) {
+        cartService.addProduct(userId, productId);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/remove")
-    public ResponseEntity<Void> removeProductFromCart(@RequestParam Long userId, @RequestParam Long productId) {
-        cartService.removeProductFromCart(userId, productId);
+    public ResponseEntity<Void> removeProduct(@RequestParam Long userId, @RequestParam Long productId) {
+        cartService.removeProduct(userId, productId);
         return ResponseEntity.ok().build();
     }
 
@@ -42,8 +42,8 @@ public class CartController {
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<Void> checkoutCart(@RequestParam Long userId) {
-        cartService.checkoutCart(userId);
+    public ResponseEntity<Void> checkout(@RequestParam Long userId) {
+        cartService.checkout(userId);
         return ResponseEntity.ok().build();
     }
 }
