@@ -2,19 +2,21 @@ package tpo.uade.api.service.implementation;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tpo.uade.api.dto.CartDto;
-import tpo.uade.api.dto.UserDto;
 import tpo.uade.api.mapper.CartMapper;
-import tpo.uade.api.model.CartModel;
-import tpo.uade.api.model.ItemModel;
-import tpo.uade.api.model.ProductModel;
+import tpo.uade.api.mapper.ItemMapper;
+import tpo.uade.api.model.*;
 import tpo.uade.api.repository.CartRepository;
 import tpo.uade.api.repository.ItemRepository;
+import tpo.uade.api.repository.OrderRepository;
 import tpo.uade.api.service.ICartService;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -22,7 +24,9 @@ public class CartService implements ICartService {
     private final CartRepository cartRepository;
     private final ItemRepository itemRepository;
     private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
     private final CartMapper cartMapper;
+    private final ItemMapper itemMapper;
 
     public CartDto getCart (Long userId) throws NoSuchElementException {
         CartModel cartModel = cartRepository.findByUserId(userId).orElseThrow(() -> new NoSuchElementException("cart doesn't exist"));
@@ -94,7 +98,34 @@ public class CartService implements ICartService {
         cartRepository.save(cart);
     }
 
-    public void checkout (Long userId) throws NoSuchElementException {
+    public boolean checkout (Long userId) throws NoSuchElementException {
+        CartModel cartModel = cartRepository.findByUserId(userId).orElseThrow(() -> new NoSuchElementException("cart doesn't exist"));
 
+        for (ItemModel item : cartModel.getItems()) {
+            if (item.getQuantity() > item.getProduct().getStock()) {
+                return false;
+            }
+        };
+
+        cartModel.getItems().forEach(item -> {
+            ProductModel productModel = item.getProduct();
+            productModel.setStock(productModel.getStock() - item.getQuantity());
+            productRepository.save(productModel);
+        });
+
+        OrderModel orderModel = cartMapper.mapCartToOrder(cartModel);
+
+        List<OrderItemModel> orderItems = cartModel.getItems()
+                .stream()
+                .map(itemMapper::mapItemToOrderItem)
+                .collect(Collectors.toList());
+
+
+        orderItems.forEach(item -> item.setOrder(orderModel));
+        orderModel.setItems(orderItems);
+
+        orderRepository.save(orderModel);
+
+        return true;
     }
 }

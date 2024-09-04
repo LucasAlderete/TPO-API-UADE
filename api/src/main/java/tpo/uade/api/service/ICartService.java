@@ -11,5 +11,5 @@ public interface ICartService {
 
     CartDto getCart(Long userId);
 
-    void checkout(Long userId);
+    boolean checkout(Long userId);
 }
