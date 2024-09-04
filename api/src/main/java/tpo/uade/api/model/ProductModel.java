@@ -1,8 +1,10 @@
 package tpo.uade.api.model;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class ProductModel {
+public class ProductModel implements Serializable {
     private int productId;
     private String name;
     private double price;

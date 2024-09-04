@@ -19,7 +19,6 @@ import tpo.uade.api.service.implementation.AuthenticationService;
 @Api(value = "Authentication Operations")
 @RestController
 @RequestMapping("/auth")
-@Component
 @Validated
 public class AuthenticationController {
 

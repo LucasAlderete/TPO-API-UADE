@@ -22,11 +22,11 @@ public class UserService implements IUserService {
     }
 
     /**
-     * Gets a user detail
-     * @param username
+     * Gets a user details
+     * @param username a valid username to search for a user
      * @return UserDto
      */
-    public UserDto getUserData (String username) throws NoSuchElementException {
+    public UserDto getUserByUsername (String username) throws NoSuchElementException {
         UserModel userModelDB = userRepository
                 .findByUsername(username)
                 .orElseThrow(() -> new NoSuchElementException("user doesn't exist"));
@@ -36,8 +36,7 @@ public class UserService implements IUserService {
 
     /**
      * Creates a new user in the database
-     * @param userDTO
-     * @return void
+     * @param userDTO a valid user
      */
     public void createUser (UserDto userDTO) {
         userRepository.save(userMapper.mapToDatabaseEntity(userDTO));
