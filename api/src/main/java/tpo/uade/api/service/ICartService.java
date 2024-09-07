@@ -1,6 +1,7 @@
 package tpo.uade.api.service;
 
 import tpo.uade.api.dto.CartDto;
+import tpo.uade.api.dto.CheckoutDto;
 
 public interface ICartService {
     void emptyCart(Long userId);
@@ -11,5 +12,5 @@ public interface ICartService {
 
     CartDto getCart(Long userId);
 
-    boolean checkout(Long userId);
+    CheckoutDto checkout(Long userId);
 }

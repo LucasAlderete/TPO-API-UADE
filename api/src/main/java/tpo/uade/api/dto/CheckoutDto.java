@@ -11,9 +11,9 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartDto implements Serializable {
-    private List<ItemDto> items;
+public class CheckoutDto implements Serializable {
+    @NotBlank(message = "checkout state must not be null nor empty")
+    private Boolean success;
 
-    @NotBlank(message = "total must not be null nor empty")
-    private Double total;
+    private List<String> products;
 }

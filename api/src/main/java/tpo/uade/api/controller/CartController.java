@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import tpo.uade.api.dto.CartDto;
+import tpo.uade.api.dto.CheckoutDto;
 import tpo.uade.api.service.ICartService;
 
 @Api(value = "Cart Operations")
@@ -42,8 +43,8 @@ public class CartController {
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<Void> checkout(@RequestParam Long userId) {
-        cartService.checkout(userId);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<CheckoutDto> checkout(@RequestParam Long userId) {
+        CheckoutDto checkoutResponse = cartService.checkout(userId);
+        return ResponseEntity.ok(checkoutResponse);
     }
 }

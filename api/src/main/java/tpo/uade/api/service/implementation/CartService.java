@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tpo.uade.api.dto.CartDto;
+import tpo.uade.api.dto.CheckoutDto;
 import tpo.uade.api.mapper.CartMapper;
 import tpo.uade.api.mapper.ItemMapper;
 import tpo.uade.api.model.*;
@@ -67,7 +68,7 @@ public class CartService implements ICartService {
             itemRepository.save(itemModel);
             cartRepository.save(cart);
         }
-    };
+    }
 
     public void removeProduct (Long userId, Long productId) throws NoSuchElementException {
         CartModel cart = cartRepository.findByUserId(userId).orElseThrow(() -> new NoSuchElementException("cart doesn't exist"));
@@ -86,7 +87,7 @@ public class CartService implements ICartService {
 
 
         cart.setTotal(cart.getTotal() - product.getPrice());
-    };
+    }
 
     public void emptyCart (Long userId) throws NoSuchElementException {
         CartModel cart = cartRepository.findByUserId(userId).orElseThrow(() -> new NoSuchElementException("cart doesn't exist"));
@@ -98,14 +99,23 @@ public class CartService implements ICartService {
         cartRepository.save(cart);
     }
 
-    public boolean checkout (Long userId) throws NoSuchElementException {
+    @Transactional(rollbackFor = Exception.class)
+    public CheckoutDto checkout (Long userId) throws NoSuchElementException {
         CartModel cartModel = cartRepository.findByUserId(userId).orElseThrow(() -> new NoSuchElementException("cart doesn't exist"));
+        CheckoutDto response = new CheckoutDto();
+        List<String> outOfStockProducts = new ArrayList<>();
 
         for (ItemModel item : cartModel.getItems()) {
             if (item.getQuantity() > item.getProduct().getStock()) {
-                return false;
+                outOfStockProducts.add(item.getProduct().getName());
             }
-        };
+        }
+
+        if (!outOfStockProducts.isEmpty()) {
+            response.setSuccess(false);
+            response.setProducts(outOfStockProducts);
+            return response;
+        }
 
         cartModel.getItems().forEach(item -> {
             ProductModel productModel = item.getProduct();
@@ -126,6 +136,8 @@ public class CartService implements ICartService {
 
         orderRepository.save(orderModel);
 
-        return true;
+        response.setSuccess(true);
+
+        return response;
     }
 }
