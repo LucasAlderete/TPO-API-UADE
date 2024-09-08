@@ -1,7 +1,7 @@
 package tpo.uade.api.service;
 
+import tpo.uade.api.dto.NavigationDto;
+
 public interface INavigationService {
-    void save(int userId, int productId);
-    void delete(int userId, int productId);
-    void deleteAll(int userId);
+    void save(NavigationDto navigationDto);
 }
