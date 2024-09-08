@@ -33,6 +33,15 @@ public class ProductModel {
     @Column(name = "url_image", nullable = false)
     private String urlImage;
 
+    @Column(name = "description", nullable = false)
+    private String description;
+
+    @Column(name = "stock", nullable = false)
+    private int stock;
+
+    @Column(name = "additional_information", nullable = false)
+    private String additionalInformation;
+
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private CategoryModel category;
