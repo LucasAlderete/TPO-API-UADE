@@ -17,6 +17,8 @@ public class ProductDto implements Serializable {
     private BigDecimal price;
     private String categoryName;
     private String urlImage;
-    //Si usamos mas de una imagen dejamos el list
-    //private List<String> urlImages;
+    private String description;
+    private String additionalInformation;
+    private int stock;
+    private boolean bookmarked;
 }
