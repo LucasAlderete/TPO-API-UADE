@@ -1,39 +1,27 @@
 package tpo.uade.api.model;
-import java.math.BigDecimal;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Entity
-@Table(name = "products")
+@Table(name = "categories")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductModel {
+public class CategoryModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
+
     @Column(name = "name", nullable = false)
     private String name;
-
-    @Column(name = "price", nullable = false, precision=12, scale=2)
-    private BigDecimal price;
-
-    @Column(name = "url_image", nullable = false)
-    private String urlImage;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
-    private CategoryModel category;
 }
