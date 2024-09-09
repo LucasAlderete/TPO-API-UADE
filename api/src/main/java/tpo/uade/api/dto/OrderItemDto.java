@@ -10,6 +10,7 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class OrderItemDto implements Serializable {
     @NotBlank(message = "product must not be null nor empty")
     private String product;
@@ -18,5 +19,5 @@ public class OrderItemDto implements Serializable {
     private Integer quantity;
 
     @NotBlank(message = "price must not be null nor empty")
-    private Double price;
+    private Integer price;
 }

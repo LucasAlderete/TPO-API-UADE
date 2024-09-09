@@ -12,6 +12,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class OrderDto implements Serializable {
     @NotBlank(message = "id must not be null nor empty")
     private Long id;
