@@ -13,7 +13,6 @@ import tpo.uade.api.mapper.ProductMapper;
 import tpo.uade.api.model.ProductModel;
 import tpo.uade.api.repository.ProductRepository;
 import tpo.uade.api.service.IProductService;
-import tpo.uade.api.service.MockProductHelper;
 
 @Service
 public class ProductService implements IProductService {

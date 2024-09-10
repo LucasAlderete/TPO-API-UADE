@@ -4,9 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import tpo.uade.api.model.FeaturedProductModel;
+import tpo.uade.api.dto.ProductDto;
 import tpo.uade.api.service.IFeaturedProductService;
-import tpo.uade.api.service.MockProductHelper;
 
 @Service
 public class FeaturedProductService implements IFeaturedProductService {
@@ -15,12 +14,12 @@ public class FeaturedProductService implements IFeaturedProductService {
      * Obtiene productos destacados
      * @return
      */
-    public List<FeaturedProductModel> getAll() {
-        return MockProductHelper.getListFeaturedProduct();
+    public List<ProductDto> getAll() {
+        return List.of();
     }
 
-    public FeaturedProductModel getById(int productId) {
-        return MockProductHelper.getFeaturedProduct();
+    public ProductDto getById(int productId) {
+        return null;
     }
 
     public void save() {
