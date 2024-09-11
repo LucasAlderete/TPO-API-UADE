@@ -4,19 +4,28 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import tpo.uade.api.model.ProductModel;
+import tpo.uade.api.dto.ProductDto;
+import tpo.uade.api.mapper.ProductMapper;
+import tpo.uade.api.repository.ProductRepository;
 import tpo.uade.api.service.IProductService;
-import tpo.uade.api.service.MockProductHelper;
 
 @Service
 public class ProductService implements IProductService {
+
+    private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
+
+    ProductService(ProductRepository productRepository, ProductMapper productMapper) {
+        this.productRepository = productRepository;
+        this.productMapper = productMapper;
+    }
     
     /**
      * Obtener todos los productos
      * @return
      */
-    public List<ProductModel> getAll() {
-        return MockProductHelper.getList();
+    public List<ProductDto> getAll() {
+        return List.of();
     }
 
     /**
@@ -24,8 +33,8 @@ public class ProductService implements IProductService {
      * @param productId
      * @return
      */
-    public ProductModel getById(int productId) {
-        return MockProductHelper.get();
+    public ProductDto getById(int productId) {
+        return null;
     }
 
 

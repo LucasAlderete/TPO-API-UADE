@@ -4,9 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import tpo.uade.api.model.RecentlyViewedModel;
+import tpo.uade.api.dto.ProductDto;
 import tpo.uade.api.service.IRecentlyViewedService;
-import tpo.uade.api.service.MockProductHelper;
 
 @Service
 public class RecentlyViewedService implements IRecentlyViewedService {
@@ -17,8 +16,8 @@ public class RecentlyViewedService implements IRecentlyViewedService {
      * @param limit representa la cantidad maxima de productos a mostrar
      * @return
      */
-    public List<RecentlyViewedModel> getAllByUser(int userId, int limit) {
-        return MockProductHelper.getListRecentlyViewed();
+    public List<ProductDto> getAllByUser(int userId, int limit) {
+        return List.of();
     }
 
     /**
