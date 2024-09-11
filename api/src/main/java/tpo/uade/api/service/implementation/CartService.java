@@ -11,6 +11,7 @@ import tpo.uade.api.model.*;
 import tpo.uade.api.repository.CartRepository;
 import tpo.uade.api.repository.ItemRepository;
 import tpo.uade.api.repository.OrderRepository;
+import tpo.uade.api.repository.ProductRepository;
 import tpo.uade.api.service.ICartService;
 
 import java.util.ArrayList;

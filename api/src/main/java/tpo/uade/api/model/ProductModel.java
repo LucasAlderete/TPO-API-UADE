@@ -24,13 +24,13 @@ public class ProductModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     
     @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "price", nullable = false, precision=12, scale=2)
-    private BigDecimal price;
+    private Double price;
 
     @Column(name = "url_image", nullable = false)
     private String urlImage;
