@@ -1,10 +1,9 @@
 package tpo.uade.api.service;
 
-import java.util.List;
-
 import tpo.uade.api.dto.ProductDto;
 
-public interface IProductService {
+import java.util.List;
+
+public interface IRecommendationService {
     List<ProductDto> getAll();
-    ProductDto getById(int productId);
 }
