@@ -27,17 +27,17 @@ public class HomeService implements IHomeService {
 
     public HomeDto get() {
         HomeDto homeDto = new HomeDto();
-        homeDto.setFeaturedProducts(featuredProductService.getAll());
-        homeDto.setProducts(productService.getAll());
-        homeDto.setRecentlyViewedProducts(recentlyViewedService.getAllByUser(1, 10));
+        //homeDto.setFeaturedProducts(featuredProductService.getAll());
+        //homeDto.setProducts(productService.getAll());
+        //homeDto.setRecentlyViewedProducts(recentlyViewedService.getAllByUser(1, 10));
         return homeDto;
     }
 
     public HomeDto getUnlogged() {
         HomeDto homeDto = new HomeDto();
-        homeDto.setFeaturedProducts(featuredProductService.getAll());
-        homeDto.setProducts(productService.getAll());
-        homeDto.setRecommendedProducts(featuredProductService.getAll());
+        //homeDto.setFeaturedProducts(featuredProductService.getAll());
+        //homeDto.setProducts(productService.getAll());
+        //homeDto.setRecommendedProducts(featuredProductService.getAll());
         return homeDto;
     }
 }
