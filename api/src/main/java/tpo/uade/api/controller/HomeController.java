@@ -14,7 +14,7 @@ import tpo.uade.api.dto.HomeDto;
 import tpo.uade.api.service.IHomeService;
 
 
-@Api(value = "Home Operations")
+@Api(value = "Home decorations")
 @RestController
 @RequestMapping("/home")
 @Validated
@@ -26,7 +26,7 @@ public class HomeController {
         this.homeService = homeService;
     }
 
-    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HomeDto> home() {
         return ResponseEntity.ok(homeService.get());
     }

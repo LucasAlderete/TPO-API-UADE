@@ -2,12 +2,12 @@ package tpo.uade.api.service;
 
 import java.util.List;
 
-import tpo.uade.api.model.FeaturedProductModel;
+import tpo.uade.api.dto.ProductDto;
 
 public interface IFeaturedProductService {
-    public List<FeaturedProductModel> getAll();
-    public FeaturedProductModel getById(int productId);
-    public void save();
-    public void update();
-    public void delete();
+    List<ProductDto> getAll();
+    ProductDto getById(int productId);
+    void save();
+    void update();
+    void delete();
 }
