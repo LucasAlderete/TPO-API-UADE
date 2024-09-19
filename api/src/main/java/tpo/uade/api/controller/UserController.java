@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import tpo.uade.api.dto.UserDto;
 import tpo.uade.api.service.IUserService;
 
@@ -24,13 +23,10 @@ import tpo.uade.api.service.IUserService;
 @RestController
 @RequestMapping("/user")
 @Validated
+@AllArgsConstructor
 public class UserController {
 
     private final IUserService userService;
-
-    public UserController(IUserService userService) {
-        this.userService = userService;
-    }
 
     @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createUser (@Valid @RequestBody @NotNull(message = "{user-controller.create-user-service.user-not-null}") UserDto userDTO) {

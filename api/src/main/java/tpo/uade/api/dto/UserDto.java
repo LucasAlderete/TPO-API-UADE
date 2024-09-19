@@ -25,9 +25,6 @@ public class UserDto implements Serializable {
     @NotBlank(message = "{user-dto.email-not-blank}")
     private String email;
 
-    @NotBlank(message = "{user-dto.password-not-blank}")
-    private String password;
-
     @NotNull(message = "{user-dto.birthday-not-null}")
     private LocalDate birthday;
 

@@ -1,8 +1,10 @@
-package tpo.uade.api.util;
+package tpo.uade.api.config;
 
 import jakarta.validation.ConstraintViolationException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,30 +38,30 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<String> handleConstraintViolationException (ConstraintViolationException e) {
         logger.info(constraintViolationExceptionMessage + e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), constraintViolationExceptionCode); //TODO -> update the return value to make it prettier
+        return new ResponseEntity<>(constraintViolationExceptionCode);
     }
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<String> handleNoSuchElementException (NoSuchElementException e) {
         logger.info(noSuchElementExceptionMessage + e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), noSuchElementExceptionCode);
+        return new ResponseEntity<>(noSuchElementExceptionCode);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<String> handleDataIntegrityViolationException (DataIntegrityViolationException e) {
         logger.info(dataIntegrityViolationExceptionMessage + e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), dataIntegrityViolationExceptionCode);
+        return new ResponseEntity<>(dataIntegrityViolationExceptionCode);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleMethodArgumentNotValidException (MethodArgumentNotValidException e) {
         logger.info(methodArgumentNotValidExceptionMessage + e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), methodArgumentNotValidExceptionCode);
+        return new ResponseEntity<>(methodArgumentNotValidExceptionCode);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<String> handleHttpMessageNotReadableException (HttpMessageNotReadableException e) {
         logger.info(httpMessageNotReadableExceptionMessage + e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), httpMessageNotReadableExceptionCode);
+        return new ResponseEntity<>(httpMessageNotReadableExceptionCode);
     }
 }
