@@ -30,12 +30,14 @@ public class AuthenticationController {
     private final IAuthenticationService authenticationService;
 
     @PostMapping(path = "/authenticate",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AuthenticationResponseDto> authenticate (@Valid @RequestBody @NotNull AuthenticationRequestDto authRequest) {
+    public ResponseEntity<AuthenticationResponseDto> authenticate (@Valid @RequestBody @NotNull(message = "{authentication-controller.authenticate-service.authorization-request-not-null}")
+                                                                               AuthenticationRequestDto authRequest) {
         return ResponseEntity.ok(authenticationService.authenticate(authRequest));
     }
 
     @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AuthenticationResponseDto> register (@Valid @RequestBody @NotNull RegisterDto registerRequest) {
+    public ResponseEntity<AuthenticationResponseDto> register (@Valid @RequestBody @NotNull(message = "{authentication-controller.register-service.register-request-not-null}")
+                                                                           RegisterDto registerRequest) {
         return ResponseEntity.ok(authenticationService.register(registerRequest));
     }
 }

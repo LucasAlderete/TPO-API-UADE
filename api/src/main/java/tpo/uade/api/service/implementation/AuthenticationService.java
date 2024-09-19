@@ -1,11 +1,9 @@
 package tpo.uade.api.service.implementation;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import tpo.uade.api.config.JwtService;
@@ -16,19 +14,15 @@ import tpo.uade.api.mapper.AuthenticationMapper;
 import tpo.uade.api.model.UserModel;
 import tpo.uade.api.repository.UserRepository;
 import tpo.uade.api.service.IAuthenticationService;
-import tpo.uade.api.service.IUserService;
 
-import java.util.Locale;
 import java.util.NoSuchElementException;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthenticationService implements IAuthenticationService {
 
     private final UserRepository userRepository;
-    private final IUserService userService;
     private final AuthenticationMapper authenticationMapper;
-    private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 

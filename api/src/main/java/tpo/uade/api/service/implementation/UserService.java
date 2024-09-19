@@ -1,5 +1,6 @@
 package tpo.uade.api.service.implementation;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import tpo.uade.api.dto.UserDto;
@@ -11,21 +12,18 @@ import tpo.uade.api.service.IUserService;
 import java.util.NoSuchElementException;
 
 @Service
+@RequiredArgsConstructor
 public class UserService implements IUserService {
 
     private final UserMapper userMapper;
     private final UserRepository userRepository;
-
-    public UserService(UserMapper userMapper, UserRepository userRepository) {
-        this.userMapper = userMapper;
-        this.userRepository = userRepository;
-    }
 
     /**
      * Gets a user details
      * @param username a valid username to search for a user
      * @return UserDto
      */
+    @Override
     public UserDto getUserByUsername (String username) throws NoSuchElementException {
         UserModel userModelDB = userRepository
                 .findByUsername(username)
@@ -37,7 +35,9 @@ public class UserService implements IUserService {
     /**
      * Creates a new user in the database
      * @param userDTO a valid user
+     * @return UserModel
      */
+    @Override
     public void createUser (UserDto userDTO) {
         userRepository.save(userMapper.mapToDatabaseEntity(userDTO));
     }
