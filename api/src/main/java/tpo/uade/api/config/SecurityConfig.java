@@ -25,8 +25,8 @@ public class SecurityConfig {
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 return http
                         .csrf(AbstractHttpConfigurer::disable)
-                        .authorizeHttpRequests(req -> req.requestMatchers("/api/v1/auth/**").permitAll()
-                                .requestMatchers("/api/v1/users/**").hasAnyAuthority(RoleEnum.ADMIN.name())
+                        .authorizeHttpRequests(req -> req.requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/api/user/**").hasAnyAuthority(RoleEnum.ADMIN.name())
                                 .anyRequest()
                                 .authenticated())
                         .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
