@@ -2,6 +2,7 @@ package tpo.uade.api.dto.auth;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import tpo.uade.api.model.RoleEnum;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -24,6 +25,8 @@ public record RegisterDto(
         String name,
 
         @NotBlank(message = "{register-dto.surname-not-blank}")
-        String surname
+        String surname,
+
+        RoleEnum role
 
 ) implements Serializable {}
