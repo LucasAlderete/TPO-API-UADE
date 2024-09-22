@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.io.Serializable;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,17 +16,19 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDto {
+public class ProductDto implements Serializable {
 
-    private UUID productId;
+    private long productId;
     @NotBlank(message = "product name must not be null nor empty")
     private String name;
     @NotBlank(message = "product description must not be null nor empty")
     private String description;
-    private int price;
+    private double price;
     private List<String> images;
     @NotBlank(message = "product category must not be null nor empty")
     private String category;
     @PositiveOrZero(message = "Stock must be positive or zero")
     private int stock;
+    private String additionalInformation;
+    private boolean bookmarked;
 }
