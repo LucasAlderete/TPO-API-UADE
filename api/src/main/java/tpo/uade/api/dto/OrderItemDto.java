@@ -5,15 +5,12 @@ import lombok.*;
 
 import java.io.Serializable;
 
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class OrderItemDto implements Serializable {
     @NotBlank(message = "product must not be null nor empty")
-    private String product;
+    private String product; //TODO: no coincide con el entity
 
     @NotBlank(message = "quantity must not be null nor empty")
     private Integer quantity;

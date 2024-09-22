@@ -8,20 +8,29 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tpo.uade.api.dto.MyProfileDto;
-import tpo.uade.api.service.implementation.MyProfileService;
+import tpo.uade.api.dto.OrderDto;
+import tpo.uade.api.dto.UserMyProfileDto;
+import tpo.uade.api.service.IMyProfileService;
+
+import java.util.List;
 
 @Api(value = "My Profile Operations")
 @RestController
-@RequestMapping("/my-profile")
+@RequestMapping("/{id}/my-profile")
 @Validated
 @AllArgsConstructor
 public class MyProfileController {
-    private MyProfileService service;
+    private IMyProfileService service;
 
-    @GetMapping("/{id}") //TODO de alguna forma tengo que buscar todo con el id del usuario, por si no es con /id
-    public ResponseEntity<MyProfileDto> getMyProfileById(@PathVariable Long id){
-        MyProfileDto myProfileDto = service.getMyProfileDtoById(id);
-        return ResponseEntity.ok(myProfileDto);
+    @GetMapping
+    public ResponseEntity<UserMyProfileDto> getUserMyProfileDto(@PathVariable Long id){
+        UserMyProfileDto userMyProfileDto = service.getUser(id);
+        return ResponseEntity.ok(userMyProfileDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<OrderDto>> getOrdersDto(@PathVariable Long id){
+        List<OrderDto> ordersDto = service.getOrders(id);
+        return ResponseEntity.ok(ordersDto);
     }
 }

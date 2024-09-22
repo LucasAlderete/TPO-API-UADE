@@ -1,13 +1,11 @@
 package tpo.uade.api.dto;
 
-import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
-@Builder
-public class InfoUserDto {
+public class UserMyProfileDto {
     private String username;
     private String email;
     private LocalDate birthday;

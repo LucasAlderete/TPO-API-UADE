@@ -7,12 +7,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class OrderDto implements Serializable {
     @NotBlank(message = "id must not be null nor empty")
     private Long id;
