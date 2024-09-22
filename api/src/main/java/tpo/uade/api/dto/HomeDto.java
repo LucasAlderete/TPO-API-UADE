@@ -9,5 +9,6 @@ import lombok.Data;
 public class HomeDto implements Serializable{
     private List<ProductDto> products;
     private List<ProductDto> recentlyViewedProducts;
-    private List<ProductDto> featuredProducts;    
+    private List<ProductDto> featuredProducts;
+    private List<ProductDto> recommendedProducts;
 }
