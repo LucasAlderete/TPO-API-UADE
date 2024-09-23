@@ -13,11 +13,4 @@ public interface OrderMapper {
     OrderDto toDto(OrderModel orderModel);
 
     //TODO: no fue necesario hacer método toEntity()
-    /*
-
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "date", expression = "java(java.time.LocalDateTime.now())")
-    OrderModel toEntity(OrderDto orderDto);
-
-     */
 }
