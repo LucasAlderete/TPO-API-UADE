@@ -18,4 +18,16 @@ public class OrderItemDto implements Serializable {
 
     @NotBlank(message = "price must not be null nor empty")
     private Integer price;
+
+    public void setProduct(String product) {
+        this.product = product;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
 }

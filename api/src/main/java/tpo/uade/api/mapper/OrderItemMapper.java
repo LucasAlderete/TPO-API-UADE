@@ -8,11 +8,11 @@ import tpo.uade.api.model.OrderItemModel;
 public class OrderItemMapper {
 
     public OrderItemDto toDto(OrderItemModel orderItem){
-      return OrderItemDto.builder()
-              .quantity(orderItem.getQuantity())
-              .product(orderItem.getProduct().getName())
-              .price(orderItem.getPrice())
-              .build();
+        OrderItemDto orderItemDto = new OrderItemDto();
+        orderItemDto.setQuantity(orderItem.getQuantity());
+        orderItemDto.setPrice(orderItem.getPrice());
+        orderItemDto.setProduct(orderItem.getProduct().getName());
+        return orderItemDto;
     }
 
     //TODO: no fue necesario hacer método toEntity()

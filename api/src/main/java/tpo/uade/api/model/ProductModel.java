@@ -50,4 +50,8 @@ public class ProductModel {
 
     @ManyToMany(mappedBy = "favoriteProducts")
     private List<UserModel> usersWhoFavorited;
+
+    public String getName() {
+        return name;
+    }
 }

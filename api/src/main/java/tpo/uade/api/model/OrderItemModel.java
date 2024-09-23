@@ -1,12 +1,14 @@
 package tpo.uade.api.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "order_items")
 public class OrderItemModel {
     @Id
@@ -27,4 +29,16 @@ public class OrderItemModel {
 
     @Column(name = "price", nullable = false)
     private Integer price;
+
+    public ProductModel getProduct() {
+        return product;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
 }
