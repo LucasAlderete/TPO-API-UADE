@@ -1,16 +1,19 @@
 package tpo.uade.api.mapper;
 
-import org.mapstruct.*;
+import org.springframework.stereotype.Component;
 import tpo.uade.api.dto.OrderItemDto;
 import tpo.uade.api.model.OrderItemModel;
 
-@Mapper(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL,
-        unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        unmappedSourcePolicy = ReportingPolicy.IGNORE,
-        componentModel = MappingConstants.ComponentModel.SPRING)
-public interface OrderItemMapper {
-    @Mapping(source = "product.name", target = "product")
-    OrderItemDto toDto(OrderItemModel orderItem);
+@Component
+public class OrderItemMapper {
+
+    public OrderItemDto toDto(OrderItemModel orderItem){
+      return OrderItemDto.builder()
+              .quantity(orderItem.getQuantity())
+              .product(orderItem.getProduct().getName())
+              .price(orderItem.getPrice())
+              .build();
+    }
 
     //TODO: no fue necesario hacer método toEntity()
 

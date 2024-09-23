@@ -8,6 +8,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class OrderItemDto implements Serializable {
     @NotBlank(message = "product must not be null nor empty")
     private String product; //TODO: no coincide con el entity
