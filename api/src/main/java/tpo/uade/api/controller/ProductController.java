@@ -18,6 +18,7 @@ import java.util.List;
 @RequestMapping("/product")
 @Component
 @Validated
+//@PreAuthorize("hasRole('ADMIN')")
 public class ProductController {
 
     private final IProductService productService;
@@ -26,7 +27,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<?> createProduct(@RequestBody ProductDto product) {
         productService.createProduct(product);
         return ResponseEntity.ok().build();
@@ -43,24 +44,20 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductDto product) {
+    public ResponseEntity<?> updateProductStock(@PathVariable String id, int stock) {
         try {
-            ProductDto updatedProduct = productService.updateProduct(id, product);
-            if (updatedProduct != null) {
-                return ResponseEntity.ok(updatedProduct);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
+            productService.updateStockProduct(id, stock);
+            return ResponseEntity.ok("Stock actualizado correctamente.");
         }catch (Exception e){
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
 
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<?> deleteProduct(@PathVariable String secureId) {
         try {
-            productService.deleteProduct(id);
+            productService.deleteProduct(secureId);
             return ResponseEntity.ok().build();
         } catch (Exception e){
             return ResponseEntity.notFound().build();

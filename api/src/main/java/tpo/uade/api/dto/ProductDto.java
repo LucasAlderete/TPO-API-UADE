@@ -17,18 +17,21 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductDto implements Serializable {
-
-    private long productId;
     @NotBlank(message = "product name must not be null nor empty")
     private String name;
+
     @NotBlank(message = "product description must not be null nor empty")
     private String description;
+
     private double price;
     private List<String> images;
+
     @NotBlank(message = "product category must not be null nor empty")
     private String category;
+
     @PositiveOrZero(message = "Stock must be positive or zero")
     private int stock;
+
     private String additionalInformation;
     private boolean bookmarked;
 }

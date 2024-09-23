@@ -10,6 +10,7 @@ public interface IProductService {
     ProductDto getById(long productId);
     void createProduct(ProductDto product);
     ProductDto updateProduct(long productId, ProductDto product);
-    void deleteProduct(long productId);
+    void deleteProduct(String productId);
+    void updateStockProduct(String productId, int nuevoStock);
 
 }
