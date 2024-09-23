@@ -1,5 +1,4 @@
 package tpo.uade.api.model;
-import java.math.BigDecimal;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -30,7 +29,7 @@ public class ProductModel {
     private String name;
 
     @Column(name = "price", nullable = false, precision=12, scale=2)
-    private BigDecimal price;
+    private double price;
 
     @Column(name = "url_image", nullable = false)
     private String urlImage;
