@@ -43,6 +43,9 @@ public class ProductModel {
     @Column(name = "additional_information", nullable = false)
     private String additionalInformation;
 
+    @Column(name = "highlighted", nullable = false)
+    private boolean highlighted;
+
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private CategoryModel category;

@@ -1,6 +1,7 @@
 package tpo.uade.api.service.implementation;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,9 @@ public class ProductService implements IProductService {
      * @return
      */
     public List<ProductDto> getAll() {
-        return List.of();
+        return productRepository.findAll().stream()
+                .map(productMapper::mapFromDatabaseEntity)
+                .collect(Collectors.toList());
     }
 
     /**

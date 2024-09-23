@@ -17,7 +17,7 @@ public class ProductMapperImpl implements ProductMapper{
                 productModel.getDescription(),
                 productModel.getAdditionalInformation(),
                 productModel.getStock(),
-                false
+                productModel.isHighlighted()
         );
     }
 
@@ -29,7 +29,7 @@ public class ProductMapperImpl implements ProductMapper{
         productModel.setPrice(productDto.getPrice());
         productModel.setStock(productDto.getStock());
         productModel.setDescription(productDto.getDescription());
-        //productModel.setCategory();
+        productModel.setHighlighted(productDto.isHighlighted());
         return productModel;
     }
 }
