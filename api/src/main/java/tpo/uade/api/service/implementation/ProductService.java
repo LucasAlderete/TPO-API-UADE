@@ -1,6 +1,8 @@
 package tpo.uade.api.service.implementation;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -20,7 +22,14 @@ public class ProductService implements IProductService {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
     }
-    
+
+    @Override
+    public Map<String, List<ProductDto>> getAllByCategory() {
+        return productRepository.findAll().stream()
+                .map(productMapper::mapFromDatabaseEntity)
+                .collect(Collectors.groupingBy(productDto -> productDto.getCategoryName().toLowerCase(Locale.ROOT)));
+    }
+
     /**
      * Obtener todos los productos
      * @return

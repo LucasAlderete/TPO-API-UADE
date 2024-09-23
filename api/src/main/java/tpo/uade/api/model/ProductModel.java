@@ -1,4 +1,5 @@
 package tpo.uade.api.model;
+import java.math.BigDecimal;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -11,14 +12,16 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "products")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class ProductModel {
 
     @Id
@@ -29,7 +32,7 @@ public class ProductModel {
     private String name;
 
     @Column(name = "price", nullable = false, precision=12, scale=2)
-    private double price;
+    private BigDecimal price;
 
     @Column(name = "url_image", nullable = false)
     private String urlImage;
