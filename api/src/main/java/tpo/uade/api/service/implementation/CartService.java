@@ -124,7 +124,13 @@ public class CartService implements ICartService {
             productRepository.save(productModel);
         });
 
+
+
         OrderModel orderModel = cartMapper.mapCartToOrder(cartModel);
+        orderModel.setId(null);
+        orderModel.setDate(java.time.LocalDateTime.now());
+
+
 
         List<OrderItemModel> orderItems = cartModel.getItems()
                 .stream()

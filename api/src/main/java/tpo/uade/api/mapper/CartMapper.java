@@ -14,7 +14,5 @@ public interface CartMapper {
     CartDto toDto(CartModel cartModel);
     CartModel toEntity(CartDto cartDto);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "date", expression = "java(java.time.LocalDateTime.now())")
     OrderModel mapCartToOrder(CartModel cartModel);
 }
