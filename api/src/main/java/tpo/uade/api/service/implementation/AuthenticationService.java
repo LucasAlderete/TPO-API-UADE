@@ -18,13 +18,20 @@ import tpo.uade.api.service.IAuthenticationService;
 import java.util.NoSuchElementException;
 
 @Service
-@RequiredArgsConstructor
 public class AuthenticationService implements IAuthenticationService {
 
     private final UserRepository userRepository;
     private final AuthenticationMapper authenticationMapper;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+
+    public AuthenticationService(UserRepository userRepository, AuthenticationMapper authenticationMapper,
+                                 JwtService jwtService, AuthenticationManager authenticationManager) {
+        this.userRepository = userRepository;
+        this.authenticationMapper = authenticationMapper;
+        this.jwtService = jwtService;
+        this.authenticationManager = authenticationManager;
+    }
 
     @Override
     public AuthenticationResponseDto authenticate(AuthenticationRequestDto authRequest) {

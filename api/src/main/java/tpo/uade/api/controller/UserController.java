@@ -23,10 +23,13 @@ import tpo.uade.api.service.IUserService;
 @RestController
 @RequestMapping("/user")
 @Validated
-@AllArgsConstructor
 public class UserController {
 
     private final IUserService userService;
+
+    public UserController(IUserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createUser (@Valid @RequestBody @NotNull(message = "{user-controller.create-user-service.user-not-null}") UserDto userDTO) {

@@ -1,11 +1,13 @@
 package tpo.uade.api.service.implementation;
 
+import org.springframework.stereotype.Service;
 import tpo.uade.api.dto.NavigationDto;
 import tpo.uade.api.mapper.NavigationMapper;
 import tpo.uade.api.model.NavigationModel;
 import tpo.uade.api.repository.NavigationRespository;
 import tpo.uade.api.service.INavigationService;
 
+@Service
 public class NavigationService implements INavigationService {
 
     private final NavigationMapper navigationMapper;
