@@ -35,8 +35,6 @@ public class ProductModel {
     @Column(name= "stock", nullable = false)
     private int stock;
 
-    @Column(name= "description", nullable = false)
-    private String description;
 
      @Column(name = "additional_information")
     private String additionalInformation;
@@ -51,11 +49,11 @@ public class ProductModel {
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private CategoryModel category;
 
-    @Column(name = "url_image")
-    private String urlImage;
-
     @ManyToMany(mappedBy = "favoriteProducts")
     private List<UserModel> usersWhoFavorited;
+
+    @Column(name = "secure_id", unique = true, nullable = false, updatable = false)
+    private String secureId;
 
     @PrePersist
     protected void onCreate() {

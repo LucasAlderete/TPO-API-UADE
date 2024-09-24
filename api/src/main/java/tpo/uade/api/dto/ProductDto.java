@@ -17,14 +17,14 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ProductDto implements Serializable {
     private int productId;
+
     @NotBlank(message = "product name must not be null nor empty")
     private String name;
-    private Double price;
-    private String categoryName;
+
     private String urlImage;
     private String description;
 
-    private double price;
+    private Double price;
     private List<String> images;
 
     @NotBlank(message = "product category must not be null nor empty")

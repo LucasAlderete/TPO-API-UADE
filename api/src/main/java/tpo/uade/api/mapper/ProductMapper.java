@@ -6,7 +6,6 @@ import org.mapstruct.ReportingPolicy;
 import tpo.uade.api.dto.ProductDto;
 import tpo.uade.api.model.ProductModel;
 
-@Mapper(componentModel = "spring")
 public interface ProductMapper {
 
     ProductModel mapToDatabaseEntity (ProductDto productDto);
