@@ -11,34 +11,33 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "products")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class ProductModel {
     @Id
     @GeneratedValue
-    @Column(name= "product_id",unique = true, nullable = false)
-    private long productId;
+    @Column(name= "id",unique = true, nullable = false)
+    private int productId;
 
     @Column(name = "secure_id", unique = true, nullable = false, updatable = false)
     private String secureId;
 
-    @Column(name= "product_name",nullable = false)
+    @Column(name= "name",nullable = false)
     private String name;
 
-    @Column(name= "product_price", nullable = false)
+    @Column(name= "price", nullable = false)
     private double price;
 
-    @Column(name= "product_stock", nullable = false)
+    @Column(name= "stock", nullable = false)
     private int stock;
 
-    @Column(name= "product_description", nullable = false)
+    @Column(name= "description", nullable = false)
     private String description;
 
      @Column(name = "additional_information", nullable = false)
     private String additionalInformation;
 
-    @OneToMany
-    @JoinColumn(name="list_images_id")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ImagesModel> urlImageList;
 
     @ManyToOne
@@ -48,12 +47,9 @@ public class ProductModel {
     @ManyToMany(mappedBy = "favoriteProducts")
     private List<UserModel> usersWhoFavorited;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private UserModel owner;
-
     @PrePersist
     protected void onCreate() {
         this.secureId = UUID.randomUUID().toString();
     }
+
 }

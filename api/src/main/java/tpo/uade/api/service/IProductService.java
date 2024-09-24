@@ -7,9 +7,9 @@ import tpo.uade.api.model.ProductModel;
 
 public interface IProductService {
     List<ProductDto> getAll();
-    ProductDto getById(long productId);
+    ProductDto getById(int productId);
     void createProduct(ProductDto product);
-    ProductDto updateProduct(long productId, ProductDto product);
+    //ProductDto updateProduct(long productId, ProductDto product);
     void deleteProduct(String productId);
     void updateStockProduct(String productId, int nuevoStock);
 

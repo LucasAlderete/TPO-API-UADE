@@ -45,7 +45,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public ProductDto getById(long id) {
+    public ProductDto getById(int id) {
         ProductModel productModel = productRepository.findById(id).orElseThrow(() -> new NoSuchElementException("product doesn't exist"));
         return productMapper.mapFromDatabaseEntity(productModel);
     }
@@ -60,6 +60,7 @@ public class ProductService implements IProductService {
         productRepository.save(productMapper.mapToDatabaseEntity(product));
     }
 
+    /*
     @Override
     public ProductDto updateProduct(long id, ProductDto product) {
           Optional<ProductModel> existingProduct = productRepository.findById(id);
@@ -78,7 +79,7 @@ public class ProductService implements IProductService {
             throw new RuntimeException("Product with ID " + id + " not found");
         }
 
-    }
+    }*/
 
     public void updateStockProduct(String secureId, int nuevoStock) {
         ProductModel productModel = productRepository.findBySecureId(secureId).orElseThrow(() -> new NoSuchElementException("Product with ID " + secureId + " doesn't exist"));
@@ -89,7 +90,7 @@ public class ProductService implements IProductService {
 
     @Override
     public void deleteProduct(String secureId) {
-        ProductModel productModel = productRepository.findBySecureId(secureId).orElseThrow(() -> new NoSuchElementException("Product with ID " + secureId + " doesn't exist"));
-        productRepository.deleteBySecureId(secureId);
+        //ProductModel productModel = productRepository.findBySecureId(secureId).orElseThrow(() -> new NoSuchElementException("Product with ID " + secureId + " doesn't exist"));
+        productRepository.deleteBySecureId(secureId).orElseThrow(() -> new NoSuchElementException("Product with ID " + secureId + " doesn't exist"));
     }
 }

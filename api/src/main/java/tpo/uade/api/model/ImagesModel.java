@@ -13,7 +13,11 @@ import lombok.NoArgsConstructor;
 public class ImagesModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name= "id", nullable = false)
     private int id;
     private String path;
+    @ManyToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
+    private ProductModel product;
 
 }
