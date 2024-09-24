@@ -1,14 +1,9 @@
 package tpo.uade.api.service.implementation;
 
-import java.util.ArrayList;
 import java.util.List;
-<<<<<<< HEAD
 import java.util.NoSuchElementException;
-import java.util.Optional;
-=======
 import java.util.Locale;
 import java.util.Map;
->>>>>>> main
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -16,9 +11,7 @@ import org.springframework.stereotype.Service;
 import tpo.uade.api.dto.ProductDto;
 import tpo.uade.api.mapper.ProductMapper;
 import tpo.uade.api.model.ProductModel;
-import tpo.uade.api.model.UserModel;
 import tpo.uade.api.repository.ProductRepository;
-import tpo.uade.api.repository.UserRepository;
 import tpo.uade.api.service.IProductService;
 
 @Service
@@ -26,12 +19,10 @@ public class ProductService implements IProductService {
 
     private final ProductMapper productMapper;
     private final ProductRepository productRepository;
-    private final UserRepository userRepository;
 
-    public ProductService(ProductMapper productMapper, ProductRepository productRepository, UserRepository userRepository) {
+    public ProductService(ProductMapper productMapper, ProductRepository productRepository) {
         this.productMapper = productMapper;
         this.productRepository = productRepository;
-        this.userRepository = userRepository;
     }
 
 
