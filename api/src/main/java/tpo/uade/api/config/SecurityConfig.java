@@ -25,10 +25,9 @@ public class SecurityConfig {
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 return http
                         .csrf(AbstractHttpConfigurer::disable)
-                        .authorizeHttpRequests(req -> req.requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/api/user/**").hasAnyAuthority(RoleEnum.ADMIN.name())
-                                .anyRequest()
-                                .authenticated())
+                        .authorizeHttpRequests(req ->
+                                req.requestMatchers("/auth/**").permitAll()
+                                .requestMatchers("/user/**").hasAnyAuthority(RoleEnum.ADMIN.name()).anyRequest().authenticated())
                         .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                         .authenticationProvider(authenticationProvider)
                         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

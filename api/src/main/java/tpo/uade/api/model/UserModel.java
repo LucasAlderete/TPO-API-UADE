@@ -52,7 +52,7 @@ public class UserModel implements Serializable, UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "birthday", nullable = false)
+    @Column(name = "birthday", nullable = true)
     private LocalDate birthday;
 
     @Column(name = "name", nullable = false)

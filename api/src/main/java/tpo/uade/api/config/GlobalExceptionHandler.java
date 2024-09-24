@@ -13,6 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 @ControllerAdvice
@@ -37,31 +38,31 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<String> handleConstraintViolationException (ConstraintViolationException e) {
-        logger.info(constraintViolationExceptionMessage + e.getMessage() + "\n" + e.getStackTrace());
+        logger.info(constraintViolationExceptionMessage + e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
         return new ResponseEntity<>(constraintViolationExceptionCode);
     }
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<String> handleNoSuchElementException (NoSuchElementException e) {
-        logger.info(noSuchElementExceptionMessage + e.getMessage() + "\n" + e.getStackTrace());
+        logger.info(noSuchElementExceptionMessage + e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
         return new ResponseEntity<>(noSuchElementExceptionCode);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<String> handleDataIntegrityViolationException (DataIntegrityViolationException e) {
-        logger.info(dataIntegrityViolationExceptionMessage + e.getMessage() + "\n" + e.getStackTrace());
+        logger.info(dataIntegrityViolationExceptionMessage + e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
         return new ResponseEntity<>(dataIntegrityViolationExceptionCode);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleMethodArgumentNotValidException (MethodArgumentNotValidException e) {
-        logger.info(methodArgumentNotValidExceptionMessage + e.getMessage() + "\n" + e.getStackTrace());
+        logger.info(methodArgumentNotValidExceptionMessage + e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
         return new ResponseEntity<>(methodArgumentNotValidExceptionCode);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<String> handleHttpMessageNotReadableException (HttpMessageNotReadableException e) {
-        logger.info(httpMessageNotReadableExceptionMessage + e.getMessage() + "\n" + e.getStackTrace());
+        logger.info(httpMessageNotReadableExceptionMessage + e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
         return new ResponseEntity<>(httpMessageNotReadableExceptionCode);
     }
 }

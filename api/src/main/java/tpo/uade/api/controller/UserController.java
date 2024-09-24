@@ -31,6 +31,7 @@ public class UserController {
 
     @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createUser (@Valid @RequestBody @NotNull(message = "{user-controller.create-user-service.user-not-null}") UserDto userDTO) {
+        System.out.println(userDTO.getBirthday());
         userService.createUser(userDTO);
         return ResponseEntity.ok().build();
     }
