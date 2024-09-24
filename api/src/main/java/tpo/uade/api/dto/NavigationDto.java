@@ -12,6 +12,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class NavigationDto implements Serializable {
     private int productId;
-    private int userId;
+    private long userId;
     private LocalDateTime viewedAt;
 }

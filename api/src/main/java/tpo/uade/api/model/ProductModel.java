@@ -12,14 +12,16 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "products")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class ProductModel {
 
     @Id
@@ -43,6 +45,9 @@ public class ProductModel {
 
     @Column(name = "additional_information", nullable = false)
     private String additionalInformation;
+
+    @Column(name = "highlighted", nullable = false)
+    private boolean highlighted;
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")

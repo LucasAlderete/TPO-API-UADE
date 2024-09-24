@@ -7,6 +7,8 @@ import tpo.uade.api.model.NavigationModel;
 import tpo.uade.api.repository.NavigationRespository;
 import tpo.uade.api.service.INavigationService;
 
+import java.time.LocalDateTime;
+
 @Service
 public class NavigationService implements INavigationService {
 
@@ -21,6 +23,7 @@ public class NavigationService implements INavigationService {
     @Override
     public void save(NavigationDto navigationDto) {
         NavigationModel entity = navigationMapper.mapToDatabaseEntity(navigationDto);
+        entity.setViewedAt(LocalDateTime.now());
         navigationRepository.save(entity);
     }
 
