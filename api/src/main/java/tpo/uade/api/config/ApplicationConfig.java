@@ -10,6 +10,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import tpo.uade.api.repository.UserRepository;
@@ -17,20 +18,17 @@ import tpo.uade.api.repository.UserRepository;
 import java.util.NoSuchElementException;
 
 @Configuration
+@RequiredArgsConstructor
 public class ApplicationConfig {
 
-    private final UserRepository repository;
-
-    public ApplicationConfig(UserRepository repository) {
-        this.repository = repository;
-    }
+    private final UserRepository userRepository;
 
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String username) throws NoSuchElementException {
-                return repository.findByEmail(username)
+                return userRepository.findByUsername(username)
                       .orElseThrow(() -> new NoSuchElementException("user doesn't exist"));
             }
         };
@@ -53,5 +51,4 @@ public class ApplicationConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }
