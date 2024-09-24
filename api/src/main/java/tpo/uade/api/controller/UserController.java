@@ -33,7 +33,6 @@ public class UserController {
 
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> getUserData (@Valid @NotBlank(message = "{user-controller.get-user-data-service.username-not-blank}") String username) {
-        System.out.println(username + "______________________________________________________________________________________________");
         return ResponseEntity.ok(userService.getUserByUsername(username));
     }
 }
