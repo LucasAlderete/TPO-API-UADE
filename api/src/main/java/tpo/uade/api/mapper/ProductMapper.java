@@ -5,7 +5,6 @@ import tpo.uade.api.model.ProductModel;
 
 public interface ProductMapper {
 
-    ProductDto mapFromDatabaseEntity (ProductModel productModel);
-
     ProductModel mapToDatabaseEntity (ProductDto productDto);
+    ProductDto mapFromDatabaseEntity (ProductModel productModel);
 }
