@@ -6,9 +6,10 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,24 +19,21 @@ import tpo.uade.api.service.IUserService;
 @Api(value = "User Operations")
 @RestController
 @RequestMapping("/user")
-@Component
 @Validated
+@RequiredArgsConstructor
 public class UserController {
 
     private final IUserService userService;
 
-    public UserController(IUserService userService) {
-        this.userService = userService;
-    }
-
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createUser (@Valid @RequestBody @NotNull(message = "{user-controller.create-user-service.user-not-null}") UserDto userDTO) {
+        System.out.println(userDTO.getBirthday());
         userService.createUser(userDTO);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> getUserData (@Valid @NotBlank(message = "{user-controller.get-user-data-service.username-not-blank}") String username) {
-        return ResponseEntity.ok(userService.getUserData(username));
+        return ResponseEntity.ok(userService.getUserByUsername(username));
     }
 }

@@ -11,6 +11,7 @@ public class JacksonConfig {
 
     @Bean
     public ObjectMapper objectMapper() {
+
         ObjectMapper objectMapper = new ObjectMapper();
         // Configura la estrategia de nombres para que convierta camelCase a snake_case
         objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
