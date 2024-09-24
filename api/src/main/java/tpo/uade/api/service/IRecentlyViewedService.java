@@ -5,5 +5,5 @@ import java.util.List;
 import tpo.uade.api.dto.ProductDto;
 
 public interface IRecentlyViewedService {
-    List<ProductDto> getAllByUser(int userId, int limit);
+    List<ProductDto> getAllByUser(Long userId, int limit);
 }
