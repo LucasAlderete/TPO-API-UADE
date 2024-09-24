@@ -5,18 +5,29 @@ import lombok.*;
 
 import java.io.Serializable;
 
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class OrderItemDto implements Serializable {
     @NotBlank(message = "product must not be null nor empty")
-    private String product;
+    private String product; //TODO: no coincide con el entity
 
     @NotBlank(message = "quantity must not be null nor empty")
     private Integer quantity;
 
     @NotBlank(message = "price must not be null nor empty")
-    private Double price;
+    private Integer price;
+
+    public void setProduct(String product) {
+        this.product = product;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
 }

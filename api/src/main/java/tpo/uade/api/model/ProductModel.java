@@ -16,6 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProductModel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

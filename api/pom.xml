@@ -123,6 +123,7 @@
 			<version>5.3.0</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- jackson (para LocalDate) -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
