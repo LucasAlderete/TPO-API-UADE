@@ -5,19 +5,21 @@ import java.util.UUID;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "products")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class ProductModel {
     @Id
     @GeneratedValue
     @Column(name= "id",unique = true, nullable = false)
-    private int productId;
+    private int id;
 
     @Column(name = "secure_id", unique = true, nullable = false, updatable = false)
     private String secureId;
@@ -39,6 +41,9 @@ public class ProductModel {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ImagesModel> urlImageList;
+
+    @Column(name = "highlighted", nullable = false)
+    private boolean highlighted;
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")

@@ -2,8 +2,13 @@ package tpo.uade.api.service.implementation;
 
 import java.util.ArrayList;
 import java.util.List;
+<<<<<<< HEAD
 import java.util.NoSuchElementException;
 import java.util.Optional;
+=======
+import java.util.Locale;
+import java.util.Map;
+>>>>>>> main
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -29,6 +34,14 @@ public class ProductService implements IProductService {
         this.userRepository = userRepository;
     }
 
+
+    @Override
+    public Map<String, List<ProductDto>> getAllByCategory() {
+        return productRepository.findAll().stream()
+                .map(productMapper::mapFromDatabaseEntity)
+                .collect(Collectors.groupingBy(productDto -> productDto.getCategoryName().toLowerCase(Locale.ROOT)));
+    }
+
     /**
      * Obtener todos los productos
      *
@@ -36,12 +49,9 @@ public class ProductService implements IProductService {
      */
     @Override
     public List<ProductDto> getAll() {
-        List<ProductModel> productModelList = productRepository.findAll();
-        List<ProductDto> productDtoList = productModelList.stream()
-                .map(product -> productMapper.mapFromDatabaseEntity(product))
+        return productRepository.findAll().stream()
+                .map(productMapper::mapFromDatabaseEntity)
                 .collect(Collectors.toList());
-
-        return productDtoList;
     }
 
     @Override
@@ -50,36 +60,24 @@ public class ProductService implements IProductService {
         return productMapper.mapFromDatabaseEntity(productModel);
     }
 
+    @Override
     public ProductDto findBySecureId(String secureId) {
         ProductModel productModel = productRepository.findBySecureId(secureId).orElseThrow(() -> new NoSuchElementException("product doesn't exist"));
         return productMapper.mapFromDatabaseEntity(productModel);
     }
 
     @Override
+    public List<ProductDto> getByIds(List<Integer> productsIds) {
+        return productRepository.findByIdIn(productsIds).stream()
+                .map(productMapper::mapFromDatabaseEntity)
+                .collect(Collectors.toList());
+
+    }
+
+    @Override
     public void createProduct(ProductDto product) {
         productRepository.save(productMapper.mapToDatabaseEntity(product));
     }
-
-    /*
-    @Override
-    public ProductDto updateProduct(long id, ProductDto product) {
-          Optional<ProductModel> existingProduct = productRepository.findById(id);
-
-        if (existingProduct.isPresent()) {
-            ProductModel oldProduct = existingProduct.get();
-
-            oldProduct.setName(product.getName());
-            oldProduct.setDescription(product.getDescription());
-            oldProduct.setStock(product.getStock());
-            oldProduct.setPrice(product.getPrice());
-
-            productRepository.save(oldProduct);
-            return productMapper.mapFromDatabaseEntity(oldProduct);
-        } else {
-            throw new RuntimeException("Product with ID " + id + " not found");
-        }
-
-    }*/
 
     public void updateStockProduct(String secureId, int nuevoStock) {
         ProductModel productModel = productRepository.findBySecureId(secureId).orElseThrow(() -> new NoSuchElementException("Product with ID " + secureId + " doesn't exist"));
@@ -90,7 +88,6 @@ public class ProductService implements IProductService {
 
     @Override
     public void deleteProduct(String secureId) {
-        //ProductModel productModel = productRepository.findBySecureId(secureId).orElseThrow(() -> new NoSuchElementException("Product with ID " + secureId + " doesn't exist"));
         productRepository.deleteBySecureId(secureId).orElseThrow(() -> new NoSuchElementException("Product with ID " + secureId + " doesn't exist"));
     }
 }

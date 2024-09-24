@@ -1,7 +1,6 @@
 package tpo.uade.api.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductDto implements Serializable {
+    private int productId;
     @NotBlank(message = "product name must not be null nor empty")
     private String name;
 
@@ -27,11 +27,10 @@ public class ProductDto implements Serializable {
     private List<String> images;
 
     @NotBlank(message = "product category must not be null nor empty")
-    private String category;
+    private String categoryName;
 
     @PositiveOrZero(message = "Stock must be positive or zero")
     private int stock;
-
     private String additionalInformation;
-    private boolean bookmarked;
+    private boolean highlighted;
 }
