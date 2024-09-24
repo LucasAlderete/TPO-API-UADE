@@ -8,11 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tpo.uade.api.dto.OrderDto;
 import tpo.uade.api.dto.UserMyProfileDto;
 import tpo.uade.api.service.IMyProfileService;
-
-import java.util.List;
 
 @Api(value = "My Profile Operations")
 @RestController
@@ -25,12 +22,7 @@ public class MyProfileController {
     @GetMapping
     public ResponseEntity<UserMyProfileDto> getUserMyProfileDto(@PathVariable Long id){
         UserMyProfileDto userMyProfileDto = service.getUser(id);
+        userMyProfileDto.setOrdersDto(service.getOrders(id));
         return ResponseEntity.ok(userMyProfileDto);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<OrderDto>> getOrdersDto(@PathVariable Long id){
-        List<OrderDto> ordersDto = service.getOrders(id);
-        return ResponseEntity.ok(ordersDto);
     }
 }
