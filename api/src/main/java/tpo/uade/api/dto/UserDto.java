@@ -25,6 +25,7 @@ public class UserDto implements Serializable {
     @NotBlank(message = "{user-dto.email-not-blank}")
     private String email;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     @NotNull(message = "{user-dto.birthday-not-null}")
     private LocalDate birthday;
 
