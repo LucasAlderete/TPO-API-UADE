@@ -31,13 +31,13 @@ public class CartService implements ICartService {
     private final ItemMapper itemMapper;
 
     public CartDto getCart (Long userId) throws NoSuchElementException {
-        CartModel cartModel = cartRepository.findByUserId(userId).orElseThrow(() -> new NoSuchElementException("cart doesn't exist"));
+        CartModel cartModel = cartRepository.findByUser_UserId(userId).orElseThrow(() -> new NoSuchElementException("cart doesn't exist"));
         CartDto cartDto = cartMapper.toDto(cartModel);
         return cartDto;
     }
 
-    public void addProduct (Long userId, Long productId) throws NoSuchElementException {
-        CartModel cart = cartRepository.findByUserId(userId).orElseThrow(() -> new NoSuchElementException("cart doesn't exist"));
+    public void addProduct (Long userId, Integer productId) throws NoSuchElementException {
+        CartModel cart = cartRepository.findByUser_UserId(userId).orElseThrow(() -> new NoSuchElementException("cart doesn't exist"));
         Long cartId = cart.getId();
 
         Optional<ItemModel> item = itemRepository.findByCartIdAndProductId(cartId, productId);
@@ -71,8 +71,8 @@ public class CartService implements ICartService {
         }
     }
 
-    public void removeProduct (Long userId, Long productId) throws NoSuchElementException {
-        CartModel cart = cartRepository.findByUserId(userId).orElseThrow(() -> new NoSuchElementException("cart doesn't exist"));
+    public void removeProduct (Long userId, Integer productId) throws NoSuchElementException {
+        CartModel cart = cartRepository.findByUser_UserId(userId).orElseThrow(() -> new NoSuchElementException("cart doesn't exist"));
         Long cartId = cart.getId();
 
         ItemModel itemModel = itemRepository.findByCartIdAndProductId(cartId, productId).orElseThrow(() -> new NoSuchElementException("item doesn't exist"));
@@ -91,7 +91,7 @@ public class CartService implements ICartService {
     }
 
     public void emptyCart (Long userId) throws NoSuchElementException {
-        CartModel cart = cartRepository.findByUserId(userId).orElseThrow(() -> new NoSuchElementException("cart doesn't exist"));
+        CartModel cart = cartRepository.findByUser_UserId(userId).orElseThrow(() -> new NoSuchElementException("cart doesn't exist"));
 
         cart.setItems(null);
         cart.setTotal(0.0);
@@ -102,7 +102,7 @@ public class CartService implements ICartService {
 
     @Transactional(rollbackFor = Exception.class)
     public CheckoutDto checkout (Long userId) throws NoSuchElementException {
-        CartModel cartModel = cartRepository.findByUserId(userId).orElseThrow(() -> new NoSuchElementException("cart doesn't exist"));
+        CartModel cartModel = cartRepository.findByUser_UserId(userId).orElseThrow(() -> new NoSuchElementException("cart doesn't exist"));
         CheckoutDto response = new CheckoutDto();
         List<String> outOfStockProducts = new ArrayList<>();
 

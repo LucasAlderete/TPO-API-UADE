@@ -6,5 +6,5 @@ import tpo.uade.api.model.ItemModel;
 import java.util.Optional;
 
 public interface ItemRepository extends JpaRepository<ItemModel, Long> {
-    Optional<ItemModel> findByCartIdAndProductId(Long cartId, Long productId);
+    Optional<ItemModel> findByCartIdAndProductId(Long cartId, Integer productId);
 }

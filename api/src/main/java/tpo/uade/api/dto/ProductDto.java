@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class ProductDto implements Serializable {
     private int productId;
     private String name;
-    private BigDecimal price;
+    private Double price;
     private String categoryName;
     private String urlImage;
     private String description;

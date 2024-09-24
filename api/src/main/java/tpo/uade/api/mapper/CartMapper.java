@@ -8,7 +8,7 @@ import tpo.uade.api.model.OrderModel;
 @Mapper(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL,
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE,
-        componentModel = MappingConstants.ComponentModel.SPRING,
+        componentModel = "spring",
         uses = {ItemMapper.class})
 public interface CartMapper {
     CartDto toDto(CartModel cartModel);

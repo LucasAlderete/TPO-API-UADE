@@ -6,5 +6,5 @@ import tpo.uade.api.model.CartModel;
 import java.util.Optional;
 
 public interface CartRepository extends JpaRepository<CartModel, Long> {
-    Optional<CartModel> findByUserId(Long userId);
+    Optional<CartModel> findByUser_UserId(Long userId);
 }
