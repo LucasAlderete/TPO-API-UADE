@@ -49,5 +49,11 @@ public class ProductService implements IProductService {
         return null;
     }
 
+    @Override
+    public List<ProductDto> getByIds(List<Integer> productsIds) {
+        return productRepository.findByIdIn(productsIds).stream()
+                .map(productMapper::mapFromDatabaseEntity)
+                .collect(Collectors.toList());
+    }
 
 }

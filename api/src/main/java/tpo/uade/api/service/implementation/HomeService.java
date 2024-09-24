@@ -1,6 +1,5 @@
 package tpo.uade.api.service.implementation;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tpo.uade.api.dto.HomeDto;
@@ -29,7 +28,7 @@ public class HomeService implements IHomeService {
         HomeDto homeDto = new HomeDto();
         homeDto.setFeaturedProducts(featuredProductService.getAll());
         homeDto.setProducts(productService.getAllByCategory());
-        //homeDto.setRecentlyViewedProducts(recentlyViewedService.getAllByUser(1, 10));
+        homeDto.setRecentlyViewedProducts(recentlyViewedService.getAllByUser(1L, 10));
         return homeDto;
     }
 

@@ -9,4 +9,6 @@ public interface IProductService {
     List<ProductDto> getAll();
     ProductDto getById(int productId);
     Map<String, List<ProductDto>> getAllByCategory();
+    List<ProductDto> getByIds(List<Integer> productsIds);
+
 }
