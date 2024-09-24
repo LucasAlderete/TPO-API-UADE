@@ -18,8 +18,8 @@ public class MyProfileController {
 
     @GetMapping
     public ResponseEntity<UserMyProfileDto> getUserMyProfileDto(@RequestHeader(name="Authorization") String token){
-        UserMyProfileDto userMyProfileDto = iMyProfileService.getUser(token);
-        userMyProfileDto.setOrdersDto(iMyProfileService.getOrders(token));
+        UserMyProfileDto userMyProfileDto = iMyProfileService.getUser(token.substring(7).trim());
+        userMyProfileDto.setOrdersDto(iMyProfileService.getOrders(token.substring(7).trim()));
         return ResponseEntity.ok(userMyProfileDto);
     }
 }
