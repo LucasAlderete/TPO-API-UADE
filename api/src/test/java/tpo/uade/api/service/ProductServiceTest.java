@@ -33,7 +33,6 @@ public class ProductServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    /*
     @Test
     void getAllByCategory_WhenCalled_ReturnsGroupedProductsByCategory() {
         // Arrange
@@ -73,8 +72,6 @@ public class ProductServiceTest {
         assertEquals(Arrays.asList(dto1, dto2), result.get(CATEGORY_NAME));
         assertEquals(Collections.singletonList(dto3), result.get(CATEGORY_NAME_2));
     }
-
-     */
 
     @Test
     void getAll_WhenCalled_ReturnsAllProducts() {
