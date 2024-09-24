@@ -37,10 +37,10 @@ public class ProductServiceTest {
     void getAllByCategory_WhenCalled_ReturnsGroupedProductsByCategory() {
         // Arrange
         final String CATEGORY_NAME = "ram";
-        CategoryModel categoryModel = new CategoryModel(1, CATEGORY_NAME);
+        CategoryModel categoryModel = new CategoryModel(1, CATEGORY_NAME, List.of());
 
         final String CATEGORY_NAME_2 = "gpu";
-        CategoryModel categoryModel2 = new CategoryModel(1, CATEGORY_NAME_2);
+        CategoryModel categoryModel2 = new CategoryModel(1, CATEGORY_NAME_2, List.of());
 
         ProductModel product1 = createProductModel(1, "Product1");
         ProductModel product2 = createProductModel(2, "Product2");

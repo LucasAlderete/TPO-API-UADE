@@ -2,31 +2,51 @@ package tpo.uade.api.dto.auth;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import tpo.uade.api.model.RoleEnum;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public record RegisterDto(
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class RegisterDto implements Serializable {
 
         @NotBlank(message = "{register-dto.username-not-blank}")
-        String username,
+        private String username;
 
         @NotBlank(message = "{register-dto.email-not-blank}")
-        String email,
+        private String email;
 
         @NotBlank(message = "{register-dto.password-not-blank}")
-        String password,
+        private String password;
 
         @NotNull(message = "{register-dto.birthday-not-null}")
-        LocalDate birthday,
+        private LocalDate birthday;
 
         @NotBlank(message = "{register-dto.name-not-blank}")
-        String name,
+        private String name;
 
         @NotBlank(message = "{register-dto.surname-not-blank}")
-        String surname,
+        private String surname;
 
-        RoleEnum role
+        private RoleEnum role;
 
-) implements Serializable {}
+        @Override
+        public String toString() {
+                return "RegisterDto{" +
+                        "username='" + username + '\'' +
+                        ", email='" + email + '\'' +
+                        ", password='" + password + '\'' +
+                        ", birthday=" + birthday +
+                        ", name='" + name + '\'' +
+                        ", surname='" + surname + '\'' +
+                        ", role=" + role +
+                        '}';
+        }
+}
