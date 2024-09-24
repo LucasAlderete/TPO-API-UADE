@@ -36,7 +36,7 @@ public class ProductModel {
     @Column(name= "description", nullable = false)
     private String description;
 
-     @Column(name = "additional_information", nullable = false)
+     @Column(name = "additional_information")
     private String additionalInformation;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
@@ -49,12 +49,15 @@ public class ProductModel {
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private CategoryModel category;
 
+    @Column(name = "url_image")
+    private String urlImage;
+
     @ManyToMany(mappedBy = "favoriteProducts")
     private List<UserModel> usersWhoFavorited;
 
     @PrePersist
     protected void onCreate() {
-        this.secureId = UUID.randomUUID().toString();
+        this.secureId = "SI-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }
 
 }

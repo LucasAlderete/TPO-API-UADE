@@ -39,6 +39,7 @@ public class ProductMapperImpl implements ProductMapper{
         productModel.setStock(productDto.getStock());
         productModel.setDescription(productDto.getDescription());
         productModel.setHighlighted(productDto.isHighlighted());
+        productModel.setAdditionalInformation(productDto.getAdditionalInformation());
         return productModel;
     }
 }

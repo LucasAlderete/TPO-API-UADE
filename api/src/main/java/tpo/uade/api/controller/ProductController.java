@@ -1,6 +1,7 @@
 package tpo.uade.api.controller;
 
 import io.swagger.annotations.Api;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -43,8 +44,8 @@ public class ProductController {
         return ResponseEntity.ok(productService.getById(id));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateProductStock(@PathVariable String id, int stock) {
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateProductStock(@PathVariable String id, @RequestParam @Min(value = 0, message = "The stock must be 0 or greater") int stock) {
         try {
             productService.updateStockProduct(id, stock);
             return ResponseEntity.ok("Stock actualizado correctamente.");
@@ -54,7 +55,7 @@ public class ProductController {
 
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{secureId}")
     public ResponseEntity<?> deleteProduct(@PathVariable String secureId) {
         try {
             productService.deleteProduct(secureId);
