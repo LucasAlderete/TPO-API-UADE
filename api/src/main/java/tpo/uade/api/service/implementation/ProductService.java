@@ -79,6 +79,9 @@ public class ProductService implements IProductService {
 
     @Override
     public void deleteProduct(String secureId) {
-        productRepository.deleteBySecureId(secureId).orElseThrow(() -> new NoSuchElementException("Product with ID " + secureId + " doesn't exist"));
+        ProductModel product = productRepository.findBySecureId(secureId)
+                .orElseThrow(() -> new NoSuchElementException("Product not found with secure_id: " + secureId));
+
+        productRepository.delete(product);
     }
 }

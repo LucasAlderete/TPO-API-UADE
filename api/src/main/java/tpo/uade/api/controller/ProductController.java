@@ -55,10 +55,10 @@ public class ProductController {
 
     }
 
-    @DeleteMapping("/delete/{secureId}")
-    public ResponseEntity<?> deleteProduct(@PathVariable String secureId) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteProduct(@PathVariable String id) {
         try {
-            productService.deleteProduct(secureId);
+            productService.deleteProduct(id);
             return ResponseEntity.ok().build();
         } catch (Exception e){
             return ResponseEntity.notFound().build();
