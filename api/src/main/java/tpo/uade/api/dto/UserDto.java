@@ -1,5 +1,6 @@
 package tpo.uade.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -19,22 +20,20 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class UserDto implements Serializable {
 
-    @NotBlank(message = "username must not be null nor empty")
+    @NotBlank(message = "{user-dto.username-not-blank}")
     private String username;
 
-    @NotBlank(message = "email must not be null nor empty")
+    @NotBlank(message = "{user-dto.email-not-blank}")
     private String email;
 
-    @NotBlank(message = "password must not be null nor empty")
-    private String password;
-
-    @NotNull(message = "birthday must not be null nor empty")
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @NotNull(message = "{user-dto.birthday-not-null}")
     private LocalDate birthday;
 
-    @NotBlank(message = "name must not be null nor empty")
+    @NotBlank(message = "{user-dto.name-not-blank}")
     private String name;
 
-    @NotBlank(message = "surname must not be null nor empty")
+    @NotBlank(message = "{user-dto.surname-not-blank}")
     private String surname;
 
 }

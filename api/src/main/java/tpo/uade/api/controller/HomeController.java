@@ -1,6 +1,7 @@
 package tpo.uade.api.controller;
 
 import io.swagger.annotations.Api;
+
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,6 @@ import tpo.uade.api.service.IHomeService;
 @Api(value = "Home decorations")
 @RestController
 @RequestMapping("/home")
-@Component
 @Validated
 public class HomeController {
 

@@ -28,7 +28,7 @@ public class HomeService implements IHomeService {
         HomeDto homeDto = new HomeDto();
         homeDto.setFeaturedProducts(featuredProductService.getAll());
         homeDto.setProducts(productService.getAllByCategory());
-        homeDto.setRecentlyViewedProducts(recentlyViewedService.getAllByUser(1L, 10));
+        homeDto.setRecentlyViewedProducts(recentlyViewedService.getAllByUser(11L, 10));
         return homeDto;
     }
 
