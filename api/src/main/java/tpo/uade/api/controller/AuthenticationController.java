@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,13 +25,10 @@ import tpo.uade.api.service.IAuthenticationService;
 @RestController
 @RequestMapping("/auth")
 @Validated
+@RequiredArgsConstructor
 public class AuthenticationController {
 
     private final IAuthenticationService authenticationService;
-
-    public AuthenticationController(IAuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
-    }
 
     @PostMapping(path = "/authenticate",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AuthenticationResponseDto> authenticate (@Valid @RequestBody @NotNull(message = "{authentication-controller.authenticate-service.authorization-request-not-null}")

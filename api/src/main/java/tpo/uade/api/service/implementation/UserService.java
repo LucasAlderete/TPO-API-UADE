@@ -11,16 +11,12 @@ import tpo.uade.api.service.IUserService;
 
 import java.util.NoSuchElementException;
 
+@RequiredArgsConstructor
 @Service
 public class UserService implements IUserService {
 
     private final UserMapper userMapper;
     private final UserRepository userRepository;
-
-    public UserService(UserMapper userMapper, UserRepository userRepository) {
-        this.userMapper = userMapper;
-        this.userRepository = userRepository;
-    }
 
     /**
      * Gets a user details
