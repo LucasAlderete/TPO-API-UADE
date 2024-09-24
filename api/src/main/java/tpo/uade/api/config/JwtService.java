@@ -18,7 +18,7 @@ public class JwtService {
     //@Value("${application.security.jwt.secretKey}")
     private String secretKey = "WFJ#$%^)!*@#234-7850-231123FERGWEFRFG!";
     //@Value("${application.security.jwt.expiration}")
-    private long jwtExpiration = 100000;
+    private long jwtExpiration = 100000000;
 
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
