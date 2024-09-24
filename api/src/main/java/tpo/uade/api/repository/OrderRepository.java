@@ -6,5 +6,5 @@ import tpo.uade.api.model.OrderModel;
 import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<OrderModel, Long> {
-    Optional<OrderModel> findByUserId(Long userId);
+    Optional<OrderModel> findByUser_UserId(Long userId);
 }

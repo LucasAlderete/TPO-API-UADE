@@ -25,13 +25,13 @@ public class CartController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Void> addProduct(@RequestParam Long userId, @RequestParam Long productId) {
+    public ResponseEntity<Void> addProduct(@RequestParam Long userId, @RequestParam Integer productId) {
         cartService.addProduct(userId, productId);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/remove")
-    public ResponseEntity<Void> removeProduct(@RequestParam Long userId, @RequestParam Long productId) {
+    public ResponseEntity<Void> removeProduct(@RequestParam Long userId, @RequestParam Integer productId) {
         cartService.removeProduct(userId, productId);
         return ResponseEntity.ok().build();
     }

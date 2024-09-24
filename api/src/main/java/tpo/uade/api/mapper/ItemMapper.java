@@ -8,7 +8,7 @@ import tpo.uade.api.model.OrderItemModel;
 @Mapper(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL,
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE,
-        componentModel = MappingConstants.ComponentModel.SPRING)
+        componentModel = "spring")
 public interface ItemMapper {
     @Mapping(source = "product.name", target = "product")
     ItemDto toDto(ItemModel itemModel);
