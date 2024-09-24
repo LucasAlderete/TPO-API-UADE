@@ -16,7 +16,7 @@ import java.util.List;
 
 @Api(value = "Product Operations")
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/api/v1/product")
 @Component
 @Validated
 //@PreAuthorize("hasRole('ADMIN')")
