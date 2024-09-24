@@ -9,7 +9,6 @@ import tpo.uade.api.model.ProductModel;
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
 
-    ProductDto mapFromDatabaseEntity (ProductModel productModel);
-
     ProductModel mapToDatabaseEntity (ProductDto productDto);
+    ProductDto mapFromDatabaseEntity (ProductModel productModel);
 }
