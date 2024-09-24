@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 
 import tpo.uade.api.dto.UserDto;
 import tpo.uade.api.mapper.UserMapper;
+import tpo.uade.api.model.CartModel;
 import tpo.uade.api.model.UserModel;
+import tpo.uade.api.repository.CartRepository;
 import tpo.uade.api.repository.UserRepository;
 import tpo.uade.api.service.IUserService;
 
@@ -17,6 +19,7 @@ public class UserService implements IUserService {
 
     private final UserMapper userMapper;
     private final UserRepository userRepository;
+    private final CartRepository cartRepository;
 
     /**
      * Gets a user details
@@ -39,6 +42,6 @@ public class UserService implements IUserService {
      */
     @Override
     public void createUser (UserDto userDTO) {
-        userRepository.save(userMapper.mapToDatabaseEntity(userDTO));
+        UserModel savedUser = userRepository.save(userMapper.mapToDatabaseEntity(userDTO));
     }
 }

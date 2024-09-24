@@ -8,10 +8,7 @@ import tpo.uade.api.dto.CheckoutDto;
 import tpo.uade.api.mapper.CartMapper;
 import tpo.uade.api.mapper.ItemMapper;
 import tpo.uade.api.model.*;
-import tpo.uade.api.repository.CartRepository;
-import tpo.uade.api.repository.ItemRepository;
-import tpo.uade.api.repository.OrderRepository;
-import tpo.uade.api.repository.ProductRepository;
+import tpo.uade.api.repository.*;
 import tpo.uade.api.service.ICartService;
 
 import java.util.ArrayList;
@@ -27,6 +24,7 @@ public class CartService implements ICartService {
     private final ItemRepository itemRepository;
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
     private final CartMapper cartMapper;
     private final ItemMapper itemMapper;
 
@@ -37,7 +35,15 @@ public class CartService implements ICartService {
     }
 
     public void addProduct (Long userId, Integer productId) throws NoSuchElementException {
-        CartModel cart = cartRepository.findByUser_UserId(userId).orElseThrow(() -> new NoSuchElementException("cart doesn't exist"));
+        UserModel user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("User doesn't exist"));
+
+        CartModel cart = cartRepository.findByUser_UserId(userId).orElseGet(() -> {
+            CartModel newCart = new CartModel();
+            newCart.setUser(user);
+            newCart.setTotal(0.0);
+            return cartRepository.save(newCart);
+        });
+
         Long cartId = cart.getId();
 
         Optional<ItemModel> item = itemRepository.findByCartIdAndProductId(cartId, productId);
@@ -81,6 +87,7 @@ public class CartService implements ICartService {
 
         if (itemModel.getQuantity() > 1) {
             itemModel.setQuantity(itemModel.getQuantity() - 1);
+            itemModel.setPrice(itemModel.getQuantity() * product.getPrice());
             itemRepository.save(itemModel);
         } else {
             itemRepository.delete(itemModel);
@@ -88,15 +95,18 @@ public class CartService implements ICartService {
 
 
         cart.setTotal(cart.getTotal() - product.getPrice());
+
+        cartRepository.save(cart);
     }
 
+    @Transactional
     public void emptyCart (Long userId) throws NoSuchElementException {
         CartModel cart = cartRepository.findByUser_UserId(userId).orElseThrow(() -> new NoSuchElementException("cart doesn't exist"));
 
-        cart.setItems(null);
+        itemRepository.deleteAll(cart.getItems());
+        cart.setItems(new ArrayList<>());
         cart.setTotal(0.0);
 
-        itemRepository.deleteAll(cart.getItems());
         cartRepository.save(cart);
     }
 
@@ -125,11 +135,9 @@ public class CartService implements ICartService {
         });
 
 
-
         OrderModel orderModel = cartMapper.mapCartToOrder(cartModel);
         orderModel.setId(null);
         orderModel.setDate(java.time.LocalDateTime.now());
-
 
 
         List<OrderItemModel> orderItems = cartModel.getItems()
