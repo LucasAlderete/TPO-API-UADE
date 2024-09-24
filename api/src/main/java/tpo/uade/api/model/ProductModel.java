@@ -1,16 +1,9 @@
 package tpo.uade.api.model;
-import java.math.BigDecimal;
-import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import java.util.List;
+import java.util.UUID;
+
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,16 +16,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProductModel {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "price", nullable = false, precision=12, scale=2)
-    private BigDecimal price;
+    @Column(name = "price", nullable = false)
+    private Double price;
 
     @Column(name = "url_image", nullable = false)
     private String urlImage;
@@ -40,11 +32,15 @@ public class ProductModel {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "stock", nullable = false)
+    @Column(name= "stock", nullable = false)
     private int stock;
 
-    @Column(name = "additional_information", nullable = false)
+
+     @Column(name = "additional_information")
     private String additionalInformation;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ImagesModel> urlImageList;
 
     @Column(name = "highlighted", nullable = false)
     private boolean highlighted;
@@ -55,4 +51,13 @@ public class ProductModel {
 
     @ManyToMany(mappedBy = "favoriteProducts")
     private List<UserModel> usersWhoFavorited;
+
+    @Column(name = "secure_id", unique = true, nullable = false, updatable = false)
+    private String secureId;
+
+    @PrePersist
+    protected void onCreate() {
+        this.secureId = "SI-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    }
+
 }

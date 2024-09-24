@@ -11,7 +11,7 @@ import tpo.uade.api.model.UserModel;
 @Mapper(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL,
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE,
-        componentModel = MappingConstants.ComponentModel.SPRING)
+        componentModel = "spring")
 public interface UserMapper {
 
     UserDto mapFromDatabaseEntity (UserModel userModel);

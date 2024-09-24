@@ -12,13 +12,11 @@ import tpo.uade.api.model.ProductModel;
 import tpo.uade.api.repository.ProductRepository;
 import tpo.uade.api.service.implementation.ProductService;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 public class ProductServiceTest {
     @Mock
@@ -136,5 +134,62 @@ public class ProductServiceTest {
         return dto;
     }
 
+    @Test
+    void testGetById_ExistingProduct() {
+        int productId = 1;
+        ProductModel productModel = new ProductModel();
+        ProductDto expectedDto = new ProductDto();
+        when(productRepository.findById(productId)).thenReturn(Optional.of(productModel));
+        when(productMapper.mapFromDatabaseEntity(productModel)).thenReturn(expectedDto);
+
+        ProductDto result = productService.getById(productId);
+
+        assertEquals(expectedDto, result);
+    }
+
+    @Test
+    void testGetById_NonExistingProduct() {
+        int productId = 1;
+        when(productRepository.findById(productId)).thenReturn(Optional.empty());
+
+        assertThrows(NoSuchElementException.class, () -> productService.getById(productId));
+    }
+
+    @Test
+    void testDeleteProduct_ExistingProduct() {
+        String secureId = "secure-id";
+        ProductModel productModel = new ProductModel();
+        when(productRepository.findBySecureId(secureId)).thenReturn(Optional.of(productModel));
+
+        productService.deleteProduct(secureId);
+
+        verify(productRepository, times(1)).delete(productModel);
+    }
+
+    @Test
+    void testDeleteProduct_NonExistingProduct() {
+
+        String secureId = "secure-id";
+        when(productRepository.findBySecureId(secureId)).thenReturn(Optional.empty());
+
+        assertThrows(NoSuchElementException.class, () -> productService.deleteProduct(secureId));
+    }
+
+    @Test
+    void testCreateProduct_Success() {
+        ProductDto productDto = new ProductDto();
+        productDto.setName("Test Product");
+        productDto.setPrice(100.0);
+
+        ProductModel productModel = new ProductModel();
+        productModel.setName(productDto.getName());
+        productModel.setPrice(productDto.getPrice());
+
+        when(productMapper.mapToDatabaseEntity(productDto)).thenReturn(productModel);
+
+        productService.createProduct(productDto);
+
+        verify(productRepository, times(1)).save(productModel);
+    }
 
 }
