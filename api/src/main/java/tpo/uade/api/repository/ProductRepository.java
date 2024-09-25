@@ -16,4 +16,5 @@ public interface ProductRepository extends JpaRepository<ProductModel, Integer> 
     Optional<?> deleteBySecureId(String secureId);
 
     List<ProductModel> findByIdIn(List<Integer> ids);
+
 }

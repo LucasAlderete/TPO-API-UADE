@@ -71,7 +71,8 @@ public class ProductService implements IProductService {
     }
 
     public void updateStockProduct(String secureId, int nuevoStock) {
-        ProductModel productModel = productRepository.findBySecureId(secureId).orElseThrow(() -> new NoSuchElementException("Product with ID " + secureId + " doesn't exist"));
+        ProductModel productModel = productRepository.findBySecureId(secureId)
+                .orElseThrow(() -> new NoSuchElementException("product doesn't exist"));
 
         productModel.setStock(nuevoStock);
         productRepository.save(productModel);
