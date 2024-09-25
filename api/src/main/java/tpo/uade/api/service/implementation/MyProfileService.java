@@ -7,6 +7,7 @@ import tpo.uade.api.dto.UserMyProfileDto;
 import tpo.uade.api.dto.OrderDto;
 import tpo.uade.api.mapper.OrderMapper;
 import tpo.uade.api.mapper.UserMyProfileMapper;
+import tpo.uade.api.model.UserModel;
 import tpo.uade.api.repository.OrderRepository;
 import tpo.uade.api.repository.UserRepository;
 import tpo.uade.api.service.IMyProfileService;
@@ -32,6 +33,19 @@ public class MyProfileService implements IMyProfileService {
     public List<OrderDto> getOrders(String token){
         var user = userRepository.findByUsername(jwtService.extractUsername(token)).orElseThrow((() -> new NoSuchElementException("user doesn't exist")));
         return orderRepository.findByUser_UserId(user.getUserId()).stream().map(orderMapper::toDto).collect(Collectors.toList());
+    }
+
+    public UserMyProfileDto setUser(String token, UserMyProfileDto updatedUser) {
+        String username = jwtService.extractUsername(token);
+        System.out.println(updatedUser);
+        UserModel currentUser = userRepository.findByUsername(username).orElseThrow((() -> new NoSuchElementException("user doesn't exist")));
+        currentUser.setUsername(updatedUser.getUsername());
+        currentUser.setBirthday(updatedUser.getBirthday());
+        currentUser.setEmail(updatedUser.getEmail());
+        currentUser.setName(updatedUser.getName());
+        currentUser.setSurname(updatedUser.getSurname());
+        userRepository.save(currentUser);
+        return userMapper.toDto(currentUser);
     }
 
 }

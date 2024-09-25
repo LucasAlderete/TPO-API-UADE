@@ -22,4 +22,10 @@ public class MyProfileController {
         userMyProfileDto.setOrdersDto(iMyProfileService.getOrders(token.substring(7).trim()));
         return ResponseEntity.ok(userMyProfileDto);
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<UserMyProfileDto> setUserMyProfileDto(@RequestHeader(name="Authorization") String token, @RequestBody UserMyProfileDto updatedUser){
+        UserMyProfileDto currentUser = iMyProfileService.setUser(token.substring(7).trim(), updatedUser);
+        return ResponseEntity.ok(currentUser);
+    }
 }

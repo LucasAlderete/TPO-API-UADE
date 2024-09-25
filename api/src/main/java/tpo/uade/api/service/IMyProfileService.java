@@ -8,4 +8,5 @@ import java.util.List;
 public interface IMyProfileService {
     UserMyProfileDto getUser(String token);
     List<OrderDto> getOrders(String token);
+    UserMyProfileDto setUser(String token, UserMyProfileDto updatedUser);
 }
