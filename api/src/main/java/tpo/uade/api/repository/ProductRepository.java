@@ -16,4 +16,6 @@ public interface ProductRepository extends JpaRepository<ProductModel, Long> {
     Optional<?> deleteBySecureId(Long secureId);
 
     List<ProductModel> findByIdIn(List<Long> ids);
+
+    List<ProductModel> findBySecureIdIn(List<String> ids);
 }

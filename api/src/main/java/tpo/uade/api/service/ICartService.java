@@ -4,13 +4,13 @@ import tpo.uade.api.dto.CartDto;
 import tpo.uade.api.dto.CheckoutDto;
 
 public interface ICartService {
-    void emptyCart(Long userId);
+    void emptyCart();
 
-    void addProduct(Long userId, Long productId);
+    void addProduct(Long productId);
 
-    void removeProduct(Long userId, Long productId);
+    void removeProduct(Long productId);
 
-    CartDto getCart(Long userId);
+    CartDto getCart();
 
-    CheckoutDto checkout(Long userId);
+    CheckoutDto checkout();
 }

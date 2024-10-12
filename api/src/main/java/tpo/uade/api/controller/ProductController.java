@@ -1,15 +1,25 @@
 package tpo.uade.api.controller;
 
 import io.swagger.annotations.Api;
+
 import jakarta.validation.constraints.Min;
-import org.springframework.http.MediaType;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import tpo.uade.api.dto.ProductDto;
-import tpo.uade.api.mapper.ProductMapper;
-import tpo.uade.api.model.ProductModel;
 import tpo.uade.api.service.IProductService;
 
 import java.util.List;
@@ -19,17 +29,13 @@ import java.util.List;
 @RequestMapping("/product")
 @Component
 @Validated
-//@PreAuthorize("hasRole('ADMIN')")
+@RequiredArgsConstructor
 public class ProductController {
 
     private final IProductService productService;
 
-    public ProductController(IProductService productService) {
-        this.productService = productService;
-    }
-
     @PostMapping("/create")
-    public ResponseEntity<?> createProduct(@RequestBody ProductDto product) {
+    public ResponseEntity<Void> createProduct(@RequestBody ProductDto product) {
         productService.createProduct(product);
         return ResponseEntity.ok().build();
     }
@@ -40,28 +46,19 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDto> getProductById(@PathVariable Long id) {
-        return ResponseEntity.ok(productService.getById(id));
+    public ResponseEntity<ProductDto> getProductById(@PathVariable String secureId) {
+        return ResponseEntity.ok(productService.getById(secureId));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateProductStock(@PathVariable String id, @RequestParam @Min(value = 0, message = "The stock must be 0 or greater") int stock) {
-        try {
-            productService.updateStockProduct(id, stock);
-            return ResponseEntity.ok("Stock actualizado correctamente.");
-        }catch (Exception e){
-            return ResponseEntity.notFound().build();
-        }
-
+    public ResponseEntity<Void> updateProductStock(@PathVariable String secureId, @RequestParam @Min(value = 0, message = "The stock must be 0 or greater") int stock) {
+        productService.updateStockProduct(secureId, stock);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteProduct(@PathVariable String id) {
-        try {
-            productService.deleteProduct(id);
-            return ResponseEntity.ok().build();
-        } catch (Exception e){
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deleteProduct(@PathVariable String id) {
+        productService.deleteProduct(id);
+        return ResponseEntity.ok().build();
     }
 }

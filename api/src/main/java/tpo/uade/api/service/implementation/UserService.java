@@ -1,6 +1,7 @@
 package tpo.uade.api.service.implementation;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,11 @@ public class UserService implements IUserService {
     @Override
     public UserDto getUserDtoByUsername () throws NoSuchElementException {
         return userMapper.mapFromDatabaseEntity(getUserModelByUsername());
+    }
+
+    @Override
+    public Long getUserIdByUsername () throws NoSuchElementException {
+        return getUserModelByUsername().getUserId();
     }
 
     /**

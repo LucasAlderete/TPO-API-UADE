@@ -1,14 +1,24 @@
 package tpo.uade.api.service.implementation;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import tpo.uade.api.dto.CartDto;
 import tpo.uade.api.dto.CheckoutDto;
 import tpo.uade.api.mapper.CartMapper;
 import tpo.uade.api.mapper.ItemMapper;
-import tpo.uade.api.model.*;
-import tpo.uade.api.repository.*;
+import tpo.uade.api.model.CartModel;
+import tpo.uade.api.model.ItemModel;
+import tpo.uade.api.model.OrderItemModel;
+import tpo.uade.api.model.OrderModel;
+import tpo.uade.api.model.ProductModel;
+import tpo.uade.api.model.UserModel;
+import tpo.uade.api.repository.CartRepository;
+import tpo.uade.api.repository.ItemRepository;
+import tpo.uade.api.repository.OrderRepository;
+import tpo.uade.api.repository.ProductRepository;
 import tpo.uade.api.service.ICartService;
 
 import java.util.ArrayList;
@@ -17,9 +27,10 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
-@AllArgsConstructor
 public class CartService implements ICartService {
+
     private final CartRepository cartRepository;
     private final ItemRepository itemRepository;
     private final ProductRepository productRepository;
@@ -28,14 +39,14 @@ public class CartService implements ICartService {
     private final CartMapper cartMapper;
     private final ItemMapper itemMapper;
 
-    public CartDto getCart (Long userId) throws NoSuchElementException {
-        return cartMapper.toDto(getCartByUserId(userId));
+    public CartDto getCart () throws NoSuchElementException {
+        return cartMapper.toDto(getCartByUserId(userService.getUserIdByUsername()));
     }
 
-    public void addProduct (Long userId, Long productId) throws NoSuchElementException { //TODO -> secure o db id?
+    public void addProduct (Long productId) throws NoSuchElementException {
         UserModel user = userService.getUserModelByUsername();
 
-        CartModel cart = cartRepository.findByUser_UserId(userId).orElseGet(() -> {
+        CartModel cart = cartRepository.findByUser_UserId(userService.getUserIdByUsername()).orElseGet(() -> {
             CartModel newCart = new CartModel();
             newCart.setUser(user);
             newCart.setTotal(0.0);
@@ -74,8 +85,8 @@ public class CartService implements ICartService {
         }
     }
 
-    public void removeProduct (Long userId, Long productId) throws NoSuchElementException {
-        CartModel cart = getCartByUserId(userId);
+    public void removeProduct (Long productId) throws NoSuchElementException {
+        CartModel cart = getCartByUserId(userService.getUserIdByUsername());
         Long cartId = cart.getId();
 
         ItemModel itemModel = itemRepository.findByCartIdAndProductId(cartId, productId)
@@ -99,8 +110,8 @@ public class CartService implements ICartService {
     }
 
     @Transactional
-    public void emptyCart (Long userId) throws NoSuchElementException {
-        CartModel cart = getCartByUserId(userId);
+    public void emptyCart () throws NoSuchElementException {
+        CartModel cart = getCartByUserId(userService.getUserIdByUsername());
 
         itemRepository.deleteAll(cart.getItems());
         cart.setItems(new ArrayList<>());
@@ -110,8 +121,8 @@ public class CartService implements ICartService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public CheckoutDto checkout (Long userId) throws NoSuchElementException {
-        CartModel cartModel = getCartByUserId(userId);
+    public CheckoutDto checkout () throws NoSuchElementException {
+        CartModel cartModel = getCartByUserId(userService.getUserIdByUsername());
         CheckoutDto response = new CheckoutDto();
         List<String> outOfStockProducts = new ArrayList<>();
 

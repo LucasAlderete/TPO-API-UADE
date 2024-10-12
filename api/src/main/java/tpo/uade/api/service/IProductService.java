@@ -8,12 +8,18 @@ import tpo.uade.api.model.ProductModel;
 
 public interface IProductService {
     List<ProductDto> getAll();
-    ProductDto getById(Long productId);
-    void createProduct(ProductDto product);
-    ProductDto findBySecureId(String secureId);
-    void deleteProduct(Long productId);
-    void updateStockProduct(Long productId, int nuevoStock);
-    Map<String, List<ProductDto>> getAllByCategory();
-    List<ProductDto> getByIds(List<Long> productsIds);
 
+    ProductDto getById(String secureId);
+
+    void createProduct(ProductDto product);
+
+    ProductDto findBySecureId(String secureId);
+
+    void deleteProduct(String secureId);
+
+    void updateStockProduct(String secureId, int nuevoStock);
+
+    Map<String, List<ProductDto>> getAllByCategory();
+
+    List<ProductDto> getByIds(List<String> secureIds);
 }

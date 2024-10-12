@@ -63,7 +63,7 @@ public class CartServiceTest {
         when(cartMapper.toDto(cartModel)).thenReturn(cartDto); // Simula el mapeo correctamente
 
         // Act
-        CartDto result = cartService.getCart(userId);
+        CartDto result = cartService.getCart();
 
         // Assert
         assertNotNull(result, "Expected CartDto to be not null but was null.");
@@ -93,7 +93,7 @@ public class CartServiceTest {
         when(productRepository.findById(productId)).thenReturn(Optional.of(product));
 
         // Act
-        cartService.addProduct(userId, productId);
+        cartService.addProduct(productId);
 
         // Assert
         assertEquals(2, itemModel.getQuantity());
@@ -126,7 +126,7 @@ public class CartServiceTest {
         when(itemMapper.mapItemToOrderItem(any(ItemModel.class))).thenReturn(orderItem); // Mockeamos el mapeo correcto
 
         // Act
-        CheckoutDto checkoutDto = cartService.checkout(userId);
+        CheckoutDto checkoutDto = cartService.checkout();
 
         // Assert
         assertNotNull(checkoutDto);

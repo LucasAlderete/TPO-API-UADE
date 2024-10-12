@@ -1,10 +1,13 @@
 package tpo.uade.api.controller;
 
 import io.swagger.annotations.Api;
-import lombok.AllArgsConstructor;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import tpo.uade.api.dto.UserMyProfileDto;
 import tpo.uade.api.service.IMyProfileService;
 
@@ -12,8 +15,9 @@ import tpo.uade.api.service.IMyProfileService;
 @RestController
 @RequestMapping("/my-profile")
 @Validated
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MyProfileController {
+
     private IMyProfileService myProfileService;
 
     @GetMapping

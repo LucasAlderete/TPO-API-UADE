@@ -6,6 +6,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import tpo.uade.api.dto.ProductDto;
@@ -14,17 +16,12 @@ import tpo.uade.api.model.ProductModel;
 import tpo.uade.api.repository.ProductRepository;
 import tpo.uade.api.service.IProductService;
 
+@RequiredArgsConstructor
 @Service
 public class ProductService implements IProductService {
 
     private final ProductMapper productMapper;
     private final ProductRepository productRepository;
-
-    public ProductService(ProductMapper productMapper, ProductRepository productRepository) {
-        this.productMapper = productMapper;
-        this.productRepository = productRepository;
-    }
-
 
     @Override
     public Map<String, List<ProductDto>> getAllByCategory() {
@@ -46,22 +43,20 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public ProductDto getById(Long id) {
-        ProductModel productModel = productRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("product doesn't exist"));
+    public ProductDto getById(String secureId) {
+        ProductModel productModel = getProductBySecureId(secureId);
         return productMapper.mapFromDatabaseEntity(productModel);
     }
 
     @Override
-    public ProductDto findBySecureId(Long secureId) {
-        ProductModel productModel = productRepository.findBySecureId(secureId)
-                .orElseThrow(() -> new NoSuchElementException("product doesn't exist"));
+    public ProductDto findBySecureId(String secureId) {
+        ProductModel productModel = getProductBySecureId(secureId);
         return productMapper.mapFromDatabaseEntity(productModel);
     }
 
     @Override
-    public List<ProductDto> getByIds(List<Long> productsIds) {
-        return productRepository.findByIdIn(productsIds).stream()
+    public List<ProductDto> getByIds(List<String> productsIds) {
+        return productRepository.findBySecureIdIn(productsIds).stream()
                 .map(productMapper::mapFromDatabaseEntity)
                 .collect(Collectors.toList());
     }
@@ -71,17 +66,25 @@ public class ProductService implements IProductService {
         productRepository.save(productMapper.mapToDatabaseEntity(product));
     }
 
-    public void updateStockProduct(Long secureId, int nuevoStock) {
-        ProductModel productModel = productRepository.findBySecureId(secureId)
-                .orElseThrow(() -> new NoSuchElementException("Product with ID " + secureId + " doesn't exist"));
+    public void updateStockProduct(String secureId, int nuevoStock) {
+        ProductModel productModel = getProductBySecureId(secureId);
         productModel.setStock(nuevoStock);
         productRepository.save(productModel);
     }
 
     @Override
-    public void deleteProduct(Long secureId) {
-        ProductModel product = productRepository.findBySecureId(secureId)
-                .orElseThrow(() -> new NoSuchElementException("Product not found with secure_id: " + secureId));
+    public void deleteProduct(String secureId) {
+        ProductModel product = getProductBySecureId(secureId);
         productRepository.delete(product);
+    }
+
+    private ProductModel getProductBySecureId (String secureId) {
+        return productRepository.findBySecureId(secureId)
+                .orElseThrow(() -> new NoSuchElementException("Product not found with secure_id: " + secureId));
+    }
+
+    private ProductModel getProductById (Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Product not found with secure_id: " + id));
     }
 }

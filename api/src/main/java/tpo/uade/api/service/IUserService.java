@@ -5,6 +5,10 @@ import tpo.uade.api.model.UserModel;
 
 public interface IUserService {
     UserModel getUserModelByUsername ();
+
     UserDto getUserDtoByUsername ();
-    void createUser(UserDto userDto);
+
+    Long getUserIdByUsername ();
+
+    void createUser (UserDto userDto);
 }

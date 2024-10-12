@@ -6,6 +6,6 @@ import tpo.uade.api.dto.UserMyProfileDto;
 import java.util.List;
 
 public interface IMyProfileService {
-    UserMyProfileDto getUserWithOrders();
-    List<OrderDto> getUserOrders(Long id);
+    UserMyProfileDto getUserWithOrders ();
+    List<OrderDto> getUserOrders (Long id);
 }
