@@ -46,23 +46,24 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public ProductDto getById(int id) {
-        ProductModel productModel = productRepository.findById(id).orElseThrow(() -> new NoSuchElementException("product doesn't exist"));
+    public ProductDto getById(Long id) {
+        ProductModel productModel = productRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("product doesn't exist"));
         return productMapper.mapFromDatabaseEntity(productModel);
     }
 
     @Override
-    public ProductDto findBySecureId(String secureId) {
-        ProductModel productModel = productRepository.findBySecureId(secureId).orElseThrow(() -> new NoSuchElementException("product doesn't exist"));
+    public ProductDto findBySecureId(Long secureId) {
+        ProductModel productModel = productRepository.findBySecureId(secureId)
+                .orElseThrow(() -> new NoSuchElementException("product doesn't exist"));
         return productMapper.mapFromDatabaseEntity(productModel);
     }
 
     @Override
-    public List<ProductDto> getByIds(List<Integer> productsIds) {
+    public List<ProductDto> getByIds(List<Long> productsIds) {
         return productRepository.findByIdIn(productsIds).stream()
                 .map(productMapper::mapFromDatabaseEntity)
                 .collect(Collectors.toList());
-
     }
 
     @Override
@@ -70,18 +71,17 @@ public class ProductService implements IProductService {
         productRepository.save(productMapper.mapToDatabaseEntity(product));
     }
 
-    public void updateStockProduct(String secureId, int nuevoStock) {
-        ProductModel productModel = productRepository.findBySecureId(secureId).orElseThrow(() -> new NoSuchElementException("Product with ID " + secureId + " doesn't exist"));
-
+    public void updateStockProduct(Long secureId, int nuevoStock) {
+        ProductModel productModel = productRepository.findBySecureId(secureId)
+                .orElseThrow(() -> new NoSuchElementException("Product with ID " + secureId + " doesn't exist"));
         productModel.setStock(nuevoStock);
         productRepository.save(productModel);
     }
 
     @Override
-    public void deleteProduct(String secureId) {
+    public void deleteProduct(Long secureId) {
         ProductModel product = productRepository.findBySecureId(secureId)
                 .orElseThrow(() -> new NoSuchElementException("Product not found with secure_id: " + secureId));
-
         productRepository.delete(product);
     }
 }

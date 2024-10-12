@@ -20,18 +20,17 @@ public class CartController {
 
     @GetMapping
     public ResponseEntity<CartDto> getCart(@RequestParam Long userId) {
-        CartDto cartDetails = cartService.getCart(userId);
-        return ResponseEntity.ok(cartDetails);
+        return ResponseEntity.ok(cartService.getCart(userId));
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Void> addProduct(@RequestParam Long userId, @RequestParam Integer productId) {
+    public ResponseEntity<Void> addProduct(@RequestParam Long userId, @RequestParam Long productId) {
         cartService.addProduct(userId, productId);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/remove")
-    public ResponseEntity<Void> removeProduct(@RequestParam Long userId, @RequestParam Integer productId) {
+    public ResponseEntity<Void> removeProduct(@RequestParam Long userId, @RequestParam Long productId) {
         cartService.removeProduct(userId, productId);
         return ResponseEntity.ok().build();
     }
@@ -44,7 +43,6 @@ public class CartController {
 
     @PostMapping("/checkout")
     public ResponseEntity<CheckoutDto> checkout(@RequestParam Long userId) {
-        CheckoutDto checkoutResponse = cartService.checkout(userId);
-        return ResponseEntity.ok(checkoutResponse);
+        return ResponseEntity.ok(cartService.checkout(userId));
     }
 }

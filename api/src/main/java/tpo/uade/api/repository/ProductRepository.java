@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ProductRepository extends JpaRepository<ProductModel, Integer> {
-    Optional<ProductModel> findById(int productId);
+public interface ProductRepository extends JpaRepository<ProductModel, Long> {
+    Optional<ProductModel> findById(Long productId);
 
     Optional<ProductModel> findBySecureId(String secureId);
 
-    Optional<?> deleteBySecureId(String secureId);
+    Optional<?> deleteBySecureId(Long secureId);
 
-    List<ProductModel> findByIdIn(List<Integer> ids);
+    List<ProductModel> findByIdIn(List<Long> ids);
 }

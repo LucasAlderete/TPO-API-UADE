@@ -75,7 +75,7 @@ public class CartServiceTest {
     public void testAddProduct_ItemExists() {
         // Arrange
         Long userId = 1L;
-        Integer productId = 1;
+        Long productId = 1L;
         CartModel cartModel = new CartModel();
         cartModel.setId(1L);
 

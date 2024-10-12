@@ -99,7 +99,9 @@ public class ProductServiceTest {
     @Test
     void getByIds_WhenGivenProductIds_ReturnsMappedProductDtos() {
         // Arrange
-        List<Integer> productIds = Arrays.asList(1, 2);
+        List<Long> productIds = new ArrayList<>();
+        productIds.add(1L);
+        productIds.add(2L);
         ProductModel product1 = createProductModel(1, "Product1");
         ProductModel product2 = createProductModel(2, "Product2");
 
@@ -136,7 +138,7 @@ public class ProductServiceTest {
 
     @Test
     void testGetById_ExistingProduct() {
-        int productId = 1;
+        Long productId = 1L;
         ProductModel productModel = new ProductModel();
         ProductDto expectedDto = new ProductDto();
         when(productRepository.findById(productId)).thenReturn(Optional.of(productModel));
@@ -149,7 +151,7 @@ public class ProductServiceTest {
 
     @Test
     void testGetById_NonExistingProduct() {
-        int productId = 1;
+        Long productId = 1L;
         when(productRepository.findById(productId)).thenReturn(Optional.empty());
 
         assertThrows(NoSuchElementException.class, () -> productService.getById(productId));
@@ -168,7 +170,6 @@ public class ProductServiceTest {
 
     @Test
     void testDeleteProduct_NonExistingProduct() {
-
         String secureId = "secure-id";
         when(productRepository.findBySecureId(secureId)).thenReturn(Optional.empty());
 
