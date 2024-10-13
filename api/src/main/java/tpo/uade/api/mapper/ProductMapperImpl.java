@@ -33,7 +33,7 @@ public class ProductMapperImpl implements ProductMapper{
     @Override
     public ProductModel mapToDatabaseEntity(ProductDto productDto) {
         ProductModel productModel = new ProductModel();
-        productModel.setId(productDto.getProductId());
+        productModel.setSecureId(productDto.getSecureId());
         productModel.setName(productDto.getName());
         productModel.setPrice(productDto.getPrice());
         productModel.setStock(productDto.getStock());

@@ -63,7 +63,7 @@ public class CartServiceTest {
         when(cartMapper.toDto(cartModel)).thenReturn(cartDto); // Simula el mapeo correctamente
 
         // Act
-        CartDto result = cartService.getCart(userId);
+        CartDto result = cartService.getCart();
 
         // Assert
         assertNotNull(result, "Expected CartDto to be not null but was null.");
@@ -75,12 +75,12 @@ public class CartServiceTest {
     public void testAddProduct_ItemExists() {
         // Arrange
         Long userId = 1L;
-        Integer productId = 1;
+        String productSecureId = "SI-1";
         CartModel cartModel = new CartModel();
         cartModel.setId(1L);
 
         ProductModel product = new ProductModel();
-        product.setId(productId);
+        product.setSecureId(productSecureId);
         product.setPrice(100.0);
 
         ItemModel itemModel = new ItemModel();
@@ -88,12 +88,17 @@ public class CartServiceTest {
         itemModel.setProduct(product);
         itemModel.setQuantity(1);
 
-        when(cartRepository.findByUser_UserId(userId)).thenReturn(Optional.of(cartModel));
-        when(itemRepository.findByCartIdAndProductId(cartModel.getId(), productId)).thenReturn(Optional.of(itemModel));
-        when(productRepository.findById(productId)).thenReturn(Optional.of(product));
+        when(cartRepository.findByUser_UserId(userId))
+                .thenReturn(Optional.of(cartModel));
+
+        when(itemRepository.findByCartIdAndProductId(cartModel.getId(), product.getId()))
+                .thenReturn(Optional.of(itemModel));
+
+        when(productRepository.findBySecureId(productSecureId))
+                .thenReturn(Optional.of(product));
 
         // Act
-        cartService.addProduct(userId, productId);
+        cartService.addProduct(productSecureId);
 
         // Assert
         assertEquals(2, itemModel.getQuantity());
@@ -109,7 +114,7 @@ public class CartServiceTest {
         cartModel.setId(1L);
 
         ProductModel product = new ProductModel();
-        product.setStock(5); // Producto con stock suficiente
+        product.setStock(5);
         product.setPrice(10.0);
 
         ItemModel item = new ItemModel();
@@ -120,13 +125,13 @@ public class CartServiceTest {
         items.add(item);
         cartModel.setItems(items);
 
-        OrderItemModel orderItem = new OrderItemModel(); // Mockeamos un OrderItemModel válido
+        OrderItemModel orderItem = new OrderItemModel();
         when(cartRepository.findByUser_UserId(userId)).thenReturn(Optional.of(cartModel));
         when(cartMapper.mapCartToOrder(any())).thenReturn(new OrderModel());
-        when(itemMapper.mapItemToOrderItem(any(ItemModel.class))).thenReturn(orderItem); // Mockeamos el mapeo correcto
+        when(itemMapper.mapItemToOrderItem(any(ItemModel.class))).thenReturn(orderItem);
 
         // Act
-        CheckoutDto checkoutDto = cartService.checkout(userId);
+        CheckoutDto checkoutDto = cartService.checkout();
 
         // Assert
         assertNotNull(checkoutDto);

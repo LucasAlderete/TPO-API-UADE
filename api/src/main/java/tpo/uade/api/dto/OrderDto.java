@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDto implements Serializable {
+
     @NotBlank(message = "id must not be null nor empty")
     private Long id;
 

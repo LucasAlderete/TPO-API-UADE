@@ -1,5 +1,7 @@
 package tpo.uade.api.service.implementation;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import tpo.uade.api.dto.HomeDto;
@@ -9,6 +11,7 @@ import tpo.uade.api.service.IProductService;
 import tpo.uade.api.service.IRecentlyViewedService;
 import tpo.uade.api.service.IRecommendationService;
 
+@RequiredArgsConstructor
 @Service
 public class HomeService implements IHomeService {
     
@@ -16,13 +19,6 @@ public class HomeService implements IHomeService {
     private final IFeaturedProductService featuredProductService;
     private final IRecentlyViewedService recentlyViewedService;
     private final IRecommendationService recommendationService;
-
-    public HomeService(IProductService productService, IFeaturedProductService featuredProductService, IRecentlyViewedService recentlyViewedService, IRecommendationService recommendationService) {
-        this.productService = productService;
-        this.featuredProductService = featuredProductService;
-        this.recentlyViewedService = recentlyViewedService;
-        this.recommendationService = recommendationService;
-    }
 
     public HomeDto get() {
         HomeDto homeDto = new HomeDto();

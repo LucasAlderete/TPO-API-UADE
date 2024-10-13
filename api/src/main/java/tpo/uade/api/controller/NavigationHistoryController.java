@@ -3,6 +3,7 @@ package tpo.uade.api.controller;
 import io.swagger.annotations.Api;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -19,13 +20,10 @@ import tpo.uade.api.service.INavigationService;
 @RequestMapping("/navigation")
 @Component
 @Validated
+@RequiredArgsConstructor
 public class NavigationHistoryController {
 
     private final INavigationService navigationService;
-
-    public NavigationHistoryController(INavigationService navigationService) {
-        this.navigationService = navigationService;
-    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> save(@Valid @RequestBody @NotNull(message = "{navigation-history-controller.navigation-service.navigation-not-null}") NavigationDto navigationDto) {

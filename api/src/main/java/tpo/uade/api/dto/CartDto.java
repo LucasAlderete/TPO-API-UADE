@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartDto implements Serializable {
+
     private List<ItemDto> items;
 
     @NotBlank(message = "total must not be null nor empty")
