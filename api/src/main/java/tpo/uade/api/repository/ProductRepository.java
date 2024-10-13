@@ -13,7 +13,7 @@ public interface ProductRepository extends JpaRepository<ProductModel, Long> {
 
     Optional<ProductModel> findBySecureId(String secureId);
 
-    Optional<?> deleteBySecureId(Long secureId);
+    Optional<ProductModel> deleteBySecureId(String secureId);
 
     List<ProductModel> findByIdIn(List<Long> ids);
 

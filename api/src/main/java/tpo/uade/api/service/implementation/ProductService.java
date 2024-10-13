@@ -83,7 +83,7 @@ public class ProductService implements IProductService {
 
     @Override
     public void deleteProduct(String secureId) {
-        productRepository.delete(getProductBySecureId(secureId));
+        productRepository.deleteBySecureId(secureId);
     }
 
     private ProductModel getProductBySecureId (String secureId) {
