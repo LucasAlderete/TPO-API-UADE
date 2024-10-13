@@ -24,6 +24,7 @@ import java.util.List;
 @Table(name = "carts")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class CartModel {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

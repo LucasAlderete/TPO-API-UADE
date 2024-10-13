@@ -147,17 +147,18 @@ public class ProductServiceTest {
         when(productMapper.mapFromDatabaseEntity(productModel))
                 .thenReturn(expectedDto);
 
-        ProductDto result = productService.getById(secureId);
+        ProductDto result = productService.getDtoBySecureId(secureId);
 
         assertEquals(expectedDto, result);
     }
 
     @Test
     void testGetById_NonExistingProduct() {
-        String productId = "SI-1";
-        when(productRepository.findBySecureId(productId)).thenReturn(Optional.empty());
+        String secureId = "SI-1";
+        when(productRepository.findBySecureId(secureId))
+                .thenReturn(Optional.empty());
 
-        assertThrows(NoSuchElementException.class, () -> productService.getById(productId));
+        assertThrows(NoSuchElementException.class, () -> productService.getDtoBySecureId(secureId));
     }
 
     @Test

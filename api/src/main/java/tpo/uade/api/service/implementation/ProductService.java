@@ -43,15 +43,19 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public ProductDto getById(String secureId) {
-        ProductModel productModel = getProductBySecureId(secureId);
+    public ProductDto getById(Long id) {
+        ProductModel productModel = getProductById(id);
         return productMapper.mapFromDatabaseEntity(productModel);
     }
 
     @Override
-    public ProductDto findBySecureId(String secureId) {
-        ProductModel productModel = getProductBySecureId(secureId);
-        return productMapper.mapFromDatabaseEntity(productModel);
+    public ProductModel getModelBySecureId(String secureId) {
+        return getProductBySecureId(secureId);
+    }
+
+    @Override
+    public ProductDto getDtoBySecureId(String secureId) {
+        return productMapper.mapFromDatabaseEntity(getModelBySecureId(secureId));
     }
 
     @Override
@@ -66,6 +70,11 @@ public class ProductService implements IProductService {
         productRepository.save(productMapper.mapToDatabaseEntity(product));
     }
 
+    @Override
+    public void saveProduct(ProductModel product) {
+        productRepository.save(product);
+    }
+
     public void updateStockProduct(String secureId, int nuevoStock) {
         ProductModel productModel = getProductBySecureId(secureId);
         productModel.setStock(nuevoStock);
@@ -74,8 +83,7 @@ public class ProductService implements IProductService {
 
     @Override
     public void deleteProduct(String secureId) {
-        ProductModel product = getProductBySecureId(secureId);
-        productRepository.delete(product);
+        productRepository.delete(getProductBySecureId(secureId));
     }
 
     private ProductModel getProductBySecureId (String secureId) {
@@ -85,6 +93,6 @@ public class ProductService implements IProductService {
 
     private ProductModel getProductById (Long id) {
         return productRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Product not found with secure_id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Product not found with id: " + id));
     }
 }

@@ -47,7 +47,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProductById(@PathVariable String secureId) {
-        return ResponseEntity.ok(productService.getById(secureId));
+        return ResponseEntity.ok(productService.getDtoBySecureId(secureId));
     }
 
     @PutMapping("/update/{id}")

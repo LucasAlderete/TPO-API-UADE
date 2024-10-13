@@ -33,9 +33,11 @@ public class CartService implements ICartService {
 
     private final CartRepository cartRepository;
     private final ItemRepository itemRepository;
-    private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
+
+    private final ProductService productService;
     private final UserService userService;
+
     private final CartMapper cartMapper;
     private final ItemMapper itemMapper;
 
@@ -43,7 +45,7 @@ public class CartService implements ICartService {
         return cartMapper.toDto(getCartByUserId(userService.getUserIdByUsername()));
     }
 
-    public void addProduct (Long productId) throws NoSuchElementException {
+    public void addProduct (String productSecureId) throws NoSuchElementException {
         UserModel user = userService.getUserModelByUsername();
 
         CartModel cart = cartRepository.findByUser_UserId(userService.getUserIdByUsername()).orElseGet(() -> {
@@ -53,10 +55,8 @@ public class CartService implements ICartService {
             return cartRepository.save(newCart);
         });
 
-        Optional<ItemModel> item = itemRepository.findByCartIdAndProductId(cart.getId(), productId);
-
-        ProductModel product = productRepository.findById(productId)
-                .orElseThrow(() -> new NoSuchElementException("product doesn't exist"));
+        ProductModel product = productService.getModelBySecureId(productSecureId);
+        Optional<ItemModel> item = itemRepository.findByCartIdAndProductId(cart.getId(), product.getId());
 
         if (item.isPresent()) {
             ItemModel itemModel = item.get();
@@ -73,10 +73,6 @@ public class CartService implements ICartService {
             itemModel.setQuantity(1);
             itemModel.setPrice(product.getPrice());
 
-            if (cart.getItems() == null) {
-                cart.setItems(new ArrayList<>());
-            }
-
             cart.getItems().add(itemModel);
             cart.setTotal(cart.getTotal() + product.getPrice());
 
@@ -85,15 +81,10 @@ public class CartService implements ICartService {
         }
     }
 
-    public void removeProduct (Long productId) throws NoSuchElementException {
+    public void removeProduct (String productSecureId) throws NoSuchElementException {
         CartModel cart = getCartByUserId(userService.getUserIdByUsername());
-        Long cartId = cart.getId();
-
-        ItemModel itemModel = itemRepository.findByCartIdAndProductId(cartId, productId)
-                .orElseThrow(() -> new NoSuchElementException("item doesn't exist"));
-
-        ProductModel product = productRepository.findById(productId)
-                .orElseThrow(() -> new NoSuchElementException("product doesn't exist"));
+        ProductModel product = productService.getModelBySecureId(productSecureId);
+        ItemModel itemModel = getItemByCartIdAndProductId(cart.getId(), product.getId());
 
         if (itemModel.getQuantity() > 1) {
             itemModel.setQuantity(itemModel.getQuantity() - 1);
@@ -102,7 +93,6 @@ public class CartService implements ICartService {
         } else {
             itemRepository.delete(itemModel);
         }
-
 
         cart.setTotal(cart.getTotal() - product.getPrice());
 
@@ -141,7 +131,7 @@ public class CartService implements ICartService {
         cartModel.getItems().forEach(item -> {
             ProductModel productModel = item.getProduct();
             productModel.setStock(productModel.getStock() - item.getQuantity());
-            productRepository.save(productModel);
+            productService.saveProduct(productModel);
         });
 
 
@@ -169,5 +159,10 @@ public class CartService implements ICartService {
     private CartModel getCartByUserId (Long userId) {
         return cartRepository.findByUser_UserId(userId)
                 .orElseThrow(() -> new NoSuchElementException("cart doesn't exist"));
+    }
+
+    private ItemModel getItemByCartIdAndProductId (Long cartId, Long productId) {
+        return itemRepository.findByCartIdAndProductId(cartId, productId)
+                .orElseThrow(() -> new NoSuchElementException("item doesn't exist"));
     }
 }

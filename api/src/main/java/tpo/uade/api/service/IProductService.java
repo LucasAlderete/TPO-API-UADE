@@ -9,11 +9,15 @@ import tpo.uade.api.model.ProductModel;
 public interface IProductService {
     List<ProductDto> getAll();
 
-    ProductDto getById(String secureId);
+    ProductDto getById(Long id);
 
     void createProduct(ProductDto product);
 
-    ProductDto findBySecureId(String secureId);
+    void saveProduct(ProductModel product);
+
+    ProductModel getModelBySecureId(String secureId);
+
+    ProductDto getDtoBySecureId(String secureId);
 
     void deleteProduct(String secureId);
 
