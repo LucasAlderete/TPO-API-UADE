@@ -30,7 +30,34 @@ public class UserServiceTest {
     }
 
     @Test
-    public void get_WhenCalled_ReturnsHomeDto() {
+    public void authenticate_WhenCalled_Success() {
+        /*
+        // Arrange
+        List<ProductDto> featuredProducts = new ArrayList<>();
+        Map<String, List<ProductDto>> products = Map.of();
+        List<ProductDto> recentlyViewedProducts = new ArrayList<>();
+
+        when(featuredProductService.getAll()).thenReturn(featuredProducts);
+        when(productService.getAllByCategory()).thenReturn(products);
+        when(recentlyViewedService.getAllByUser(anyLong(), anyInt())).thenReturn(recentlyViewedProducts);
+
+        // Act
+        HomeDto result = homeService.get();
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(featuredProducts, result.getFeaturedProducts());
+        assertEquals(products, result.getProducts());
+        assertEquals(recentlyViewedProducts, result.getRecentlyViewedProducts());
+        verify(featuredProductService).getAll();
+        verify(productService).getAllByCategory();
+        verify(recentlyViewedService).getAllByUser(1L, 10);
+
+         */
+    }
+
+    @Test
+    public void authenticate_WhenCalled_Fails() {
         /*
         // Arrange
         List<ProductDto> featuredProducts = new ArrayList<>();
