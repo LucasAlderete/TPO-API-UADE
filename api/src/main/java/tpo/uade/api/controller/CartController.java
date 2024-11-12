@@ -30,6 +30,12 @@ public class CartController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/decrease-quantity")
+    public ResponseEntity<Void> decreaseProductQuantity(@RequestParam Long userId, @RequestParam Integer productId) {
+        cartService.decreaseProductQuantity(userId, productId);
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/remove")
     public ResponseEntity<Void> removeProduct(@RequestParam Long userId, @RequestParam Integer productId) {
         cartService.removeProduct(userId, productId);

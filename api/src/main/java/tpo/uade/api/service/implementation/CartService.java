@@ -77,7 +77,7 @@ public class CartService implements ICartService {
         }
     }
 
-    public void removeProduct (Long userId, Integer productId) throws NoSuchElementException {
+    public void decreaseProductQuantity (Long userId, Integer productId) throws NoSuchElementException {
         CartModel cart = cartRepository.findByUser_UserId(userId).orElseThrow(() -> new NoSuchElementException("cart doesn't exist"));
         Long cartId = cart.getId();
 
@@ -96,6 +96,24 @@ public class CartService implements ICartService {
 
         cart.setTotal(cart.getTotal() - product.getPrice());
 
+        cartRepository.save(cart);
+    }
+
+    public void removeProduct (Long userId, Integer productId) throws NoSuchElementException {
+        CartModel cart = cartRepository.findByUser_UserId(userId).orElseThrow(() -> new NoSuchElementException("cart doesn't exist"));
+        Long cartId = cart.getId();
+
+        ItemModel itemModel = itemRepository.findByCartIdAndProductId(cartId, productId).orElseThrow(() -> new NoSuchElementException("item doesn't exist"));
+
+        ProductModel product = productRepository.findById(productId).orElseThrow(() -> new NoSuchElementException("product doesn't exist"));
+
+        if (itemModel.getQuantity() > 1) {
+            cart.setTotal(cart.getTotal() - product.getPrice() * itemModel.getQuantity());
+        } else {
+            itemRepository.delete(itemModel);
+            cart.setTotal(cart.getTotal() - product.getPrice());
+
+        }
         cartRepository.save(cart);
     }
 

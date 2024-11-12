@@ -10,6 +10,8 @@ public interface ICartService {
 
     void removeProduct(Long userId, Integer productId);
 
+    void decreaseProductQuantity(Long userId, Integer productId);
+
     CartDto getCart(Long userId);
 
     CheckoutDto checkout(Long userId);
