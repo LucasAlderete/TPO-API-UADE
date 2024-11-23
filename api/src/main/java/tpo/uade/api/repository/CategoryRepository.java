@@ -7,6 +7,6 @@ import tpo.uade.api.model.CategoryModel;
 import java.util.Optional;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<CategoryModel, Integer> {
+public interface CategoryRepository extends JpaRepository<CategoryModel, Long> {
     Optional<CategoryModel> findById(int categoryId);
 }

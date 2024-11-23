@@ -1,7 +1,11 @@
 package tpo.uade.api.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -10,6 +14,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 public class OrderItemDto implements Serializable {
+
     @NotBlank(message = "product must not be null nor empty")
     private String product; //TODO: no coincide con el entity
 
