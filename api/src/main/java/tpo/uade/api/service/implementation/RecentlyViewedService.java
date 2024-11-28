@@ -3,6 +3,8 @@ package tpo.uade.api.service.implementation;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import tpo.uade.api.dto.ProductDto;
@@ -12,6 +14,7 @@ import tpo.uade.api.model.NavigationModel;
 import tpo.uade.api.repository.NavigationRespository;
 import tpo.uade.api.service.IRecentlyViewedService;
 
+@RequiredArgsConstructor
 @Service
 public class RecentlyViewedService implements IRecentlyViewedService {
 
@@ -19,13 +22,6 @@ public class RecentlyViewedService implements IRecentlyViewedService {
     private final NavigationMapper navigationMapper;
     private final ProductMapper productMapper;
     private final ProductService productService;
-
-    RecentlyViewedService(NavigationRespository navigationRespository, NavigationMapper navigationMapper, ProductMapper productMapper, ProductService productService) {
-        this.navigationRespository = navigationRespository;
-        this.navigationMapper = navigationMapper;
-        this.productMapper = productMapper;
-        this.productService = productService;
-    }
 
     /**
      * Obtener todos los productos vistos recientemente por usuario

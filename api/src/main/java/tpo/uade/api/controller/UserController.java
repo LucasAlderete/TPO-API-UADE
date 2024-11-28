@@ -3,7 +3,6 @@ package tpo.uade.api.controller;
 import io.swagger.annotations.Api;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import lombok.RequiredArgsConstructor;
@@ -31,8 +30,7 @@ public class UserController {
     }
 
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDto> getUserData (@Valid @NotBlank(message = "{user-controller.get-user-data-service.username-not-blank}")
-                                                    @RequestHeader(name="Authorization") String token) {
-        return ResponseEntity.ok(userService.getUserByUsername(token.substring(7).trim()));
+    public ResponseEntity<UserDto> getUserData () {
+        return ResponseEntity.ok(userService.getUserDtoByUsername());
     }
 }
