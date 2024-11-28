@@ -18,7 +18,7 @@ import tpo.uade.api.service.IMyProfileService;
 @RequiredArgsConstructor
 public class MyProfileController {
 
-    private IMyProfileService myProfileService;
+    private final IMyProfileService myProfileService;
 
     @GetMapping
     public ResponseEntity<UserMyProfileDto> getUserMyProfileDto () {
@@ -26,8 +26,8 @@ public class MyProfileController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<UserMyProfileDto> setUserMyProfileDto(@RequestHeader(name="Authorization") String token, @RequestBody UserMyProfileDto updatedUser){
-        UserMyProfileDto currentUser = iMyProfileService.setUser(token.substring(7).trim(), updatedUser);
+    public ResponseEntity<UserMyProfileDto> setUserMyProfileDto(@RequestBody UserMyProfileDto userToUpdate){
+        UserMyProfileDto currentUser = myProfileService.setUser(userToUpdate);
         return ResponseEntity.ok(currentUser);
     }
 }

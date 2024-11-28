@@ -10,6 +10,7 @@ import tpo.uade.api.mapper.OrderMapper;
 import tpo.uade.api.mapper.UserMyProfileMapper;
 import tpo.uade.api.model.UserModel;
 import tpo.uade.api.repository.OrderRepository;
+import tpo.uade.api.repository.UserRepository;
 import tpo.uade.api.service.IMyProfileService;
 
 import java.util.List;
@@ -18,10 +19,11 @@ import java.util.List;
 @Service
 public class MyProfileService implements IMyProfileService {
 
-    private UserService userService;
-    private OrderRepository orderRepository;
-    private UserMyProfileMapper userMapper;
-    private OrderMapper orderMapper;
+    private final UserRepository userRepository;
+    private final UserService userService;
+    private final OrderRepository orderRepository;
+    private final UserMyProfileMapper userMapper;
+    private final OrderMapper orderMapper;
 
     @Override
     public UserMyProfileDto getUserWithOrders() {
@@ -38,17 +40,15 @@ public class MyProfileService implements IMyProfileService {
                 .map(orderMapper::toDto)
                 .toList();
     }
+
     @Override
-    //Cambiar forma de hacerlo
-    public UserMyProfileDto setUser(String token, UserMyProfileDto updatedUser) {
-        String username = jwtService.extractUsername(token);
-        System.out.println(updatedUser);
-        UserModel currentUser = userRepository.findByUsername(username).orElseThrow((() -> new NoSuchElementException("user doesn't exist")));
-        currentUser.setUsername(updatedUser.getUsername());
-        currentUser.setBirthday(updatedUser.getBirthday());
-        currentUser.setEmail(updatedUser.getEmail());
-        currentUser.setName(updatedUser.getName());
-        currentUser.setSurname(updatedUser.getSurname());
+    public UserMyProfileDto setUser(UserMyProfileDto userToUpdate) {
+        UserModel currentUser = userService.getUserModelByUsername();
+        currentUser.setUsername(userToUpdate.getUsername());
+        currentUser.setBirthday(userToUpdate.getBirthday());
+        currentUser.setEmail(userToUpdate.getEmail());
+        currentUser.setName(userToUpdate.getName());
+        currentUser.setSurname(userToUpdate.getSurname());
         userRepository.save(currentUser);
         return userMapper.toDto(currentUser);
     }
