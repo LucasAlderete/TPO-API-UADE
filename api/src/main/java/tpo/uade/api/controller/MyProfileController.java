@@ -18,10 +18,16 @@ import tpo.uade.api.service.IMyProfileService;
 @RequiredArgsConstructor
 public class MyProfileController {
 
-    private IMyProfileService myProfileService;
+    private final IMyProfileService myProfileService;
 
     @GetMapping
     public ResponseEntity<UserMyProfileDto> getUserMyProfileDto () {
         return ResponseEntity.ok(myProfileService.getUserWithOrders());
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<UserMyProfileDto> setUserMyProfileDto(@RequestBody UserMyProfileDto userToUpdate){
+        UserMyProfileDto currentUser = myProfileService.setUser(userToUpdate);
+        return ResponseEntity.ok(currentUser);
     }
 }
