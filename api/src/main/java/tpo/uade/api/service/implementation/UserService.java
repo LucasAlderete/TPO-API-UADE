@@ -27,11 +27,10 @@ public class UserService implements IUserService {
     @Override
     public UserModel getUserModelByUsername () throws NoSuchElementException {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserModel userModelDB = userRepository
+
+        return userRepository
                 .findByUsername(username)
                 .orElseThrow(() -> new NoSuchElementException("user doesn't exist"));
-
-        return userModelDB;
     }
 
     @Override
@@ -44,11 +43,6 @@ public class UserService implements IUserService {
         return getUserModelByUsername().getUserId();
     }
 
-    /**
-     * Creates a new user in the database
-     * @param userDTO a valid user
-     * @return UserModel
-     */
     @Override
     public void createUser (UserDto userDTO) {
         userRepository.save(userMapper.mapToDatabaseEntity(userDTO));
