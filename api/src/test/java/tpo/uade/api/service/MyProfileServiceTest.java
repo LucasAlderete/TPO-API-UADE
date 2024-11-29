@@ -1,12 +1,12 @@
 package tpo.uade.api.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+
 import org.mockito.junit.jupiter.MockitoExtension;
-import tpo.uade.api.config.JwtService;
 import tpo.uade.api.dto.OrderDto;
 import tpo.uade.api.dto.UserMyProfileDto;
 import tpo.uade.api.mapper.OrderMapper;
@@ -16,157 +16,132 @@ import tpo.uade.api.model.UserModel;
 import tpo.uade.api.repository.OrderRepository;
 import tpo.uade.api.repository.UserRepository;
 import tpo.uade.api.service.implementation.MyProfileService;
+import tpo.uade.api.service.implementation.UserService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.time.LocalDate;
+
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class MyProfileServiceTest {
+class MyProfileServiceTest {
+
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private UserService userService;
     @Mock
     private OrderRepository orderRepository;
     @Mock
     private UserMyProfileMapper userMapper;
     @Mock
     private OrderMapper orderMapper;
-    @Mock
-    private JwtService jwtService;
 
     @InjectMocks
     private MyProfileService myProfileService;
 
-    private String token;
-    private UserModel mockUser;
-    private UserMyProfileDto mockUserDto;
-    private OrderModel mockOrder;
-    private OrderDto mockOrderDto;
-
-    @BeforeEach
-    public void setUp() {
-        token = "validToken";
-
-        mockUser = new UserModel();
-        mockUser.setUserId(1L);
-        mockUser.setUsername("user123");
-
-        mockUserDto = new UserMyProfileDto();
-        mockUserDto.setUsername("user123");
-
-        mockOrder = new OrderModel();
-        mockOrder.setId(1L);
-
-        mockOrderDto = new OrderDto();
-        mockOrderDto.setId(1L);
-    }
 
     @Test
-    public void getUser_WhenUserExists_ShouldReturnUser() {
+    void getUserWithOrders_Success() {
         // Arrange
-        when(jwtService.extractUsername(token)).thenReturn("user123");
-        when(userRepository.findByUsername("user123")).thenReturn(Optional.of(mockUser));
-        when(userMapper.toDto(mockUser)).thenReturn(mockUserDto);
+        UserModel user = new UserModel();
+        user.setUserId(1L);
+        UserMyProfileDto userDto = new UserMyProfileDto();
+
+        when(userService.getUserModelByUsername()).thenReturn(user);
+        when(orderRepository.findByUser_UserId(1L)).thenReturn(Optional.empty());
+        when(userMapper.toDto(user)).thenReturn(userDto);
 
         // Act
-        UserMyProfileDto result = myProfileService.getUser(token);
+        UserMyProfileDto result = myProfileService.getUserWithOrders();
 
         // Assert
         assertNotNull(result);
-        assertEquals("user123", result.getUsername());
-        verify(jwtService).extractUsername(token);
-        verify(userRepository).findByUsername("user123");
-        verify(userMapper).toDto(mockUser);
-    }
-
-    @Test
-    public void getUser_WhenUserDoesNotExist_ShouldThrowException() {
-        // Arrange
-        when(jwtService.extractUsername(token)).thenReturn("maliciousUser123");
-        when(userRepository.findByUsername("maliciousUser123")).thenReturn(Optional.empty());
-
-        //Act and Assert
-        assertThrows(NoSuchElementException.class, () -> myProfileService.getUser(token));
-
-        verify(jwtService).extractUsername(token);
-        verify(userRepository).findByUsername("maliciousUser123");
-    }
-
-    @Test
-    public void getOrders_WhenUserExists_ShouldReturnOrders() {
-        // Arrange
-        when(jwtService.extractUsername(token)).thenReturn("user123");
-        when(userRepository.findByUsername("user123")).thenReturn(Optional.of(mockUser));
-        when(orderRepository.findByUser_UserId(1L)).thenReturn(Optional.of(mockOrder));
-        when(orderMapper.toDto(mockOrder)).thenReturn(mockOrderDto);
-
-        // Act
-        List<OrderDto> result = myProfileService.getOrders(token);
-
-        // Assert
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals(1L, result.get(0).getId());
-        verify(jwtService).extractUsername(token);
-        verify(userRepository).findByUsername("user123");
+        assertEquals(userDto, result);
+        verify(userService).getUserModelByUsername();
         verify(orderRepository).findByUser_UserId(1L);
-        verify(orderMapper).toDto(mockOrder);
+        verify(userMapper).toDto(user);
     }
 
     @Test
-    public void getOrders_WhenUserDoesNotExist_ShouldThrowException() {
+    void getUserOrders_ReturnsOrders() {
         // Arrange
-        when(jwtService.extractUsername(token)).thenReturn("maliciousUser123");
-        when(userRepository.findByUsername("maliciousUser123")).thenReturn(Optional.empty());
-
-        // Act and Assert
-        assertThrows(NoSuchElementException.class, () -> myProfileService.getOrders(token));
-
-        verify(jwtService).extractUsername(token);
-        verify(userRepository).findByUsername("maliciousUser123");
-    }
-
-    @Test
-    public void setUser_WhenUserExists_ShouldUpdateAndReturnUpdatedUser() {
-        // Arrange
-        UserMyProfileDto updatedUserDto = new UserMyProfileDto();
-        updatedUserDto.setUsername("updatedUser");
-
-        when(jwtService.extractUsername(token)).thenReturn("user123");
-        when(userRepository.findByUsername("user123")).thenReturn(Optional.of(mockUser));
-        when(userMapper.toDto(mockUser)).thenReturn(updatedUserDto);
+        Long userId = 1L;
+        OrderDto orderDto = new OrderDto();
+        OrderModel OrderModel = new OrderModel();
+        when(orderRepository.findByUser_UserId(userId)).thenReturn(Optional.of(OrderModel));
+        when(orderMapper.toDto(any())).thenReturn(orderDto);
 
         // Act
-        UserMyProfileDto result = myProfileService.setUser(token, updatedUserDto);
+        List<OrderDto> result = myProfileService.getUserOrders(userId);
 
         // Assert
         assertNotNull(result);
-        assertEquals("updatedUser", result.getUsername());
-        verify(jwtService).extractUsername(token);
-        verify(userRepository).findByUsername("user123");
-        verify(userRepository).save(mockUser);
-        verify(userMapper).toDto(mockUser);
+        assertFalse(result.isEmpty());
+        verify(orderRepository).findByUser_UserId(userId);
     }
 
     @Test
-    public void setUser_WhenUserDoesNotExist_ShouldThrowException() {
+    void getUserOrders_ReturnsOrdersEmpty() {
         // Arrange
-        UserMyProfileDto updatedUserDto = new UserMyProfileDto();
+        Long userId = 1L;
+        when(orderRepository.findByUser_UserId(userId)).thenReturn(Optional.empty());
 
         // Act
-        updatedUserDto.setUsername("updatedUser");
-
-        when(jwtService.extractUsername(token)).thenReturn("maliciousUser123");
-        when(userRepository.findByUsername("maliciousUser123")).thenReturn(Optional.empty());
+        List<OrderDto> result = myProfileService.getUserOrders(userId);
 
         // Assert
-        assertThrows(NoSuchElementException.class, () -> myProfileService.setUser(token, updatedUserDto));
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+        verify(orderRepository).findByUser_UserId(userId);
+    }
 
-        verify(jwtService).extractUsername(token);
-        verify(userRepository).findByUsername("maliciousUser123");
+    @Test
+    void setUser_Success() {
+        // Arrange
+        UserMyProfileDto userToUpdate = new UserMyProfileDto();
+        userToUpdate.setUsername("newUsername");
+        userToUpdate.setEmail("newEmail@test.com");
+        userToUpdate.setName("NewName");
+        userToUpdate.setSurname("NewSurname");
+        userToUpdate.setBirthday(LocalDate.parse("2000-02-07"));
+
+        UserModel existingUser = new UserModel();
+        existingUser.setUserId(1L);
+
+        UserMyProfileDto updatedUserDto = new UserMyProfileDto();
+        updatedUserDto.setUsername("newUsername");
+
+        when(userService.getUserModelByUsername()).thenReturn(existingUser);
+        when(userMapper.toDto(existingUser)).thenReturn(updatedUserDto);
+        when(userRepository.save(existingUser)).thenReturn(existingUser);
+
+        // Act
+        UserMyProfileDto result = myProfileService.setUser(userToUpdate);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("newUsername", result.getUsername());
+        verify(userService).getUserModelByUsername();
+        verify(userMapper).toDto(existingUser);
+        verify(userRepository).save(existingUser);
+    }
+
+    @Test
+    void setUser_UserNotFound() {
+        // Arrange
+        UserMyProfileDto userToUpdate = new UserMyProfileDto();
+        when(userService.getUserModelByUsername()).thenThrow(new NoSuchElementException("User not found"));
+
+        // Act & Assert
+        NoSuchElementException exception = assertThrows(NoSuchElementException.class, () ->
+                myProfileService.setUser(userToUpdate));
+        assertEquals("User not found", exception.getMessage());
+        verify(userService).getUserModelByUsername();
+        verifyNoInteractions(userRepository);
     }
 }
