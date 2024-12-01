@@ -14,6 +14,4 @@ public class HomeDto implements Serializable{
     private List<ProductDto> recentlyViewedProducts;
 
     private List<ProductDto> featuredProducts;
-
-    private List<ProductDto> recommendedProducts;
 }
