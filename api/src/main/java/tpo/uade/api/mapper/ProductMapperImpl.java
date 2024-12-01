@@ -16,6 +16,8 @@ public class ProductMapperImpl implements ProductMapper{
 
         ProductDto dto = new ProductDto();
         dto.setName(productModel.getName());
+        dto.setId(productModel.getId());
+        dto.setSecureId(productModel.getSecureId());
         dto.setDescription(productModel.getDescription());
         dto.setPrice(productModel.getPrice());
         dto.setStock(productModel.getStock());
@@ -34,6 +36,7 @@ public class ProductMapperImpl implements ProductMapper{
     public ProductModel mapToDatabaseEntity(ProductDto productDto) {
         ProductModel productModel = new ProductModel();
         productModel.setSecureId(productDto.getSecureId());
+        productModel.setId(productDto.getId());
         productModel.setName(productDto.getName());
         productModel.setPrice(productDto.getPrice());
         productModel.setStock(productDto.getStock());

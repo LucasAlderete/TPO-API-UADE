@@ -25,5 +25,6 @@ public interface IProductService {
 
     Map<String, List<ProductDto>> getAllByCategory();
 
-    List<ProductDto> getByIds(List<String> secureIds);
+    List<ProductDto> getBySecureIds(List<String> secureIds);
+    List<ProductDto> getByIds(List<Long> secureIds);
 }
