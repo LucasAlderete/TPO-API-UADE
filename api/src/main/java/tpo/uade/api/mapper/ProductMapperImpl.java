@@ -1,17 +1,23 @@
 package tpo.uade.api.mapper;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tpo.uade.api.dto.ProductDto;
 import tpo.uade.api.model.CategoryModel;
 import tpo.uade.api.model.ImagesModel;
 import tpo.uade.api.model.ProductModel;
+import tpo.uade.api.repository.CategoryRepository;
 
 import java.util.List;
-import java.util.Objects;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class ProductMapperImpl implements ProductMapper{
+
+    private final CategoryRepository categoryRepository;
 
     @Override
     public ProductDto mapFromDatabaseEntity(ProductModel productModel) {
@@ -45,18 +51,26 @@ public class ProductMapperImpl implements ProductMapper{
         productModel.setDescription(productDto.getDescription());
         productModel.setHighlighted(productDto.isHighlighted());
         productModel.setAdditionalInformation(productDto.getAdditionalInformation());
-        if (Objects.isNull(productDto.getCategoryName())) {
+        List<ImagesModel> imagesList = productDto.getImages().stream()
+                .map(url -> {
+                    ImagesModel image = new ImagesModel();
+                    image.setPath(url);  // Asigna la URL a la propiedad 'path'
+                    image.setProduct(productModel);  // Asigna el ProductModel
+                    return image;
+                })
+                .toList();
+        productModel.setUrlImageList(imagesList);
+
+
+        try {
+            CategoryModel category = categoryRepository.findByName(productDto.getCategoryName())
+                    .orElseThrow(() -> new NoSuchElementException("Category not found"));
+            productModel.setCategory(category);
+        } catch (NoSuchElementException e) {
             CategoryModel categoryModelDefault = new CategoryModel();
             categoryModelDefault.setId(3L);
             productModel.setCategory(categoryModelDefault);
         }
-        List<ImagesModel> images = productDto.getImages().stream().map(imagen -> {
-            ImagesModel model = new ImagesModel();
-            model.setPath(imagen);
-            model.setProduct(productModel);
-            return  model;
-        }).collect(Collectors.toList());
-        productModel.setUrlImageList(images);
         return productModel;
     }
 }

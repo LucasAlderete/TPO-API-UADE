@@ -89,14 +89,15 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public void deleteProduct(String secureId) {
-        productRepository.deleteBySecureId(secureId);
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
     }
 
     private ProductModel getProductBySecureId (String secureId) {
         return productRepository.findBySecureId(secureId)
                 .orElseThrow(() -> new NoSuchElementException("Product not found with secure_id: " + secureId));
     }
+
 
     @Override
     public ProductModel getProductById (Long id) {

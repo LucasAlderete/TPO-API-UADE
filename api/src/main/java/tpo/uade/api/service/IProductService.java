@@ -19,7 +19,7 @@ public interface IProductService {
 
     ProductDto getDtoBySecureId(String secureId);
 
-    void deleteProduct(String secureId);
+    void deleteProduct(Long id);
 
     void updateStockProduct(String secureId, int nuevoStock);
 

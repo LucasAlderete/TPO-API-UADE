@@ -26,7 +26,7 @@ import java.util.List;
 
 @Api(value = "Product Operations")
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/products")
 @Component
 @Validated
 @RequiredArgsConstructor
@@ -56,14 +56,14 @@ public class ProductController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Void> updateProductStock(@PathVariable String secureId, @RequestParam @Min(value = 0, message = "The stock must be 0 or greater") int stock) {
-        productService.updateStockProduct(secureId, stock);
+    public ResponseEntity<Void> updateProductStock(@PathVariable String id, @RequestParam @Min(value = 0, message = "The stock must be 0 or greater") int stock) {
+        productService.updateStockProduct(id, stock);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable String secureId) {
-        productService.deleteProduct(secureId);
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
         return ResponseEntity.ok().build();
     }
 }
