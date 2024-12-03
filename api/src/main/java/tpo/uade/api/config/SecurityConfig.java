@@ -33,7 +33,7 @@ public class SecurityConfig {
                         .csrf(AbstractHttpConfigurer::disable)
                         .authorizeHttpRequests(req ->
                                 req.requestMatchers("/auth/**").permitAll()
-                                        .requestMatchers("/user/**").hasAnyAuthority(RoleEnum.ADMIN.name()).anyRequest().authenticated())
+                                .requestMatchers("/user/**").authenticated())
                         .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                         .authenticationProvider(authenticationProvider)
                         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
@@ -53,3 +53,4 @@ public class SecurityConfig {
                 return source;
         }
 }
+
