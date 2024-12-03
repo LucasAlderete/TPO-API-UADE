@@ -34,7 +34,7 @@ public class CartController {
     }
 
     @DeleteMapping("/decrease_quantity")
-    public ResponseEntity<Void> decreaseProductQuantity (Long productId) {
+    public ResponseEntity<Void> decreaseProductQuantity (@RequestParam Long productId) {
         cartService.decreaseProductQuantity(productId);
         return ResponseEntity.ok().build();
     }

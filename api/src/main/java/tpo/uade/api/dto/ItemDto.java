@@ -13,7 +13,9 @@ import java.io.Serializable;
 public class ItemDto implements Serializable {
 
     @NotBlank(message = "product must not be null nor empty")
-    private String product;
+    private String name;
+
+    private String image;
 
     @NotBlank(message = "quantity must not be null nor empty")
     private Integer quantity;

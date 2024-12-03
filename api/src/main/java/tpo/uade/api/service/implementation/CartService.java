@@ -7,14 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import tpo.uade.api.dto.CartDto;
 import tpo.uade.api.dto.CheckoutDto;
+import tpo.uade.api.dto.ItemDto;
 import tpo.uade.api.mapper.CartMapper;
 import tpo.uade.api.mapper.ItemMapper;
-import tpo.uade.api.model.CartModel;
-import tpo.uade.api.model.ItemModel;
-import tpo.uade.api.model.OrderItemModel;
-import tpo.uade.api.model.OrderModel;
-import tpo.uade.api.model.ProductModel;
-import tpo.uade.api.model.UserModel;
+import tpo.uade.api.model.*;
 import tpo.uade.api.repository.CartRepository;
 import tpo.uade.api.repository.ItemRepository;
 import tpo.uade.api.repository.OrderRepository;
@@ -45,7 +41,31 @@ public class CartService implements ICartService {
     @Transactional(rollbackFor = Exception.class)
     public CartDto getCart () throws NoSuchElementException {
         if (cartRepository.findByUser_UserId(userService.getUserIdByUsername()).isPresent()) {
-            return cartMapper.toDto(getCartByUserId(userService.getUserIdByUsername()));
+            CartModel cart = getCartByUserId(userService.getUserIdByUsername());
+            CartDto cartDto = cartMapper.toDto(cart);
+
+            List<ItemDto> itemDtos = cart.getItems().stream()
+                    .map(item -> {
+                        ImagesModel firstImage = item.getProduct().getUrlImageList().stream()
+                                .findFirst()
+                                .orElse(null);
+
+                        ItemDto itemDto = new ItemDto();
+                        itemDto.setName(item.getProduct().getName());
+                        itemDto.setQuantity(item.getQuantity());
+                        itemDto.setPrice(item.getPrice());
+                        if (firstImage != null) { itemDto.setImage(firstImage.getPath());  }
+                        else {
+                            itemDto.setImage("");
+                        }
+
+                        return itemDto;
+                    })
+                    .collect(Collectors.toList());
+
+            cartDto.setItems(itemDtos);
+
+            return cartDto;
         } else {
             UserModel user = userService.getUserModelByUsername();
             List<ItemModel> items = new ArrayList<>();
