@@ -10,11 +10,7 @@ import tpo.uade.api.model.ProductModel;
 import tpo.uade.api.repository.CategoryRepository;
 
 import java.util.List;
-<<<<<<< HEAD
 import java.util.NoSuchElementException;
-=======
-import java.util.Objects;
->>>>>>> main
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
