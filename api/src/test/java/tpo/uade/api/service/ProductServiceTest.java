@@ -37,14 +37,14 @@ public class ProductServiceTest {
     void getAllByCategory_WhenCalled_ReturnsGroupedProductsByCategory() {
         // Arrange
         final String CATEGORY_NAME = "ram";
-        CategoryModel categoryModel = new CategoryModel(1, CATEGORY_NAME, List.of());
+        CategoryModel categoryModel = new CategoryModel(1L, CATEGORY_NAME, List.of());
 
         final String CATEGORY_NAME_2 = "gpu";
-        CategoryModel categoryModel2 = new CategoryModel(1, CATEGORY_NAME_2, List.of());
+        CategoryModel categoryModel2 = new CategoryModel(1L, CATEGORY_NAME_2, List.of());
 
-        ProductModel product1 = createProductModel(1, "Product1");
-        ProductModel product2 = createProductModel(2, "Product2");
-        ProductModel product3 = createProductModel(3, "Product3");
+        ProductModel product1 = createProductModel(1L, "Product1");
+        ProductModel product2 = createProductModel(2L, "Product2");
+        ProductModel product3 = createProductModel(3L, "Product3");
 
         product1.setCategory(categoryModel);
         product2.setCategory(categoryModel);
@@ -52,9 +52,9 @@ public class ProductServiceTest {
 
         when(productRepository.findAll()).thenReturn(Arrays.asList(product1, product2, product3));
 
-        ProductDto dto1 = createProductDto(1, "Product1");
-        ProductDto dto2 = createProductDto(2, "Product2");
-        ProductDto dto3 = createProductDto(3, "Product3");
+        ProductDto dto1 = createProductDto("SI-1", "Product1");
+        ProductDto dto2 = createProductDto("SI-2", "Product2");
+        ProductDto dto3 = createProductDto("SI-3", "Product3");
 
         dto1.setCategoryName(CATEGORY_NAME);
         dto2.setCategoryName(CATEGORY_NAME);
@@ -76,13 +76,13 @@ public class ProductServiceTest {
     @Test
     void getAll_WhenCalled_ReturnsAllProducts() {
         // Arrange
-        ProductModel product1 = createProductModel(1, "Product1");
-        ProductModel product2 = createProductModel(2, "Product2");
+        ProductModel product1 = createProductModel(1L, "Product1");
+        ProductModel product2 = createProductModel(2L, "Product2");
 
         when(productRepository.findAll()).thenReturn(Arrays.asList(product1, product2));
 
-        ProductDto dto1 = createProductDto(1, "Product1");
-        ProductDto dto2 = createProductDto(2, "Product2");
+        ProductDto dto1 = createProductDto("SI-1", "Product1");
+        ProductDto dto2 = createProductDto("SI-2", "Product2");
 
         when(productMapper.mapFromDatabaseEntity(product1)).thenReturn(dto1);
         when(productMapper.mapFromDatabaseEntity(product2)).thenReturn(dto2);
@@ -99,20 +99,23 @@ public class ProductServiceTest {
     @Test
     void getByIds_WhenGivenProductIds_ReturnsMappedProductDtos() {
         // Arrange
-        List<Integer> productIds = Arrays.asList(1, 2);
-        ProductModel product1 = createProductModel(1, "Product1");
-        ProductModel product2 = createProductModel(2, "Product2");
+        List<String> productIds = new ArrayList<>();
+        productIds.add("SI-1");
+        productIds.add("SI-2");
+        ProductModel product1 = createProductModel(1L, "Product1");
+        ProductModel product2 = createProductModel(2L, "Product2");
 
-        when(productRepository.findByIdIn(productIds)).thenReturn(Arrays.asList(product1, product2));
+        when(productRepository.findBySecureIdIn(productIds))
+                .thenReturn(Arrays.asList(product1, product2));
 
-        ProductDto dto1 = createProductDto(1, "Product1");
-        ProductDto dto2 = createProductDto(2, "Product2");
+        ProductDto dto1 = createProductDto("SI-1", "Product1");
+        ProductDto dto2 = createProductDto("SI-2", "Product2");
 
         when(productMapper.mapFromDatabaseEntity(product1)).thenReturn(dto1);
         when(productMapper.mapFromDatabaseEntity(product2)).thenReturn(dto2);
 
         // Act
-        List<ProductDto> result = productService.getByIds(productIds);
+        List<ProductDto> result = productService.getBySecureIds(productIds);
 
         // Assert
         assertEquals(2, result.size());
@@ -120,39 +123,42 @@ public class ProductServiceTest {
         assertEquals(dto2, result.get(1));
     }
 
-    private ProductModel createProductModel(int id, String name) {
+    private ProductModel createProductModel(Long id, String name) {
         ProductModel model = new ProductModel();
         model.setId(id);
         model.setName(name);
         return model;
     }
 
-    private ProductDto createProductDto(int id, String name) {
+    private ProductDto createProductDto(String secureId, String name) {
         ProductDto dto = new ProductDto();
-        dto.setProductId(id);
+        dto.setSecureId(secureId);
         dto.setName(name);
         return dto;
     }
 
     @Test
     void testGetById_ExistingProduct() {
-        int productId = 1;
+        String secureId = "SI-1";
         ProductModel productModel = new ProductModel();
         ProductDto expectedDto = new ProductDto();
-        when(productRepository.findById(productId)).thenReturn(Optional.of(productModel));
-        when(productMapper.mapFromDatabaseEntity(productModel)).thenReturn(expectedDto);
+        when(productRepository.findById(productModel.getId()))
+                .thenReturn(Optional.of(productModel));
+        when(productMapper.mapFromDatabaseEntity(productModel))
+                .thenReturn(expectedDto);
 
-        ProductDto result = productService.getById(productId);
+        ProductDto result = productService.getDtoBySecureId(secureId);
 
         assertEquals(expectedDto, result);
     }
 
     @Test
     void testGetById_NonExistingProduct() {
-        int productId = 1;
-        when(productRepository.findById(productId)).thenReturn(Optional.empty());
+        String secureId = "SI-1";
+        when(productRepository.findBySecureId(secureId))
+                .thenReturn(Optional.empty());
 
-        assertThrows(NoSuchElementException.class, () -> productService.getById(productId));
+        assertThrows(NoSuchElementException.class, () -> productService.getDtoBySecureId(secureId));
     }
 
     @Test
@@ -168,7 +174,6 @@ public class ProductServiceTest {
 
     @Test
     void testDeleteProduct_NonExistingProduct() {
-
         String secureId = "secure-id";
         when(productRepository.findBySecureId(secureId)).thenReturn(Optional.empty());
 
@@ -191,5 +196,4 @@ public class ProductServiceTest {
 
         verify(productRepository, times(1)).save(productModel);
     }
-
 }

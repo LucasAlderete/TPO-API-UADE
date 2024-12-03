@@ -1,6 +1,8 @@
 package tpo.uade.api.service.implementation;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import tpo.uade.api.dto.UserDto;
@@ -20,23 +22,27 @@ public class UserService implements IUserService {
 
     /**
      * Gets a user details
-     * @param username a valid username to search for a user
      * @return UserDto
      */
     @Override
-    public UserDto getUserByUsername (String username) throws NoSuchElementException {
-        UserModel userModelDB = userRepository
+    public UserModel getUserModelByUsername () throws NoSuchElementException {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        return userRepository
                 .findByUsername(username)
                 .orElseThrow(() -> new NoSuchElementException("user doesn't exist"));
-
-        return userMapper.mapFromDatabaseEntity(userModelDB);
     }
 
-    /**
-     * Creates a new user in the database
-     * @param userDTO a valid user
-     * @return UserModel
-     */
+    @Override
+    public UserDto getUserDtoByUsername () throws NoSuchElementException {
+        return userMapper.mapFromDatabaseEntity(getUserModelByUsername());
+    }
+
+    @Override
+    public Long getUserIdByUsername () throws NoSuchElementException {
+        return getUserModelByUsername().getUserId();
+    }
+
     @Override
     public void createUser (UserDto userDTO) {
         userRepository.save(userMapper.mapToDatabaseEntity(userDTO));

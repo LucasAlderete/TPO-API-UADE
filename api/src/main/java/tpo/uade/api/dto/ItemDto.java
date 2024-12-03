@@ -11,6 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ItemDto implements Serializable {
+
     @NotBlank(message = "product must not be null nor empty")
     private String product;
 
@@ -19,5 +20,4 @@ public class ItemDto implements Serializable {
 
     @NotBlank(message = "price must not be null nor empty")
     private Double price;
-
 }

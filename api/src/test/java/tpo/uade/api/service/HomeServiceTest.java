@@ -60,7 +60,7 @@ public class HomeServiceTest {
         assertEquals(recentlyViewedProducts, result.getRecentlyViewedProducts());
         verify(featuredProductService).getAll();
         verify(productService).getAllByCategory();
-        verify(recentlyViewedService).getAllByUser(1L, 10);
+        verify(recentlyViewedService).getAllByUser(11L, 10);
     }
 }
 

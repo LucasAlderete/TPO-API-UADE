@@ -13,9 +13,7 @@ public class JacksonConfig {
     public ObjectMapper objectMapper() {
 
         ObjectMapper objectMapper = new ObjectMapper();
-        // Configura la estrategia de nombres para que convierta camelCase a snake_case
         objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
-        // Añadir soporte para fechas y horas de Java 8 (LocalDate, LocalDateTime, etc.)
         objectMapper.registerModule(new JavaTimeModule());
         return objectMapper;
     }
