@@ -4,8 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import tpo.uade.api.model.OrderModel;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface OrderRepository extends JpaRepository<OrderModel, Long> {
-    Optional<OrderModel> findByUser_UserId(Long userId);
+    List<OrderModel> findByUser_UserId(Long userId);
 }
