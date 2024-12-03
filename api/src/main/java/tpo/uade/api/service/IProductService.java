@@ -27,4 +27,6 @@ public interface IProductService {
 
     List<ProductDto> getBySecureIds(List<String> secureIds);
     List<ProductDto> getByIds(List<Long> secureIds);
+
+    ProductModel getProductById(Long id);
 }

@@ -98,7 +98,8 @@ public class ProductService implements IProductService {
                 .orElseThrow(() -> new NoSuchElementException("Product not found with secure_id: " + secureId));
     }
 
-    private ProductModel getProductById (Long id) {
+    @Override
+    public ProductModel getProductById (Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Product not found with id: " + id));
     }
