@@ -26,7 +26,7 @@ import java.util.List;
 
 @Api(value = "Product Operations")
 @RestController
-@RequestMapping("/v1/product")
+@RequestMapping("/products")
 @Component
 @Validated
 @RequiredArgsConstructor
