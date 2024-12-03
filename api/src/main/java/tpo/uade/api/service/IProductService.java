@@ -26,4 +26,6 @@ public interface IProductService {
     Map<String, List<ProductDto>> getAllByCategory();
 
     List<ProductDto> getByIds(List<String> secureIds);
+
+    ProductModel getProductById (Long id);
 }
