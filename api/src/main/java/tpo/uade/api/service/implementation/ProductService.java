@@ -89,8 +89,8 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public void deleteProduct(String secureId) {
-        productRepository.deleteBySecureId(secureId);
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
     }
 
     private ProductModel getProductBySecureId (String secureId) {
