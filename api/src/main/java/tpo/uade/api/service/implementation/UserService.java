@@ -5,7 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import tpo.uade.api.dto.UserDto;
+import tpo.uade.api.dto.user.UserRequestDto;
+import tpo.uade.api.dto.user.UserResponseDto;
 import tpo.uade.api.mapper.UserMapper;
 import tpo.uade.api.model.UserModel;
 import tpo.uade.api.repository.UserRepository;
@@ -22,7 +23,7 @@ public class UserService implements IUserService {
 
     /**
      * Gets a user details
-     * @return UserDto
+     * @return UserRequestDto
      */
     @Override
     public UserModel getUserModelByUsername () throws NoSuchElementException {
@@ -34,8 +35,10 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserDto getUserDtoByUsername () throws NoSuchElementException {
-        return userMapper.mapFromDatabaseEntity(getUserModelByUsername());
+    public UserResponseDto getUserDtoByUsername () throws NoSuchElementException {
+        UserResponseDto urdto = userMapper.mapFromDatabaseEntity(getUserModelByUsername());
+        System.out.println(urdto);
+        return urdto;
     }
 
     @Override
@@ -44,7 +47,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void createUser (UserDto userDTO) {
-        userRepository.save(userMapper.mapToDatabaseEntity(userDTO));
+    public void createUser (UserRequestDto userRequestDTO) {
+        userRepository.save(userMapper.mapToDatabaseEntity(userRequestDTO));
     }
 }

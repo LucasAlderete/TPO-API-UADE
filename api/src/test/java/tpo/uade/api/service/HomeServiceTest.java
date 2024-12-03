@@ -48,7 +48,7 @@ public class HomeServiceTest {
 
         when(featuredProductService.getAll()).thenReturn(featuredProducts);
         when(productService.getAllByCategory()).thenReturn(products);
-        when(recentlyViewedService.getAllByUser(anyLong(), anyInt())).thenReturn(recentlyViewedProducts);
+        when(recentlyViewedService.get()).thenReturn(recentlyViewedProducts);
 
         // Act
         HomeDto result = homeService.get();
@@ -60,7 +60,7 @@ public class HomeServiceTest {
         assertEquals(recentlyViewedProducts, result.getRecentlyViewedProducts());
         verify(featuredProductService).getAll();
         verify(productService).getAllByCategory();
-        verify(recentlyViewedService).getAllByUser(11L, 10);
+        verify(recentlyViewedService).get();
     }
 }
 
