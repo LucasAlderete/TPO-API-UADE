@@ -18,13 +18,12 @@ public class HomeService implements IHomeService {
     private final IProductService productService;
     private final IFeaturedProductService featuredProductService;
     private final IRecentlyViewedService recentlyViewedService;
-    private final IRecommendationService recommendationService;
 
     public HomeDto get() {
         HomeDto homeDto = new HomeDto();
         homeDto.setFeaturedProducts(featuredProductService.getAll());
         homeDto.setProducts(productService.getAllByCategory());
-        homeDto.setRecentlyViewedProducts(recentlyViewedService.getAllByUser(11L, 10));
+        homeDto.setRecentlyViewedProducts(recentlyViewedService.get());
         return homeDto;
     }
 

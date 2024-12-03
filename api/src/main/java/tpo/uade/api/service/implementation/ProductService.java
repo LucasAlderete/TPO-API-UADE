@@ -59,8 +59,15 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<ProductDto> getByIds(List<String> productsIds) {
+    public List<ProductDto> getBySecureIds(List<String> productsIds) {
         return productRepository.findBySecureIdIn(productsIds).stream()
+                .map(productMapper::mapFromDatabaseEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductDto> getByIds(List<Long> productsIds) {
+        return productRepository.findByIdIn((productsIds)).stream()
                 .map(productMapper::mapFromDatabaseEntity)
                 .collect(Collectors.toList());
     }

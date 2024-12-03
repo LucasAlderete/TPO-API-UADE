@@ -115,7 +115,7 @@ public class ProductServiceTest {
         when(productMapper.mapFromDatabaseEntity(product2)).thenReturn(dto2);
 
         // Act
-        List<ProductDto> result = productService.getByIds(productIds);
+        List<ProductDto> result = productService.getBySecureIds(productIds);
 
         // Assert
         assertEquals(2, result.size());

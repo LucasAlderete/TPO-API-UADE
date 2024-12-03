@@ -19,11 +19,10 @@ import java.util.List;
 public class ProductDto implements Serializable {
 
     private String secureId;
+    private Long id;
 
     @NotBlank(message = "product name must not be null nor empty")
     private String name;
-
-    private String urlImage;
 
     private String description;
 

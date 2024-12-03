@@ -39,9 +39,6 @@ public class ProductModel {
     @Column(name = "price", nullable = false)
     private Double price;
 
-    @Column(name = "url_image", nullable = false)
-    private String urlImage;
-
     @Column(name = "description", nullable = false)
     private String description;
 
