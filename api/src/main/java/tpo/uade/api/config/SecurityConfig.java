@@ -33,7 +33,7 @@ public class SecurityConfig {
                         .csrf(AbstractHttpConfigurer::disable)
                         .authorizeHttpRequests(req ->
                                 req.requestMatchers("/auth/**").permitAll()
-                                .requestMatchers("/user/**").authenticated())
+                                .requestMatchers("/**").authenticated())
                         .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                         .authenticationProvider(authenticationProvider)
                         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
