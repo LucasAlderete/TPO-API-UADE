@@ -51,7 +51,6 @@ public class ProductMapperImpl implements ProductMapper{
         productModel.setDescription(productDto.getDescription());
         productModel.setHighlighted(productDto.isHighlighted());
         productModel.setAdditionalInformation(productDto.getAdditionalInformation());
-        productModel.setUrlImage(productDto.getUrlImage());
         List<ImagesModel> imagesList = productDto.getImages().stream()
                 .map(url -> {
                     ImagesModel image = new ImagesModel();
