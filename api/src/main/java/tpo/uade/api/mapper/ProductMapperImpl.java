@@ -10,7 +10,11 @@ import tpo.uade.api.model.ProductModel;
 import tpo.uade.api.repository.CategoryRepository;
 
 import java.util.List;
+<<<<<<< HEAD
 import java.util.NoSuchElementException;
+=======
+import java.util.Objects;
+>>>>>>> main
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -60,10 +64,17 @@ public class ProductMapperImpl implements ProductMapper{
                 })
                 .toList();
         productModel.setUrlImageList(imagesList);
-        CategoryModel category = categoryRepository.findByName(productDto.getCategoryName())
-                .orElseThrow(() -> new NoSuchElementException("Category not found"));
-        productModel.setCategory(category);
 
+
+        try {
+            CategoryModel category = categoryRepository.findByName(productDto.getCategoryName())
+                    .orElseThrow(() -> new NoSuchElementException("Category not found"));
+            productModel.setCategory(category);
+        } catch (NoSuchElementException e) {
+            CategoryModel categoryModelDefault = new CategoryModel();
+            categoryModelDefault.setId(3L);
+            productModel.setCategory(categoryModelDefault);
+        }
         return productModel;
     }
 }
