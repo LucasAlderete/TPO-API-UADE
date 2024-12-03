@@ -1,7 +1,7 @@
 package tpo.uade.api.service;
 
-import tpo.uade.api.dto.UserDto;
+import tpo.uade.api.dto.user.UserRequestDto;
 
 public interface ICreateUserService {
-    void createUser (UserDto userDTO);
+    void createUser (UserRequestDto userRequestDTO);
 }

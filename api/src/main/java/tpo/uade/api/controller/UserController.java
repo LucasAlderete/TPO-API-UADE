@@ -11,7 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import tpo.uade.api.dto.UserDto;
+import tpo.uade.api.dto.user.UserRequestDto;
+import tpo.uade.api.dto.user.UserResponseDto;
 import tpo.uade.api.service.IUserService;
 
 @Api(value = "User Operations")
@@ -24,13 +25,13 @@ public class UserController {
     private final IUserService userService;
 
     @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createUser (@Valid @RequestBody @NotNull(message = "{user-controller.create-user-service.user-not-null}") UserDto userDTO) {
-        userService.createUser(userDTO);
+    public ResponseEntity<Void> createUser (@Valid @RequestBody @NotNull(message = "{user-controller.create-user-service.user-not-null}") UserRequestDto userRequestDTO) {
+        userService.createUser(userRequestDTO);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDto> getUserData () {
+    public ResponseEntity<UserResponseDto> getUserData () {
         return ResponseEntity.ok(userService.getUserDtoByUsername());
     }
 }

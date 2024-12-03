@@ -10,10 +10,10 @@ import tpo.uade.api.model.OrderItemModel;
         unmappedSourcePolicy = ReportingPolicy.IGNORE,
         componentModel = "spring")
 public interface ItemMapper {
-    @Mapping(source = "product.name", target = "product")
+    @Mapping(source = "product.name", target = "name")
     ItemDto toDto(ItemModel itemModel);
 
-    @Mapping(source = "product", target = "product.name")
+    @Mapping(source = "name", target = "product.name")
     ItemModel toEntity(ItemDto itemDto);
 
     @Mapping(target = "id", ignore = true)

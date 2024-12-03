@@ -6,16 +6,12 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import tpo.uade.api.dto.CartDto;
 import tpo.uade.api.dto.CheckoutDto;
 import tpo.uade.api.service.ICartService;
+
 
 @Api(value = "Cart Operations")
 @RestController
@@ -32,14 +28,20 @@ public class CartController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Void> addProduct(@RequestParam String productSecureId) {
-        cartService.addProduct(productSecureId);
+    public ResponseEntity<Void> addProduct(@RequestParam Long productId) {
+        cartService.addProduct(productId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/decrease_quantity")
+    public ResponseEntity<Void> decreaseProductQuantity (@RequestParam Long productId) {
+        cartService.decreaseProductQuantity(productId);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/remove")
-    public ResponseEntity<Void> removeProduct(@RequestParam String productSecureId) {
-        cartService.removeProduct(productSecureId);
+    public ResponseEntity<Void> removeProduct(@RequestParam Long productId) {
+        cartService.removeProduct(productId);
         return ResponseEntity.ok().build();
     }
 

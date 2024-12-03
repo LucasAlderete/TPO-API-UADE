@@ -6,9 +6,11 @@ import tpo.uade.api.dto.CheckoutDto;
 public interface ICartService {
     void emptyCart();
 
-    void addProduct(String productSecureId);
+    void addProduct(Long productId);
 
-    void removeProduct(String productSecureId);
+    void removeProduct (Long productId);
+
+    void decreaseProductQuantity (Long productId);
 
     CartDto getCart();
 

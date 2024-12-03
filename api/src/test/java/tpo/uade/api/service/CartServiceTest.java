@@ -75,12 +75,12 @@ public class CartServiceTest {
     public void testAddProduct_ItemExists() {
         // Arrange
         Long userId = 1L;
-        String productSecureId = "SI-1";
+        Long productId = 1L;
         CartModel cartModel = new CartModel();
         cartModel.setId(1L);
 
         ProductModel product = new ProductModel();
-        product.setSecureId(productSecureId);
+        product.setId(productId);
         product.setPrice(100.0);
 
         ItemModel itemModel = new ItemModel();
@@ -94,11 +94,11 @@ public class CartServiceTest {
         when(itemRepository.findByCartIdAndProductId(cartModel.getId(), product.getId()))
                 .thenReturn(Optional.of(itemModel));
 
-        when(productRepository.findBySecureId(productSecureId))
+        when(productRepository.findById(productId))
                 .thenReturn(Optional.of(product));
 
         // Act
-        cartService.addProduct(productSecureId);
+        cartService.addProduct(productId);
 
         // Assert
         assertEquals(2, itemModel.getQuantity());

@@ -7,14 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import tpo.uade.api.dto.CartDto;
 import tpo.uade.api.dto.CheckoutDto;
+import tpo.uade.api.dto.ItemDto;
 import tpo.uade.api.mapper.CartMapper;
 import tpo.uade.api.mapper.ItemMapper;
-import tpo.uade.api.model.CartModel;
-import tpo.uade.api.model.ItemModel;
-import tpo.uade.api.model.OrderItemModel;
-import tpo.uade.api.model.OrderModel;
-import tpo.uade.api.model.ProductModel;
-import tpo.uade.api.model.UserModel;
+import tpo.uade.api.model.*;
 import tpo.uade.api.repository.CartRepository;
 import tpo.uade.api.repository.ItemRepository;
 import tpo.uade.api.repository.OrderRepository;
@@ -34,6 +30,7 @@ public class CartService implements ICartService {
     private final CartRepository cartRepository;
     private final ItemRepository itemRepository;
     private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
 
     private final ProductService productService;
     private final UserService userService;
@@ -41,21 +38,58 @@ public class CartService implements ICartService {
     private final CartMapper cartMapper;
     private final ItemMapper itemMapper;
 
+    @Transactional(rollbackFor = Exception.class)
     public CartDto getCart () throws NoSuchElementException {
-        return cartMapper.toDto(getCartByUserId(userService.getUserIdByUsername()));
+        if (cartRepository.findByUser_UserId(userService.getUserIdByUsername()).isPresent()) {
+            CartModel cart = getCartByUserId(userService.getUserIdByUsername());
+            CartDto cartDto = cartMapper.toDto(cart);
+
+            List<ItemDto> itemDtos = cart.getItems().stream()
+                    .map(item -> {
+                        ImagesModel firstImage = item.getProduct().getUrlImageList().stream()
+                                .findFirst()
+                                .orElse(null);
+
+                        ItemDto itemDto = new ItemDto();
+                        itemDto.setName(item.getProduct().getName());
+                        itemDto.setQuantity(item.getQuantity());
+                        itemDto.setPrice(item.getPrice());
+                        if (firstImage != null) { itemDto.setImage(firstImage.getPath());  }
+                        else {
+                            itemDto.setImage("");
+                        }
+
+                        return itemDto;
+                    })
+                    .collect(Collectors.toList());
+
+            cartDto.setItems(itemDtos);
+
+            return cartDto;
+        } else {
+            UserModel user = userService.getUserModelByUsername();
+            List<ItemModel> items = new ArrayList<>();
+            Double total = 0.0;
+
+            CartModel cartModel = new CartModel();
+            cartModel.setUser(user);
+            cartModel.setItems(items);
+            cartModel.setTotal(total);
+
+            cartRepository.save(cartModel);
+
+            return cartMapper.toDto(cartModel);
+        }
+
     }
 
-    public void addProduct (String productSecureId) throws NoSuchElementException {
+    @Transactional(rollbackFor = Exception.class)
+    public void addProduct (Long productId) throws NoSuchElementException {
         UserModel user = userService.getUserModelByUsername();
 
-        CartModel cart = cartRepository.findByUser_UserId(userService.getUserIdByUsername()).orElseGet(() -> {
-            CartModel newCart = new CartModel();
-            newCart.setUser(user);
-            newCart.setTotal(0.0);
-            return cartRepository.save(newCart);
-        });
+        CartModel cart = getCartByUserId(user.getUserId());
 
-        ProductModel product = productService.getModelBySecureId(productSecureId);
+        ProductModel product = productService.getProductById(productId);
         Optional<ItemModel> item = itemRepository.findByCartIdAndProductId(cart.getId(), product.getId());
 
         if (item.isPresent()) {
@@ -81,25 +115,48 @@ public class CartService implements ICartService {
         }
     }
 
-    public void removeProduct (String productSecureId) throws NoSuchElementException {
+    @Transactional(rollbackFor = Exception.class)
+    public void decreaseProductQuantity (Long productId) throws NoSuchElementException {
         CartModel cart = getCartByUserId(userService.getUserIdByUsername());
-        ProductModel product = productService.getModelBySecureId(productSecureId);
-        ItemModel itemModel = getItemByCartIdAndProductId(cart.getId(), product.getId());
+        Long cartId = cart.getId();
+
+        ItemModel itemModel = itemRepository.findByCartIdAndProductId(cartId, productId).orElseThrow(() -> new NoSuchElementException("item doesn't exist"));
+
+        ProductModel product = productRepository.findById(productId).orElseThrow(() -> new NoSuchElementException("product doesn't exist"));
 
         if (itemModel.getQuantity() > 1) {
             itemModel.setQuantity(itemModel.getQuantity() - 1);
             itemModel.setPrice(itemModel.getQuantity() * product.getPrice());
+
+            cart.setTotal(cart.getTotal() - product.getPrice());
+
             itemRepository.save(itemModel);
+            cartRepository.save(cart);
         } else {
-            itemRepository.delete(itemModel);
+            removeProduct(productId);
         }
 
-        cart.setTotal(cart.getTotal() - product.getPrice());
-
-        cartRepository.save(cart);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
+    public void removeProduct (Long productId) throws NoSuchElementException {
+        CartModel cart = getCartByUserId(userService.getUserIdByUsername());
+        Long cartId = cart.getId();
+
+        ItemModel itemModel = itemRepository.findByCartIdAndProductId(cartId, productId).orElseThrow(() -> new NoSuchElementException("item doesn't exist"));
+        ProductModel product = productRepository.findById(productId).orElseThrow(() -> new NoSuchElementException("product doesn't exist"));
+
+        cart.setTotal(cart.getTotal() - product.getPrice() * itemModel.getQuantity());
+        cart.setItems(cart.getItems().stream()
+                .filter(item -> !item.getProduct().getId().equals(productId))
+                .collect(Collectors.toList()));
+
+        cartRepository.save(cart);
+        itemRepository.delete(itemModel);
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
     public void emptyCart () throws NoSuchElementException {
         CartModel cart = getCartByUserId(userService.getUserIdByUsername());
 
@@ -150,6 +207,8 @@ public class CartService implements ICartService {
         orderModel.setItems(orderItems);
 
         orderRepository.save(orderModel);
+
+        emptyCart();
 
         response.setSuccess(true);
 

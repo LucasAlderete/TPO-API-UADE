@@ -18,4 +18,6 @@ public interface ProductRepository extends JpaRepository<ProductModel, Long> {
     List<ProductModel> findByIdIn(List<Long> ids);
 
     List<ProductModel> findBySecureIdIn(List<String> ids);
+
+    Optional<ProductModel> findByName(String name);
 }

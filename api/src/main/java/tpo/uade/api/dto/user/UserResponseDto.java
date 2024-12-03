@@ -1,8 +1,6 @@
-package tpo.uade.api.dto;
+package tpo.uade.api.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,26 +16,18 @@ import java.time.LocalDate;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto implements Serializable {
+public class UserResponseDto implements Serializable {
 
-    @NotBlank(message = "{user-dto.username-not-blank}")
     private String username;
 
-    @NotBlank(message = "{user-dto.email-not-blank}")
     private String email;
 
     @JsonFormat(pattern="yyyy-MM-dd")
-    @NotNull(message = "{user-dto.birthday-not-null}")
     private LocalDate birthday;
 
-    @NotBlank(message = "{user-dto.name-not-blank}")
     private String name;
 
-    @NotBlank(message = "{user-dto.surname-not-blank}")
     private String surname;
 
+    private String role;
 }
-
-
-
-
