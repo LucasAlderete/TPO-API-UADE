@@ -163,21 +163,22 @@ public class ProductServiceTest {
 
     @Test
     void testDeleteProduct_ExistingProduct() {
-        String secureId = "secure-id";
+        Long id = 3L;
         ProductModel productModel = new ProductModel();
-        when(productRepository.findBySecureId(secureId)).thenReturn(Optional.of(productModel));
+        when(productRepository.findById(id)).thenReturn(Optional.of(productModel));
 
-        productService.deleteProduct(secureId);
+        productService.deleteProduct(id);
 
         verify(productRepository, times(1)).delete(productModel);
     }
 
     @Test
     void testDeleteProduct_NonExistingProduct() {
-        String secureId = "secure-id";
+        Long id = 3L;
+        String secureId = "SI-1";
         when(productRepository.findBySecureId(secureId)).thenReturn(Optional.empty());
 
-        assertThrows(NoSuchElementException.class, () -> productService.deleteProduct(secureId));
+        assertThrows(NoSuchElementException.class, () -> productService.deleteProduct(id));
     }
 
     @Test

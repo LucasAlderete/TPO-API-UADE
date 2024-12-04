@@ -53,7 +53,7 @@ class MyProfileServiceTest {
         UserMyProfileDto userDto = new UserMyProfileDto();
 
         when(userService.getUserModelByUsername()).thenReturn(user);
-        when(orderRepository.findByUser_UserId(1L)).thenReturn(Optional.empty());
+        //when(orderRepository.findByUser_UserId(1L)).thenReturn(Optional.empty());
         when(userMapper.toDto(user)).thenReturn(userDto);
 
         // Act
@@ -73,7 +73,7 @@ class MyProfileServiceTest {
         Long userId = 1L;
         OrderDto orderDto = new OrderDto();
         OrderModel OrderModel = new OrderModel();
-        when(orderRepository.findByUser_UserId(userId)).thenReturn(Optional.of(OrderModel));
+        //when(orderRepository.findByUser_UserId(userId)).thenReturn(Optional.of(OrderModel));
         when(orderMapper.toDto(any())).thenReturn(orderDto);
 
         // Act
@@ -89,7 +89,7 @@ class MyProfileServiceTest {
     void getUserOrders_ReturnsOrdersEmpty() {
         // Arrange
         Long userId = 1L;
-        when(orderRepository.findByUser_UserId(userId)).thenReturn(Optional.empty());
+        //when(orderRepository.findByUser_UserId(userId)).thenReturn(Optional.empty());
 
         // Act
         List<OrderDto> result = myProfileService.getUserOrders(userId);
